@@ -8,3 +8,4 @@ v3.06.8 changes:
 - Adds beginner-friendly handle and defensive-slide medal calibration using clean touches/patterns instead of vague score targets.
 - Keeps activityTwist separate from RPG stat modifiers.
 - Preserves v3.06.7 viewport, quit quest, facility flow, progression, store, and reward logic.
+Redeploy
