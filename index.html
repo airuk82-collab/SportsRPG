@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Circuit Quest: Athlete RPG v3.06.9</title>
+<title>Circuit Quest: Athlete RPG v3.06.11</title>
 <style>
 :root{
   --bg:#0e1320;--panel:#161e2e;--panel2:#202a3f;--ink:#eef4ff;--muted:#aeb9d2;--line:#34425f;
@@ -108,7 +108,7 @@ body[data-view="reward"] .panel>.pad{max-height:none!important;overflow:hidden!i
 <body>
 <header>
   <div>
-    <h1>Circuit Quest: Athlete RPG <span class="muted">v3.06.9</span></h1>
+    <h1>Circuit Quest: Athlete RPG <span class="muted">v3.06.11</span></h1>
     <div class="sub">Multi-character, multi-sport 2D RPG. Honest real results convert into fantasy character results through build, gear, factions, and traits.</div>
   </div>
   <div class="headerRight">
@@ -167,7 +167,7 @@ body[data-view="reward"] .panel>.pad{max-height:none!important;overflow:hidden!i
     </div>
   </section>
 </main>
-<div class="footer">v3.06.9 notes: internal version fixed, activityTwist variety added to contracts, and existing viewport / quest clarity / quit-contract / progression logic preserved.</div>
+<div class="footer">v3.06.11 notes: high-zoom facility cards fixed so Start remains visible/clickable, and activity cards can be tapped directly to start.</div>
 
 <div class="modal" id="builderModal"><div class="modalBox">
   <div class="row"><h2 id="builderTitle">Create Character</h2><button id="closeBuilder">Close</button></div>
@@ -185,7 +185,7 @@ body[data-view="reward"] .panel>.pad{max-height:none!important;overflow:hidden!i
 
 <script>
 'use strict';
-const APP_VERSION = '3.06.9';
+const APP_VERSION = '3.06.11';
 const SAVE_KEY = 'circuitQuestAthleteRpg_v305';
 const TILE = 32, MAP_W = 22, MAP_H = 16;
 const $ = id => document.getElementById(id);
@@ -2346,7 +2346,7 @@ renderResultEntryV306 = function(q){
 
 
 
-<!-- ======================= v3.06.9 ACTIVITY TWIST / VERSION CONSISTENCY PATCH ======================= -->
+<!-- ======================= v3.06.10 ACTIVITY TWIST / VERSION CONSISTENCY PATCH ======================= -->
 <style id="cq-v3067-activity-twist-style">
   .activityTwistBox{
     border:1px solid rgba(189,153,255,.45);
@@ -2560,12 +2560,12 @@ renderResultEntryV306 = function(q){
   setTimeout(function(){ try{ const c=player&&player(); if(c&&c.activeQuest&&!c.activeQuest.activityTwist){assignTwistV3067(c.activeQuest); save(); renderAll();} }catch(e){} },0);
 })();
 </script>
-<!-- ======================= END v3.06.9 PATCH ======================= -->
+<!-- ======================= END v3.06.10 PATCH ======================= -->
 
 
 
 <style>
-/* ======================= v3.06.9 SPOT CALIBRATION ======================= */
+/* ======================= v3.06.10 SPOT CALIBRATION ======================= */
 .spotCalibrationBox{
   margin:10px 0;
   border:1px solid rgba(245,158,11,.35);
@@ -2578,11 +2578,11 @@ renderResultEntryV306 = function(q){
 .spotCalibrationCell{background:rgba(15,23,42,.55);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:8px;font-size:12px;line-height:1.25;}
 .spotCalibrationCell strong{display:block;color:#e5e7eb;margin-bottom:3px;}
 @media(max-width:620px){.spotCalibrationGrid{grid-template-columns:1fr;}}
-/* ===================== END v3.06.9 SPOT CALIBRATION ===================== */
+/* ===================== END v3.06.10 SPOT CALIBRATION ===================== */
 </style>
 
 <script>
-/* ======================= v3.06.9 BEGINNER CALIBRATION =======================
+/* ======================= v3.06.10 BEGINNER CALIBRATION =======================
    Adds spot-specific shooting targets plus beginner-friendly handle/defense
    medal labels. This layer is intentionally named calibration, not mods, so it
    does not collide with RPG result modifiers or activityTwist.
@@ -2739,11 +2739,11 @@ renderResultEntryV306 = function(q){
   setTimeout(function(){try{ const c=player&&player(); if(c&&c.activeQuest){applyCalibrationV3068(c.activeQuest); save(); renderAll();} }catch(e){}},0);
 })();
 </script>
-<!-- ======================= END v3.06.9 PATCH ======================= -->
+<!-- ======================= END v3.06.10 PATCH ======================= -->
 
 
 
-<!-- ======================= v3.06.9 IPHONE COMPACT APP SHELL PATCH ======================= -->
+<!-- ======================= v3.06.10 IPHONE COMPACT APP SHELL PATCH ======================= -->
 <style id="cq-v3069-iphone-shell">
 @media(max-width:760px){
   :root{
@@ -3036,7 +3036,371 @@ renderResultEntryV306 = function(q){
   window.addEventListener('resize', relabelTabsV3069, {passive:true});
 })();
 </script>
-<!-- ======================= END v3.06.9 PATCH ======================= -->
+<!-- ======================= END v3.06.10 PATCH ======================= -->
+
+
+
+<!-- ======================= v3.06.10 MOBILE SCALING / SINGLE TOP APP BAR PATCH ======================= -->
+<style id="cq-v30610-scaling-fix">
+/* General facility card scaling fix: keep Start inside the card at every width */
+.activityCardV306{box-sizing:border-box;overflow:hidden!important;}
+.activityCardV306 > .row:last-child{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(74px,112px)!important;
+  align-items:center!important;
+  gap:8px!important;
+  width:100%!important;
+}
+.activityCardV306 > .row:last-child .tiny{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
+.activityCardV306 > .row:last-child button{width:100%!important;justify-self:end!important;position:static!important;}
+.facilityItems{align-content:start!important;}
+
+/* Tablet/narrow desktop: reduce vertical bulk so cards do not cover their own buttons */
+@media(max-width:1100px){
+  .facilityItems{grid-template-columns:1fr!important;gap:7px!important;}
+  .activityCardV306{padding:9px!important;gap:5px!important;min-height:0!important;}
+  .activityCardV306 .summary{font-size:12px!important;line-height:1.2!important;}
+  .medalBox{padding:5px!important;}
+}
+
+/* iPhone: remove bottom app bar, use one compact top app shell, and give the game the screen */
+@media(max-width:760px){
+  :root{
+    --cq-mobile-header:31px!important;
+    --cq-mobile-nav:37px!important;
+    --cq-mobile-shell:68px!important;
+    --cq-mobile-gap:4px!important;
+  }
+  html,body{
+    height:var(--cq-app-height,100vh)!important;
+    min-height:var(--cq-app-height,100vh)!important;
+    overflow:hidden!important;
+    padding:0!important;
+  }
+  body{
+    display:block!important;
+    grid-template-rows:none!important;
+  }
+  header{
+    position:fixed!important;
+    top:0!important;left:0!important;right:0!important;
+    height:var(--cq-mobile-header)!important;
+    max-height:var(--cq-mobile-header)!important;
+    min-height:0!important;
+    padding:2px 5px!important;
+    display:block!important;
+    border-bottom:0!important;
+    background:rgba(8,13,23,.99)!important;
+    z-index:92!important;
+    overflow:hidden!important;
+  }
+  header>div:first-child{display:none!important;}
+  .headerRight{
+    display:grid!important;
+    grid-template-columns:minmax(86px,1.1fr) minmax(84px,.9fr) minmax(48px,.55fr)!important;
+    gap:3px!important;
+    align-items:center!important;
+    height:100%!important;
+    overflow:hidden!important;
+  }
+  .headerRight .pill{
+    min-height:24px!important;height:24px!important;
+    padding:1px 4px!important;
+    border-radius:10px!important;
+    font-size:10px!important;
+    line-height:1!important;
+    margin:0!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .headerRight label.pill{font-size:0!important;}
+  .headerRight label.pill select{font-size:11px!important;}
+  .headerRight .pill select{
+    width:100%!important;height:20px!important;min-height:20px!important;
+    padding:0 16px 0 4px!important;margin:0!important;
+    border-radius:8px!important;font-size:11px!important;
+  }
+  .headerRight .pill:has(#levelPill),
+  .headerRight .pill:nth-of-type(4),
+  #newCharacterBtn,#saveBtn,#exportBtn,#resetBtn,
+  .headerRight label.pill:has(#importFile){display:none!important;}
+
+  nav.tabs{
+    position:fixed!important;
+    top:var(--cq-mobile-header)!important;
+    bottom:auto!important;
+    left:0!important;right:0!important;
+    z-index:91!important;
+    height:var(--cq-mobile-nav)!important;
+    max-height:var(--cq-mobile-nav)!important;
+    min-height:0!important;
+    padding:3px 4px!important;
+    display:flex!important;
+    gap:3px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    background:rgba(8,13,23,.99)!important;
+    border-top:0!important;
+    border-bottom:1px solid rgba(174,184,207,.22)!important;
+    box-shadow:0 4px 12px rgba(0,0,0,.25)!important;
+  }
+  .tab{
+    flex:0 0 38px!important;
+    min-width:38px!important;
+    width:38px!important;
+    height:30px!important;
+    min-height:30px!important;
+    padding:1px!important;
+    font-size:16px!important;
+    line-height:1!important;
+    border-radius:10px!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+  .tab.active{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)!important;}
+  body[data-view="contract"] nav.tabs,
+  body[data-view="result"] nav.tabs,
+  body[data-view="reward"] nav.tabs{display:none!important;}
+
+  main{
+    margin-top:var(--cq-mobile-shell)!important;
+    height:calc(var(--cq-app-height,100vh) - var(--cq-mobile-shell))!important;
+    max-height:calc(var(--cq-app-height,100vh) - var(--cq-mobile-shell))!important;
+    padding:var(--cq-mobile-gap)!important;
+    overflow:hidden!important;
+  }
+  body[data-view="contract"] main,
+  body[data-view="result"] main,
+  body[data-view="reward"] main{
+    margin-top:var(--cq-mobile-header)!important;
+    height:calc(var(--cq-app-height,100vh) - var(--cq-mobile-header))!important;
+    max-height:calc(var(--cq-app-height,100vh) - var(--cq-mobile-header))!important;
+  }
+  main > section.panel:not(.worldPanel),
+  body[data-view="world"] main > section.panel:not(.worldPanel){
+    height:100%!important;
+    max-height:100%!important;
+    overflow:hidden!important;
+  }
+  body[data-view="world"] main{height:calc(var(--cq-app-height,100vh) - var(--cq-mobile-shell))!important;max-height:calc(var(--cq-app-height,100vh) - var(--cq-mobile-shell))!important;}
+  body[data-view="world"] .worldPanel{
+    height:100%!important;max-height:100%!important;
+    padding:4px!important;gap:4px!important;
+  }
+  body[data-view="world"] canvas#world{
+    flex:1 1 auto!important;
+    min-height:165px!important;
+    max-height:calc(100% - 112px)!important;
+    border-radius:10px!important;
+  }
+  body[data-view="world"] .prompt{
+    grid-template-columns:1fr auto!important;
+    padding:5px!important;
+    gap:5px!important;
+    font-size:11px!important;
+    line-height:1.12!important;
+    border-radius:10px!important;
+  }
+  body[data-view="world"] #interactBtn{min-height:32px!important;padding:4px 8px!important;font-size:12px!important;border-radius:9px!important;}
+  body[data-view="world"] .controls{grid-template-columns:38px 38px 38px!important;gap:3px!important;}
+  body[data-view="world"] .controls button{height:32px!important;min-height:32px!important;font-size:14px!important;border-radius:8px!important;}
+
+  .panel>.pad{padding:5px!important;height:100%!important;max-height:100%!important;overflow:hidden!important;}
+  .facilityScreen,.contractScreen,.resultScreen,.rewardScreen{height:100%!important;max-height:100%!important;gap:4px!important;}
+  .facilityTop,.screenTop{padding:5px!important;border-radius:10px!important;}
+  .facilityTop h2,.screenTop h2{font-size:14px!important;line-height:1!important;}
+  .facilityTabs{gap:3px!important;}
+  .facilityTabs button{min-height:30px!important;padding:2px!important;font-size:10px!important;border-radius:9px!important;}
+  .resumeBanner{padding:5px!important;margin-bottom:4px!important;border-radius:10px!important;font-size:11px!important;}
+  .resumeBanner button{min-height:30px!important;padding:3px 7px!important;font-size:11px!important;}
+  .facilityPanelHeader h3{font-size:13px!important;}
+  .facilityItems{gap:5px!important;padding:0 1px 5px 0!important;}
+  .activityCardV306{padding:6px!important;gap:4px!important;border-radius:10px!important;}
+  .activityCardV306 h3{font-size:13.5px!important;line-height:1.05!important;}
+  .activityCardV306 .summary{font-size:10.5px!important;line-height:1.12!important;-webkit-line-clamp:1!important;}
+  .medalRow{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:3px!important;}
+  .medalBox{padding:3px!important;border-radius:7px!important;font-size:9px!important;line-height:1.05!important;}
+  .medalBox strong{font-size:9.5px!important;}
+  .activityCardV306 > .row:last-child{grid-template-columns:minmax(0,1fr) 64px!important;gap:5px!important;}
+  .activityCardV306 button{min-height:30px!important;padding:3px 6px!important;font-size:11px!important;border-radius:8px!important;}
+}
+</style>
+<script id="cq-v30610-mobile-tab-icons">
+(function(){
+  const mobile={interactView:'🌎',questView:'⚔️',characterView:'🏃',sportsView:'🏅',worldView:'🗺️',shopView:'🎒',journalView:'📓',managerView:'👥'};
+  const full={interactView:'🌎<br>World',questView:'⚔️<br>Quest',characterView:'🏃<br>Athlete',sportsView:'🏅<br>Sports',worldView:'🗺️<br>Travel',shopView:'🎒<br>Gear',journalView:'📓<br>Log',managerView:'👥<br>Players'};
+  function relabel(){
+    const useMobile=window.matchMedia('(max-width:760px)').matches;
+    document.querySelectorAll('.tab').forEach(t=>{const v=t.dataset.view; if(v) t.innerHTML=(useMobile?mobile[v]:full[v])||t.innerHTML;});
+  }
+  relabel();
+  window.addEventListener('resize', relabel, {passive:true});
+})();
+</script>
+<!-- ======================= END v3.06.10 PATCH ======================= -->
+
+
+
+<!-- ======================= v3.06.11 HIGH-ZOOM START BUTTON PATCH ======================= -->
+<style id="cq-v30611-zoom-start-fix">
+/*
+  Purpose: at browser zoom above ~125%, the facility cards become too tall and the Start
+  button can fall below the visible/scrolled area. This patch pins Start to the top-right
+  of each activity card and makes the whole quest card tappable as a fallback.
+*/
+.activityCardV306{
+  position:relative!important;
+  padding-right:104px!important;
+  overflow:visible!important;
+}
+.activityCardV306 > .row:first-child{
+  padding-right:0!important;
+  min-width:0!important;
+}
+.activityCardV306 > .row:first-child h3{
+  padding-right:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.activityCardV306 > .row:last-child{
+  position:absolute!important;
+  right:8px!important;
+  top:8px!important;
+  width:88px!important;
+  display:block!important;
+  z-index:5!important;
+  pointer-events:auto!important;
+}
+.activityCardV306 > .row:last-child .tiny{
+  display:none!important;
+}
+.activityCardV306 > .row:last-child button{
+  width:88px!important;
+  min-width:88px!important;
+  max-width:88px!important;
+  min-height:42px!important;
+  padding:6px 8px!important;
+  font-size:13px!important;
+  line-height:1.05!important;
+  border-radius:10px!important;
+  white-space:normal!important;
+  position:static!important;
+}
+.activityCardV306:has(> .row:last-child button:not(:disabled)){
+  cursor:pointer!important;
+}
+.facilityItems{
+  scroll-padding-bottom:110px!important;
+  padding-bottom:110px!important;
+}
+
+@media(max-width:900px), (max-height:720px){
+  .activityCardV306{
+    padding:7px 82px 7px 7px!important;
+    gap:3px!important;
+    min-height:78px!important;
+    overflow:visible!important;
+  }
+  .activityCardV306 > .row:first-child{
+    display:block!important;
+  }
+  .activityCardV306 > .row:first-child .tag{
+    display:none!important;
+  }
+  .activityCardV306 h3{
+    font-size:13px!important;
+    line-height:1.05!important;
+    margin:0!important;
+  }
+  .activityCardV306 .summary{
+    display:-webkit-box!important;
+    -webkit-line-clamp:1!important;
+    -webkit-box-orient:vertical!important;
+    overflow:hidden!important;
+    font-size:10.5px!important;
+    line-height:1.1!important;
+    margin-top:2px!important;
+  }
+  .medalRow{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:2px!important;
+    margin-top:2px!important;
+  }
+  .medalBox{
+    padding:2px 3px!important;
+    font-size:8.5px!important;
+    line-height:1!important;
+    border-radius:6px!important;
+  }
+  .medalBox strong{
+    font-size:9px!important;
+  }
+  .activityCardV306 > .row:last-child{
+    right:6px!important;
+    top:6px!important;
+    width:68px!important;
+  }
+  .activityCardV306 > .row:last-child button{
+    width:68px!important;
+    min-width:68px!important;
+    max-width:68px!important;
+    min-height:38px!important;
+    padding:4px 5px!important;
+    font-size:12px!important;
+  }
+}
+
+@media(max-width:760px){
+  .activityCardV306{
+    padding:6px 74px 6px 6px!important;
+    min-height:72px!important;
+  }
+  .facilityItems{
+    padding-bottom:92px!important;
+    scroll-padding-bottom:92px!important;
+  }
+  .activityCardV306 > .row:last-child{
+    right:5px!important;
+    top:5px!important;
+    width:62px!important;
+  }
+  .activityCardV306 > .row:last-child button{
+    width:62px!important;
+    min-width:62px!important;
+    max-width:62px!important;
+    min-height:34px!important;
+    font-size:11px!important;
+    padding:3px 4px!important;
+  }
+}
+
+@media(max-width:520px){
+  .activityCardV306{
+    padding-right:68px!important;
+  }
+  .activityCardV306 .summary{
+    display:none!important;
+  }
+  .medalBox span,
+  .medalBox small{
+    display:none!important;
+  }
+}
+</style>
+<script id="cq-v30611-card-tap-start">
+(function(){
+  document.addEventListener('click', function(e){
+    const card=e.target.closest && e.target.closest('.activityCardV306');
+    if(!card) return;
+    if(e.target.closest('button,a,input,select,textarea,label')) return;
+    const btn=Array.from(card.querySelectorAll('button')).find(b=>!b.disabled && (b.getAttribute('onclick')||'').includes('startActivity'));
+    if(btn){ btn.click(); }
+  }, {passive:false});
+})();
+</script>
+<!-- ======================= END v3.06.11 PATCH ======================= -->
 
 </body>
 </html>
