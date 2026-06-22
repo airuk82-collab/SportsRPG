@@ -1,327 +1,304 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Coach Prototype v21.9.1 Click Safe Guide Assets</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coach Prototype v20.9 Bright</title>
 <style>
 :root{
-  --bg:#f6f8fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;
-  --blue:#2563eb;--teal:#0f766e;--orange:#f97316;--red:#dc2626;--green:#059669;
-  --shadow:0 18px 50px rgba(15,23,42,.12);--radius:24px
+  --bg:#f6f8fb;
+  --panel:#ffffff;
+  --panel2:#f8fafc;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --accent:#2563eb;
+  --accent2:#0ea5e9;
+  --good:#059669;
+  --warn:#f97316;
+  --bad:#dc2626;
+  --shadow:0 18px 50px rgba(15,23,42,.12);
 }
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at top,#dbeafe 0,#f6f8fb 35%,#f8fafc 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
-button,input,select{font:inherit}button{cursor:pointer}
-.wrap{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:24px 10px}
-.phone{width:min(430px,100%);min-height:850px;background:var(--bg);border:1px solid rgba(148,163,184,.45);border-radius:38px;box-shadow:var(--shadow);overflow:hidden;position:relative}
-.screen{padding:20px 18px 112px}.noTab{padding-bottom:34px}
-.topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
-.back{border:1px solid var(--line);background:#fff;min-height:42px;border-radius:14px;padding:0 13px;font-weight:900;color:#334155}
-.pill{display:inline-flex;align-items:center;background:#e0f2fe;color:#075985;border-radius:999px;padding:7px 11px;font-weight:900;font-size:12px;letter-spacing:.02em;white-space:nowrap}
-.header{padding:4px 4px 16px}.header h1{font-size:34px;line-height:1.02;margin:13px 0 8px}.header p{margin:0;color:var(--muted);line-height:1.35}
-.card{background:rgba(255,255,255,.94);border:1px solid rgba(226,232,240,.95);border-radius:var(--radius);padding:17px;margin:14px 0;box-shadow:0 8px 24px rgba(15,23,42,.05)}
-.card h3{margin:0 0 11px;font-size:18px}.card p{margin:0;color:var(--muted);line-height:1.35}
-.primary,.secondary,.danger{width:100%;min-height:54px;border-radius:18px;font-weight:950}
-.primary{border:0;background:linear-gradient(135deg,var(--blue),var(--teal));color:white}.secondary{background:#fff;border:1px solid var(--line);color:var(--ink)}.danger{background:#fff;border:1px solid #fecaca;color:var(--red)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.goal,.select,.chip{border:1px solid var(--line);background:#fff;border-radius:18px;padding:13px;text-align:left;min-height:62px}
-.goal strong,.select strong{display:block}.goal span,.select span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.25}
-.active{border-color:var(--blue)!important;background:#eff6ff!important;box-shadow:inset 0 0 0 1px var(--blue)}
-.chips{display:flex;gap:9px;flex-wrap:wrap}.chip{min-height:42px;padding:10px 12px;text-align:center;border-radius:999px}
-.field label{display:block;font-weight:900;font-size:12px;color:var(--muted);margin-bottom:6px}.field input,.field select{width:100%;height:48px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:white}
-.row{display:flex;gap:10px}.row>*{flex:1}
-.plan{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:18px;margin-top:10px;background:#fff}
-.badge{min-width:42px;height:42px;background:#eef2ff;color:#3730a3;border-radius:15px;display:grid;place-items:center;font-weight:950}
-.exercise{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.exercise:last-child{border-bottom:0}.num{width:32px;height:32px;border-radius:12px;background:#e0f2fe;color:#075985;display:grid;place-items:center;font-weight:950}.exercise strong{display:block}
-.exercise small{display:block;color:var(--muted);font-size:12px;margin-top:3px;line-height:1.25}.intent{display:inline-block;margin:0 4px 4px 0;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:950}
-.i-warmup{background:#ecfeff;color:#155e75}.i-speed{background:#eef2ff;color:#3730a3}.i-power{background:#fff7ed;color:#9a3412}.i-strength{background:#f0fdf4;color:#166534}.i-core{background:#faf5ff;color:#6b21a8}.i-mobility{background:#ecfdf5;color:#065f46}.i-conditioning{background:#fff1f2;color:#9f1239}.i-cardio{background:#eff6ff;color:#1d4ed8}
-.miniBtn{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:12px;padding:8px 10px;font-weight:900}
-.check{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.check:last-child{border-bottom:0}.box{min-width:24px;height:24px;border:2px solid #cbd5e1;border-radius:8px;background:white}.small{font-size:12px;color:var(--muted);line-height:1.35}
-.note{background:#ecfdf5;color:#065f46;border:1px solid #bbf7d0;border-radius:18px;padding:12px;font-weight:800}.warn{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:18px;padding:12px;font-weight:800}
-.logic{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:18px;padding:12px;margin:10px 0}.logic b{display:block;margin-bottom:4px}.logic span{display:block;color:var(--muted);font-size:12px;line-height:1.35}
-.tabbar{position:absolute;left:0;right:0;bottom:0;height:82px;background:rgba(255,255,255,.93);border-top:1px solid var(--line);backdrop-filter:blur(12px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 10px 18px}.tabbar button{border:0;background:transparent;border-radius:16px;color:var(--muted);font-weight:900}.tabbar button.active{background:#eff6ff!important;color:var(--blue);box-shadow:none}
-.timer{min-height:850px;background:#0f172a;color:#fff;padding:18px;display:flex;flex-direction:column}.timerTop{display:flex;justify-content:space-between;align-items:center}.timerTop button{border:0;border-radius:14px;padding:10px 13px;background:rgba(255,255,255,.12);color:#fff;font-weight:900}.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden;margin:22px 0}.fill{height:100%;background:linear-gradient(90deg,#38bdf8,#f97316);border-radius:99px;transition:width .2s}.timerHero{text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center}.timerHero h2{font-size:32px;line-height:1;margin:8px 0}.timerSub{color:#cbd5e1;font-weight:900}.time{font-size:76px;font-weight:950;letter-spacing:-.06em;margin:12px 0 2px}.count{font-weight:950;color:#fdba74;font-size:26px;min-height:32px;margin-top:4px}.diagram{background:#fff;border-radius:24px;padding:8px;margin:14px auto 13px;width:100%;max-width:350px;max-height:380px;overflow:auto}.guideImg{width:100%;border-radius:18px;border:1px solid rgba(226,232,240,.95);background:#fff;display:block}.guideWrap{background:#fff;border-radius:22px;padding:10px;margin:14px 0;border:1px solid rgba(255,255,255,.18)}.next{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:14px;text-align:left}.next small{display:block;color:#cbd5e1}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions button{min-height:56px;border-radius:18px;border:0;font-weight:950}.actions .pause{background:rgba(255,255,255,.12);color:#fff}.actions .done{background:#fff;color:#0f172a}
-.metric{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);gap:10px}.metric:last-child{border-bottom:0}.stars{color:#f59e0b;letter-spacing:1px}.voicePanel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.voicePanel button{min-height:44px;border:1px solid var(--line);background:#fff;border-radius:15px;font-weight:900}.voiceSelect{width:100%;height:48px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:white;margin-top:10px}
-.progressRows{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:18px}.stat span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
-@media(max-width:460px){.wrap{padding:0}.phone{border-radius:0;min-height:100vh;border:0}.timer{min-height:100vh}.header h1{font-size:32px}.time{font-size:70px}}
-
-.planChip{display:inline-flex;align-items:center;border-radius:999px;background:#eff6ff;color:#1d4ed8;padding:5px 9px;font-size:12px;font-weight:950;margin:2px 4px 2px 0}
-.testGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.testItem{border:1px solid var(--line);background:#fff;border-radius:18px;padding:12px}.testItem label{display:block;color:var(--muted);font-size:12px;font-weight:900;margin-bottom:6px}.testItem input,.testItem select{width:100%;height:42px;border:1px solid var(--line);border-radius:12px;padding:0 10px;background:#fff}
-.phaseLabel{display:block;color:var(--muted);font-size:12px;font-weight:900;margin-bottom:4px}
-.tabbar{grid-template-columns:repeat(5,1fr)}
-
-.outcomeGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.outcome{border:1px solid var(--line);background:#fff;border-radius:18px;padding:13px;text-align:left;min-height:78px}
-.outcome strong{display:block}.outcome span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.25}
-.mixBar{display:grid;grid-template-columns:98px 1fr 42px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
-.mixBar:last-child{border-bottom:0}.mixTrack{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}.mixFill{height:100%;background:linear-gradient(90deg,#2563eb,#0f766e);border-radius:999px}
-.methodTag{display:inline-flex;align-items:center;border-radius:999px;background:#f1f5f9;color:#334155;padding:4px 8px;font-size:11px;font-weight:950;margin:2px 4px 2px 0}
-
-.presetGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.preset{border:1px solid var(--line);background:#fff;border-radius:18px;padding:13px;text-align:left;min-height:92px}
-.preset strong{display:block}.preset span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.25}
-.sectionTitle{font-size:12px;font-weight:950;color:#475569;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 8px}
-
-.phaseCard{border:1px solid var(--line);border-radius:18px;background:#fff;margin:10px 0;padding:12px}
-.phaseHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
-.phaseHead b{display:block}.phaseHead span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
-.phaseTime{font-weight:950;color:#0f766e;white-space:nowrap}
-.phaseItems{margin:0;padding-left:18px;color:#334155}.phaseItems li{margin:5px 0;line-height:1.3}
-.methodNote{border-radius:16px;background:#f8fafc;border:1px dashed #cbd5e1;padding:10px;margin-top:8px;color:#475569;font-size:12px;line-height:1.35}
+html{background:#f6f8fb}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top,#dbeafe 0,#f6f8fb 36%,#f8fafc 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{
+  width:min(430px,100%);
+  min-height:100vh;
+  margin:0 auto;
+  padding:20px 18px 112px;
+  background:rgba(246,248,251,.96);
+  border-left:1px solid rgba(148,163,184,.32);
+  border-right:1px solid rgba(148,163,184,.32);
+  box-shadow:var(--shadow);
+}
+.top{padding:12px 0 14px}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  background:#e0f2fe;
+  color:#075985;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:900;
+}
+.top h1{margin:8px 0 4px;font-size:34px;line-height:1.02;letter-spacing:-.04em;color:#0f172a}
+.top p{margin:0;color:var(--muted);line-height:1.35;font-weight:600}
+.card{
+  background:var(--panel);
+  border:1px solid rgba(226,232,240,.95);
+  border-radius:24px;
+  padding:16px;
+  margin:12px 0;
+  box-shadow:0 12px 30px rgba(15,23,42,.08);
+}
+.card h3{margin:0 0 9px;font-size:18px;letter-spacing:-.02em;color:#0f172a}
+.small{font-size:13px;color:var(--muted);line-height:1.38;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.presetGrid,.outcomeGrid{display:grid;grid-template-columns:1fr;gap:10px}
+.preset,.outcome,.chip,.secondary,.primary,.danger{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  color:var(--text);
+  padding:12px;
+  text-align:left;
+  box-shadow:0 6px 16px rgba(15,23,42,.05);
+}
+.preset span,.outcome span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.25;font-weight:600}
+.preset.active,.outcome.active,.chip.active{
+  border-color:#38bdf8;
+  background:linear-gradient(180deg,#eff6ff,#e0f2fe);
+  box-shadow:0 0 0 2px rgba(37,99,235,.12),0 10px 24px rgba(14,165,233,.16);
+}
+.primary{
+  width:100%;
+  background:linear-gradient(135deg,#2563eb,#0ea5e9);
+  border-color:#2563eb;
+  color:white;
+  text-align:center;
+  font-weight:900;
+  box-shadow:0 12px 28px rgba(37,99,235,.24);
+}
+.secondary{text-align:center;background:#f8fafc;color:#0f172a;font-weight:800}
+.danger{background:#fef2f2;border-color:#fecaca;color:#991b1b;text-align:center;font-weight:900}
+.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.field input,.field select,.voiceSelect{
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--text);
+  outline:none;
+  box-shadow:0 3px 10px rgba(15,23,42,.04) inset;
+}
+.field input:focus,.field select:focus,.voiceSelect:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:9px 11px;font-weight:800}.row{display:flex;gap:10px}.row>*{flex:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.stat{border:1px solid var(--line);border-radius:18px;padding:12px;background:linear-gradient(180deg,#ffffff,#f8fafc);box-shadow:0 6px 14px rgba(15,23,42,.05)}
+.stat b{font-size:20px;color:#0f172a}.stat span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.phase{border-left:5px solid var(--accent);padding:10px 0 10px 13px;margin:14px 0;background:linear-gradient(90deg,rgba(219,234,254,.85),rgba(255,255,255,0));border-radius:16px}
+.phase h4{margin:0 0 3px;color:#0f172a}.phase p{margin:0 0 8px;color:var(--muted);font-size:13px;font-weight:600}
+.item{display:flex;gap:10px;padding:9px 0;border-top:1px solid rgba(226,232,240,.9)}
+.item .num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:900;flex:0 0 auto}
+.item b{display:block;color:#0f172a}.item span{display:block;color:var(--muted);font-size:12px;font-weight:600}
+.mixRow{display:grid;grid-template-columns:118px 1fr 42px;gap:8px;align-items:center;margin:8px 0;color:#334155;font-weight:800}
+.bar{height:12px;border-radius:99px;background:#e2e8f0;overflow:hidden;border:1px solid #cbd5e1}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#22c55e)}
+.note{padding:9px 0;border-top:1px solid rgba(226,232,240,.95);color:#334155;font-weight:600}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px;z-index:10;backdrop-filter:blur(12px)}
+.tabs .inner{max-width:430px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.tabs button{border:1px solid var(--line);background:#fff;color:#64748b;border-radius:14px;padding:10px 6px;font-weight:900;box-shadow:0 5px 12px rgba(15,23,42,.05)}
+.tabs button.active{background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff;border-color:#2563eb}
+.tag{display:inline-block;font-size:12px;color:#075985;background:#e0f2fe;border:1px solid #bae6fd;padding:5px 9px;border-radius:999px;margin:3px;font-weight:900}
+.planRow{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(226,232,240,.95)}
+.badge{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-weight:900;flex:0 0 auto}
+.error{border-color:var(--bad);background:#fff1f2}
+@media(min-width:760px){.app{margin:24px auto;min-height:850px;border:1px solid rgba(148,163,184,.45);border-radius:38px;overflow:hidden}.tabs .inner{max-width:430px}}
+@media(max-width:560px){.app{width:100%;box-shadow:none;border-left:0;border-right:0}.stats{grid-template-columns:1fr}.mixRow{grid-template-columns:104px 1fr 36px}.top h1{font-size:30px}}
 </style>
 </head>
 <body>
-<div class="wrap"><main id="app" class="phone"><section class="screen noTab"><div class="card"><h3>Loading Coach…</h3><p>If this stays on screen, use Reset App Data from the error panel or open the packaged index with its assets folder.</p></div></section></main></div>
+<div id="app" class="app"></div>
 <script>
-
-window.onerror=function(msg,src,line,col,err){var app=document.getElementById('app');if(app)app.innerHTML='<section class="screen noTab"><div class="card"><h3>Error</h3><p>'+String(msg)+'</p><p class="small">Line '+line+'</p><button class="danger" onclick="localStorage.clear();location.reload()">Reset App Data</button></div></section>';console.error(msg,err)};
-var VERSION='21.9.1 Click Safe Guide Assets';
-var STORE='coachSettingsV2191ClickSafeGuideAssets';
-var LEGACY=['coachSettingsV218GuideFix','coachSettingsV206','coachSettingsV19','coachSettingsV216FromV214'];
-function $(id){return document.getElementById(id)}
-function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function cap(s){s=String(s||'');return s? s.charAt(0).toUpperCase()+s.slice(1):s}
-function clone(x){return JSON.parse(JSON.stringify(x))}
-function fmt(sec){sec=Math.max(0,Math.round(Number(sec)||0));var m=Math.floor(sec/60),s=sec%60;return m+':'+(s<10?'0':'')+s}
-function totalHeight(){return (Number(state.heightFt)||0)*12+(Number(state.heightIn)||0)}
-function ageBand(){var a=Number(state.age)||0;if(a<10)return 'youth';if(a<13)return 'middle';if(a<18)return 'teen';return 'adult'}
-function hasEq(e){return (state.eq||[]).indexOf(e)>=0}
-function selectedFocuses(){var f=state.focuses||[];if(!f.length)f=trainingTypes.find(function(t){return t.id===state.type}).defaultFocus.slice();return f.slice(0,2)}
-function totalSec(){return (state.blocks||[]).reduce(function(s,b){return s+(Number(b.work)||0)+(Number(b.rest)||0)},0)}
-
-var spaces=['Bedroom','Living Room','Garage','Driveway','Home Gym','Full Gym'];
-var equipment=['None','Mat','Bands','Dumbbells','Kettlebell','Jump Rope','Cones','Bench/Box','Medicine Ball','Barbell','Pullup Bar','Cable/Machines'];
-var muscleKeys=['quads','glutes','hamstrings','calves','chest','back','shoulders','arms','trunk','hips'];
-var fatigueKeys=['systemic','neural','posterior','spineBrace','impact','local','grip','joint'];
-var qualities=['strength','power','hypertrophy','endurance','movement','sport','control','recovery'];
-var trainingTypes=[
- {id:'strength',title:'Strength',desc:'High force, clean reps, long rest',defaultFocus:['maxForce'],focus:[['maxForce','Get Stronger'],['bracing','Brace / Carry Better'],['upperStrength','Upper Strength'],['safeTechnique','Technique / Submax']]},
- {id:'power',title:'Power',desc:'Explosive speed-strength and jump quality',defaultFocus:['jumpHigher'],focus:[['jumpHigher','Jump Higher'],['runFaster','Run Faster'],['accelerate','Accelerate Better'],['throwHarder','Throw Harder / Farther']]},
- {id:'build_muscle',title:'Build Muscle',desc:'Hypertrophy, controlled reps, local fatigue',defaultFocus:['fullBodyMuscle'],focus:[['fullBodyMuscle','Full Body Muscle'],['lowerBody','Lower Body'],['upperBody','Upper Body'],['leanMass','Lean Mass']]},
- {id:'endurance',title:'Endurance',desc:'Aerobic base, intervals, repeat effort',defaultFocus:['lastLonger'],focus:[['lastLonger','Last Longer'],['aerobicBase','Aerobic Base'],['repeatEffort','Repeat Effort'],['recoveryCardio','Recovery Cardio']]},
- {id:'movement',title:'Movement',desc:'Mobility, core control, balance, recovery',defaultFocus:['mobility'],focus:[['mobility','Move Better'],['coreControl','Core Control'],['balance','Balance'],['recoveryReset','Recovery Reset']]},
- {id:'sport',title:'Sport',desc:'Game-use blend: power, repeatability, contact, control',defaultFocus:['jumpLand','gameStamina'],focus:[['jumpLand','Jump + Land'],['contactStrength','Be Harder to Move'],['gameStamina','Last Longer in Games'],['firstStep','First Step'],['movementControl','Movement Control']]}
+(function(){
+'use strict';
+var VERSION='20.9 Bright';
+var STORE='coachSettingsV209';
+var defaultState={view:'today',buildPreset:'sprinter_speed',outcomes:['jumpHigher'],customGoals:true,age:8,sex:'Male',heightFt:4,heightIn:7,body:80,min:45,days:3,blockLength:4,space:'Home Gym',eq:['None','Mat','Bands','Dumbbells','Kettlebell','Jump Rope','Cones','Bench/Box','Medicine Ball','Barbell','Pullup Bar','Cable/Machines'],planDay:1,planWeek:1,workoutSeed:0,phases:[],blocks:[],logicNotes:[],tests:{vertical:'',broad:'',sprint:'',shuttle:'',endurance:'',plank:'',soreness:'None',difficulty:'Right'},voiceMode:'neutral',voiceName:'auto',voiceOn:true,rate:.92};
+var state=Object.assign({},defaultState);
+var methodLabels={plyometrics:'Plyometrics',power:'Power',speed:'Speed',agility_cod:'Agility / COD',strength:'Strength',hypertrophy:'Hypertrophy',endurance:'Endurance',conditioning:'Conditioning',mobility:'Mobility',stability_core:'Stability / Core',contact_power:'Contact Power',coordination:'Coordination',recovery:'Recovery',health:'General Health',balance:'Balance',strength_endurance:'Strength Endurance'};
+var buildPresets=[
+{id:'endurance_runner',title:'Endurance Runner',desc:'Cross country, distance running, stamina, durability',defaultGoals:['runFarther','lastLonger','improveCardio'],mix:{endurance:55,strength_endurance:15,strength:10,mobility:10,recovery:10}},
+{id:'sprinter_speed',title:'Sprinter / Speed Athlete',desc:'Acceleration, sprint mechanics, max speed, quickness',defaultGoals:['runFaster','accelerateBetter','getQuicker','beMoreExplosive'],mix:{speed:40,power:20,plyometrics:15,strength:15,mobility:10}},
+{id:'power_athlete',title:'Power Athlete',desc:'Jumping, throwing, explosive strength, athletic force',defaultGoals:['jumpHigher','beMoreExplosive','throwHarder','harderToMove'],mix:{power:25,plyometrics:25,strength:25,speed:10,hypertrophy:10,mobility:5}},
+{id:'contact_power',title:'Contact Power Athlete',desc:'Useful size, explosive strength, contact power, short-area movement',defaultGoals:['harderToMove','beMoreExplosive','jumpHigher'],mix:{contact_power:50,hypertrophy:20,power:20,strength:10,conditioning:5}},
+{id:'basketball_post',title:'Basketball Post / Contact Power',desc:'Post position: seal, rebound, finish through contact, hold space, short-area power',defaultGoals:['harderToMove','jumpHigher','beMoreExplosive'],mix:{contact_power:36,strength:24,plyometrics:15,hypertrophy:12,stability_core:8,mobility:5}},
+{id:'basketball_wing',title:'Basketball Wing',desc:'Change direction, jumping, finishing, speed, conditioning',defaultGoals:['jumpHigher','getQuicker','changeDirection'],mix:{agility_cod:25,plyometrics:20,speed:20,strength:15,conditioning:12,mobility:8}},
+{id:'basketball_guard',title:'Basketball Guard',desc:'Quickness, acceleration, change of direction, repeat efforts',defaultGoals:['getQuicker','runFaster','changeDirection'],mix:{speed:28,agility_cod:28,conditioning:15,plyometrics:12,strength:10,mobility:7}},
+{id:'strength_athlete',title:'Strength Athlete',desc:'Powerlifting-style force, bracing, heavy strength',defaultGoals:['getStronger','liftMore','harderToMove'],mix:{strength:55,stability_core:15,hypertrophy:15,mobility:10,recovery:5}},
+{id:'muscle_builder',title:'Muscle Builder',desc:'Bodybuilding, hypertrophy, shape, size, lean mass',defaultGoals:['gainMuscle','buildUpperBody','buildLowerBody'],mix:{hypertrophy:60,strength:20,mobility:10,conditioning:5,recovery:5}},
+{id:'gymnast_control',title:'Gymnast / Body Control',desc:'Relative strength, mobility, balance, coordination',defaultGoals:['controlBodyBetter','improveBalance','improveMobility'],mix:{stability_core:25,mobility:25,strength:20,coordination:15,balance:10,hypertrophy:5}},
+{id:'court_field',title:'Court / Field Athlete',desc:'Basketball, soccer, football, volleyball, game movement',defaultGoals:['jumpHigher','runFaster','getQuicker'],mix:{plyometrics:20,speed:20,agility_cod:20,strength:15,conditioning:15,mobility:10}},
+{id:'hybrid_athlete',title:'Hybrid Athlete',desc:'Strong, fit, mobile, athletic, balanced performance',defaultGoals:['getStronger','lastLonger','runFaster'],mix:{strength:25,endurance:20,conditioning:15,speed:10,plyometrics:10,mobility:10,hypertrophy:10}},
+{id:'general_health',title:'General Health',desc:'Balanced family fitness, movement, strength, cardio',defaultGoals:['generalHealth','moveMore','feelBetter'],mix:{health:30,strength:20,endurance:20,mobility:15,stability_core:10,conditioning:5}}
 ];
-var templates={
- strength:[
-  {id:'str_squat',title:'Strength — Squat Emphasis',kind:'strength',theme:'squat',slots:['squat','push','pull','lightHinge','core'],protect:['quads','glutes','trunk'],fatigue:['systemic','spineBrace','local'],note:'One primary squat pattern. Hinge work is light technique only.'},
-  {id:'str_hinge',title:'Strength — Hinge Emphasis',kind:'strength',theme:'hinge',slots:['hinge','push','pull','lightSquat','core'],protect:['hamstrings','glutes','trunk'],fatigue:['posterior','spineBrace','systemic'],note:'One primary hinge pattern. Squat work is light support only.'},
-  {id:'str_upper',title:'Strength — Upper Push / Pull',kind:'strength',theme:'upper',slots:['push','pull','push','pull','core'],protect:['chest','back','shoulders','arms','trunk'],fatigue:['local','joint'],note:'Upper force day with low lower-body cost.'},
-  {id:'str_brace',title:'Strength — Bracing / Carry',kind:'strength',theme:'brace',slots:['carry','core','single','pull','mobility'],protect:['trunk','grip'],fatigue:['spineBrace','grip','systemic'],note:'Trunk stiffness, carries, and control without heavy squat/hinge stacking.'}
- ],
- power:[
-  {id:'pow_jump',title:'Power — Jump Quality',kind:'power',theme:'jump',slots:['landing','power','power','support','core'],protect:['quads','glutes','calves'],fatigue:['neural','impact'],note:'Fast-twitch jump work with full recovery. Stop before speed drops.'},
-  {id:'pow_accel',title:'Power — Acceleration',kind:'power',theme:'speed',slots:['speed','speed','power','support','mobility'],protect:['calves','quads','glutes'],fatigue:['neural','impact'],note:'Short acceleration and quick contacts. No conditioning creep.'},
-  {id:'pow_medball',title:'Power — Med Ball / Total Body',kind:'power',theme:'throw',slots:['power','speed','push','pull','core'],protect:['shoulders','trunk','glutes'],fatigue:['neural','systemic'],note:'Explosive total-body work with low local fatigue.'},
-  {id:'pow_land',title:'Power — Landing / Control',kind:'power',theme:'landing',slots:['landing','landing','single','core','mobility'],protect:['quads','glutes','calves'],fatigue:['impact','joint'],note:'Landing quality and force absorption before harder plyos.'}
- ],
- build_muscle:[
-  {id:'hyp_squat',title:'Build Muscle — Squat Emphasis',kind:'hypertrophy',theme:'squat',slots:['squat','push','pull','lightHinge','pump'],protect:['quads','glutes'],fatigue:['local','systemic','spineBrace'],note:'Lower-body hypertrophy with squat as the primary lower pattern.'},
-  {id:'hyp_hinge',title:'Build Muscle — Hinge Emphasis',kind:'hypertrophy',theme:'hinge',slots:['hinge','push','pull','lightSquat','pump'],protect:['hamstrings','glutes'],fatigue:['posterior','local','spineBrace'],note:'Posterior-chain hypertrophy without adding a heavy squat stack.'},
-  {id:'hyp_upper',title:'Build Muscle — Upper Emphasis',kind:'hypertrophy',theme:'upper',slots:['push','pull','push','pull','pump'],protect:['chest','back','shoulders','arms'],fatigue:['local','joint'],note:'Upper-body muscle with lower body mostly spared.'},
-  {id:'hyp_pump',title:'Build Muscle — Pump / Accessories',kind:'hypertrophy',theme:'pump',slots:['single','push','pull','core','pump'],protect:['arms','shoulders','trunk'],fatigue:['local'],note:'Lower systemic cost accessory day. Good when heavy patterns are protected.'}
- ],
- endurance:[
-  {id:'end_base',title:'Endurance — Aerobic Base',kind:'endurance',theme:'base',slots:['cardio','cardio','core','mobility'],protect:['calves','trunk'],fatigue:['systemic'],note:'Steady effort without heavy lifting fatigue.'},
-  {id:'end_tempo',title:'Endurance — Tempo Intervals',kind:'endurance',theme:'tempo',slots:['cardio','conditioning','cardio','core'],protect:['calves','quads'],fatigue:['systemic','local'],note:'Controlled intervals for stamina and recovery.'},
-  {id:'end_repeat',title:'Endurance — Repeat Effort',kind:'endurance',theme:'repeat',slots:['conditioning','conditioning','cardio','core'],protect:['calves','quads','trunk'],fatigue:['systemic','local'],note:'Repeat effort, not max sprinting.'},
-  {id:'end_recovery',title:'Endurance — Recovery Cardio',kind:'endurance',theme:'recovery',slots:['cardio','mobility','core','mobility'],protect:['hips','trunk'],fatigue:['recovery'],note:'Low-cost movement to improve recovery.'}
- ],
- movement:[
-  {id:'mov_mobility',title:'Movement — Mobility Flow',kind:'movement',theme:'mobility',slots:['mobility','mobility','core','mobility'],protect:['hips','trunk'],fatigue:['recovery'],note:'Range, posture, and breathing. Low fatigue.'},
-  {id:'mov_core',title:'Movement — Core Control',kind:'movement',theme:'core',slots:['core','core','mobility','balance'],protect:['trunk','hips'],fatigue:['local'],note:'Ribs down, pelvis control, and trunk stability.'},
-  {id:'mov_balance',title:'Movement — Balance',kind:'movement',theme:'balance',slots:['balance','single','core','mobility'],protect:['hips','trunk'],fatigue:['joint'],note:'Low intensity control and balance.'},
-  {id:'mov_reset',title:'Movement — Recovery Reset',kind:'movement',theme:'recovery',slots:['mobility','breathing','mobility','core'],protect:['hips','trunk'],fatigue:['recovery'],note:'Recovery movement and breathing cadence.'}
- ],
- sport:[
-  {id:'sport_jump',title:'Sport — Jump + Land',kind:'sport',theme:'jump',slots:['landing','power','speed','support','core'],protect:['quads','glutes','calves'],fatigue:['neural','impact'],note:'Jump power plus landing control for game use.'},
-  {id:'sport_contact',title:'Sport — Contact Strength',kind:'sport',theme:'contact',slots:['support','carry','single','core','mobility'],protect:['glutes','trunk','grip'],fatigue:['spineBrace','systemic','local'],note:'Harder to move without piling on heavy squat and heavy hinge.'},
-  {id:'sport_stamina',title:'Sport — Game Stamina',kind:'sport',theme:'stamina',slots:['conditioning','cardio','conditioning','core','mobility'],protect:['calves','quads','trunk'],fatigue:['systemic','local'],note:'Repeat-power and stamina without turning into distance-only training.'},
-  {id:'sport_first',title:'Sport — First Step / Acceleration',kind:'sport',theme:'speed',slots:['speed','speed','power','support','mobility'],protect:['calves','quads','glutes'],fatigue:['neural','impact'],note:'First-step speed with full recovery between bursts.'},
-  {id:'sport_control',title:'Sport — Movement Control',kind:'sport',theme:'control',slots:['landing','balance','core','mobility','single'],protect:['hips','trunk'],fatigue:['joint','recovery'],note:'Cut, land, brace, and control body position.'}
- ]
-};
-var defaultState={view:'today',type:'build_muscle',focuses:['fullBodyMuscle'],age:14,sex:'Female',heightFt:6,heightIn:0,body:150,min:35,days:4,space:'Home Gym',eq:['None','Mat','Bands','Dumbbells','Medicine Ball','Barbell','Pullup Bar','Cable/Machines'],planDay:1,planWeek:1,workoutSeed:0,voiceOn:true,voiceName:'auto',voiceRate:.94,voicePitch:1,voiceVolume:1,phases:[],blocks:[],currentTemplate:null,muscleLedger:{},fatigueLedger:{},logicNotes:[],history:[],recovery:{},readiness:{energy:'Normal',soreness:'None',sleep:'OK',tightness:[]},finish:{effort:'7',quality:'Good',felt:'Right',sore:[],notes:''},active:{running:false,paused:false,idx:0,phase:'idle',remain:0,timer:null,countTimer:null}};
-var state=clone(defaultState);
-function ensureState(){Object.keys(defaultState).forEach(function(k){if(state[k]===undefined)state[k]=clone(defaultState[k])});if(!state.eq||!state.eq.length)state.eq=['None','Mat'];if(!state.focuses||!state.focuses.length)state.focuses=currentType().defaultFocus.slice(0,1);state.focuses=state.focuses.slice(0,2);if(!state.active)state.active=clone(defaultState.active);if(!state.recovery)state.recovery={};}
-function migrateOld(saved){if(!saved)return{};var out={};if(saved.age)out.age=saved.age;if(saved.sex)out.sex=saved.sex;if(saved.heightFt)out.heightFt=saved.heightFt;if(saved.heightIn!==undefined)out.heightIn=saved.heightIn;if(saved.body)out.body=saved.body;if(saved.min)out.min=saved.min;if(saved.days)out.days=saved.days;if(saved.space)out.space=saved.space;if(saved.eq)out.eq=saved.eq;if(saved.voiceName)out.voiceName=saved.voiceName;if(saved.voiceOn!==undefined)out.voiceOn=saved.voiceOn;if(saved.rate)out.voiceRate=saved.rate;var bp=saved.buildPreset||saved.goal;if(bp){if(bp==='muscle_builder'||bp==='hypertrophy')out.type='build_muscle';else if(bp==='contact_power'||bp==='court_field'||bp==='sport')out.type='sport';else if(bp==='endurance_runner'||bp==='endurance'||bp==='cardio')out.type='endurance';else if(bp==='speed_power'||bp==='plyo'||bp==='speed')out.type='power';else if(bp==='strength'||bp==='strong')out.type='strength';else if(bp==='mobility'||bp==='gymnast_control')out.type='movement';}return out}
-function loadSettings(){try{var raw=localStorage.getItem(STORE), saved=raw?JSON.parse(raw):null;if(!saved){for(var i=0;i<LEGACY.length&&!saved;i++){var x=localStorage.getItem(LEGACY[i]);if(x)saved=migrateOld(JSON.parse(x));}}if(saved)state=Object.assign(clone(defaultState),saved)}catch(e){}ensureState()}
-function saveSettings(){ensureState();try{var x=clone(state);delete x.active.timer;delete x.active.countTimer;localStorage.setItem(STORE,JSON.stringify(x))}catch(e){}}
-function currentType(){return trainingTypes.find(function(t){return t.id===state.type})||trainingTypes[0]}
-function typeById(id){return trainingTypes.find(function(t){return t.id===id})||trainingTypes[0]}
-function focusTitle(id){var all=[];trainingTypes.forEach(function(t){t.focus.forEach(function(f){all.push(f)})});var f=all.find(function(x){return x[0]===id});return f?f[1]:id}
-function selectedFocusText(){return selectedFocuses().map(focusTitle).join(' + ')}
-function bodyContext(){var a=Number(state.age)||0,h=totalHeight(),w=Number(state.body)||0,d=h?w/h:0;return{age:a,height:h,weight:w,density:d,youth:a<10,middle:a<13,teen:a>=13&&a<18,adult:a>=18,tallLight:h>0&&d<1.75&&a>=12,longLever:h>=69,highMass:d>2.45}}
-function bodyNote(){var c=bodyContext(),notes=[];if(c.youth)notes.push('Youth gate: short timed sets, simple bodyweight patterns, no heavy barbell default.');if(c.middle)notes.push('Middle-school gate: emphasize control, landing, bracing, and clean reps before load.');if(c.tallLight)notes.push('Tall/light profile: strength foundation, coordination, and posture before heavy loading.');if(c.longLever)notes.push('Long-lever profile: prioritize range, bracing, and controlled tempo.');if(c.highMass)notes.push('Higher-mass profile: protect joints and manage impact volume.');if(!notes.length)notes.push('Balanced profile: normal template rotation and recovery rules.');return notes.join(' ')}
-function effectiveMinutes(){var max=currentType().id==='movement'?35:(currentType().id==='power'?35:(currentType().id==='endurance'?60:50));return Math.min(Number(state.min)||30,max)}
-function readinessPenalty(){var p=0;if(state.readiness.energy==='Low')p+=1;if(state.readiness.sleep==='Poor')p+=1;if(state.readiness.soreness==='High')p+=2;if((state.readiness.tightness||[]).length)p+=1;return p}
-function protectedNow(){var out={};var rec=state.recovery||{};Object.keys(rec).forEach(function(k){if(rec[k]>0)out[k]=rec[k]});(state.readiness.tightness||[]).forEach(function(k){out[k]=Math.max(out[k]||0,1)});return out}
-function scoreTemplate(t){var protected=protectedNow(),score=100;if(state.history&&state.history.length){var last=state.history[state.history.length-1];if(last&&last.templateId===t.id)score-=40;if(last&&last.theme===t.theme)score-=12;}Object.keys(protected).forEach(function(k){if((t.protect||[]).indexOf(k)>=0)score-=22;if(k==='posterior'&&t.theme==='hinge')score-=30;if(k==='impact'&&(t.kind==='power'||t.theme==='jump'||t.theme==='speed'))score-=30});if(readinessPenalty()>=3&&(t.kind==='power'||t.kind==='strength'))score-=25;var f=selectedFocuses().join(' ');if(/jumpHigher|jumpLand/.test(f)&&t.theme==='jump')score+=30;if(/accelerate|runFaster|firstStep/.test(f)&&t.theme==='speed')score+=30;if(/contactStrength|bracing|harderToMove/.test(f)&&/contact|brace/.test(t.theme))score+=30;if(/upper/.test(f)&&t.theme==='upper')score+=25;if(/lower/.test(f)&&/squat|hinge/.test(t.theme))score+=15;if(/recovery/.test(f)&&/recovery|mobility/.test(t.theme))score+=30;if(/aerobicBase|lastLonger|gameStamina/.test(f)&&/base|stamina|repeat|tempo/.test(t.theme))score+=25;return score+(Number(state.workoutSeed)||0)%7}
-function chooseTemplate(){var list=templates[state.type]||templates.movement;var sorted=list.slice().sort(function(a,b){return scoreTemplate(b)-scoreTemplate(a)});state.currentTemplate=clone(sorted[0]);return state.currentTemplate}
-function guideFor(name,guide){
-  var exact={
-    'Bodyweight Squat':1,'Tempo Squat':1,'Goblet Squat':1,'Dumbbell RDL':1,'Glute Bridge':1,'Reverse Lunge':1,'Pogo Jumps':1,'Jump-and-Stick':1,'Broad Jump':1,'Jump Rope':1,'Fast Feet':1,'Line Hops':1,'Shuttle Run':1,'Pushups':1,'Shoulder Press':1,'Band Row':1,'Dumbbell Row':1,'Plank':1,'Dead Bug':1,'Hip Flexor Stretch':1,'Farmer Carry':1,'Burpees':1,'Step-Up':1,'Side Plank':1,'Incline Pushup':1,'Med Ball Slam':1
-  };
-  var alias={
-    'Barbell Squat':'Goblet Squat',
-    'Bodyweight Squat to Reach':'Bodyweight Squat',
-    'Barbell RDL':'Dumbbell RDL',
-    'Hip Hinge Drill':'Dumbbell RDL',
-    'Dumbbell Press':'Shoulder Press',
-    'Barbell Press':'Shoulder Press',
-    'Cable Row':'Band Row',
-    'Assisted Pullup / Hang':'Band Row',
-    'Box Jump / Step-Down':'Jump-and-Stick',
-    'Landing Stick Practice':'Jump-and-Stick',
-    'Shuttle Burst':'Shuttle Run',
-    'March / Fast Feet':'Fast Feet',
-    'March / Skip in Place':'Fast Feet',
-    'Easy Movement Prep':'Fast Feet',
-    'Easy Pace Ramp':'Jump Rope',
-    'Hip Openers':'Hip Flexor Stretch',
-    'Mobility Reset':'Hip Flexor Stretch',
-    'Mobility Flow':'Hip Flexor Stretch',
-    'Breathing Reset':'Dead Bug',
-    'Dead Bug Breathing':'Dead Bug',
-    'Dead Bug Brace Prep':'Dead Bug',
-    'Single-Leg Balance Reach':'Reverse Lunge',
-    'Ankle Bounce Prep':'Pogo Jumps'
-  };
-  if(guide&&guide!=='Bodyweight Squat'&&exact[guide])return guide;
-  if(exact[name])return name;
-  return alias[name]||'';
-}
-function choice(name,intent,why,guide){return {n:name,intent:intent,why:why||'',guide:guideFor(name,guide),w:equipmentFor(name),t:[intent]}}
-function equipmentFor(n){if(/Barbell/.test(n))return 'Barbell';if(/Dumbbell/.test(n))return 'Dumbbells';if(/Kettlebell|Goblet/.test(n))return 'Kettlebell or dumbbell';if(/Band/.test(n))return 'Bands';if(/Cable/.test(n))return 'Cable/Machine';if(/Pullup|Hang/.test(n))return 'Pullup Bar';if(/Med Ball/.test(n))return 'Medicine Ball';if(/Jump Rope/.test(n))return 'Jump Rope';if(/Shuttle|Sprint|Cone/.test(n))return 'Cones or open space';if(/Step|Box/.test(n))return 'Bench/Box';return 'Open floor'}
-function squatMain(){var c=bodyContext();if(hasEq('Barbell')&&c.age>=14)return choice('Barbell Squat','strength','Primary squat pattern. Stop with clean reps in reserve.','Bodyweight Squat');if((hasEq('Dumbbells')||hasEq('Kettlebell'))&&c.age>=10)return choice('Goblet Squat','strength','Loaded squat with control.','Bodyweight Squat');return choice(c.age<10?'Bodyweight Squat':'Tempo Squat','strength','Controlled squat pattern.','Bodyweight Squat')}
-function hingeMain(){var c=bodyContext();if(hasEq('Barbell')&&c.age>=14)return choice('Barbell RDL','strength','Primary hinge pattern. No heavy squat stack today.','Bodyweight Squat');if(hasEq('Dumbbells')&&c.age>=12)return choice('Dumbbell RDL','strength','Loaded hinge pattern.','Bodyweight Squat');return choice('Glute Bridge','strength','Low-risk posterior-chain work.','Bodyweight Squat')}
-function lightHinge(){return choice('Glute Bridge','strength','Light hip support only; heavy hinge is blocked today.','Bodyweight Squat')}
-function lightSquat(){return choice('Bodyweight Squat to Reach','strength','Light squat support only; heavy squat is blocked today.','Bodyweight Squat')}
-function singleLeg(){if(hasEq('Bench/Box'))return choice('Step-Up','strength','Single-leg strength and control.','Bodyweight Squat');return choice('Reverse Lunge','strength','Single-leg control.','Bodyweight Squat')}
-function upperPush(){if(hasEq('Barbell'))return choice('Barbell Press','strength','Upper push strength.','Bodyweight Squat');if(hasEq('Dumbbells'))return choice('Dumbbell Press','strength','Upper push strength.','Bodyweight Squat');if(hasEq('Bench/Box'))return choice('Incline Pushup','strength','Push strength with easier angle.','Bodyweight Squat');return choice('Pushups','strength','Upper push strength.','Bodyweight Squat')}
-function upperPull(){if(hasEq('Cable/Machines'))return choice('Cable Row','strength','Loaded pulling strength.','Bodyweight Squat');if(hasEq('Pullup Bar'))return choice('Assisted Pullup / Hang','strength','Vertical pulling strength.','Bodyweight Squat');if(hasEq('Dumbbells'))return choice('Dumbbell Row','strength','Loaded pull.','Bodyweight Squat');if(hasEq('Bands'))return choice('Band Row','strength','Band pull for posture and back.','Bodyweight Squat');return choice('Dead Bug','core','No pull equipment: use trunk control.','Bodyweight Squat')}
-function carry(){if(hasEq('Dumbbells')||hasEq('Kettlebell'))return choice('Farmer Carry','strength','Brace, grip, and posture under load.','Bodyweight Squat');return choice('Plank','core','Brace and hold posture.','Bodyweight Squat')}
-function power(){var c=bodyContext();if(hasEq('Medicine Ball')&&c.age>=10)return choice('Med Ball Slam','power','Explosive total-body power. Full recovery.','Bodyweight Squat');if(hasEq('Bench/Box')&&c.age>=10)return choice('Box Jump / Step-Down','power','Jump up, step down, land quiet.','Bodyweight Squat');return choice('Jump-and-Stick','power','Jump once, land quiet, reset.','Bodyweight Squat')}
-function speed(){if(hasEq('Cones')||state.space==='Driveway'||state.space==='Full Gym')return choice('Shuttle Burst','speed','Short acceleration burst. Full rest.','Bodyweight Squat');return choice('Fast Feet','speed','Short max-quality quickness.','Bodyweight Squat')}
-function landing(){return choice('Landing Stick Practice','power','Absorb force quietly before harder jumps.','Bodyweight Squat')}
-function cardio(){if(hasEq('Jump Rope'))return choice('Jump Rope','cardio','Sustainable pace.','Bodyweight Squat');if(hasEq('Cones')||state.space==='Driveway')return choice('Shuttle Run','cardio','Controlled repeat effort.','Bodyweight Squat');return choice('March / Fast Feet','cardio','No-equipment cardio pace.','Bodyweight Squat')}
-function conditioning(){var c=bodyContext();if(hasEq('Medicine Ball')&&c.age>=10)return choice('Med Ball Slam','conditioning','Hard but short power-conditioning interval.','Bodyweight Squat');if(hasEq('Cones')||state.space==='Driveway')return choice('Shuttle Run','conditioning','Repeat effort, not max sprint.','Bodyweight Squat');if(hasEq('Jump Rope'))return choice('Jump Rope','conditioning','Repeat rope intervals.','Bodyweight Squat');return choice(c.age>=10?'Burpees':'Fast Feet','conditioning','Bodyweight conditioning.','Bodyweight Squat')}
-function core(){return choice('Dead Bug','core','Ribs down, brace, slow breathing.','Bodyweight Squat')}
-function mobility(){return choice('Hip Flexor Stretch','mobility','Open hips and reset posture.','Bodyweight Squat')}
-function balance(){return choice('Single-Leg Balance Reach','mobility','Balance and control.','Bodyweight Squat')}
-function breathing(){return choice('Dead Bug Breathing','core','Inhale, exhale, ribs down.','Bodyweight Squat')}
-function pump(){return (state.workoutSeed%2)?upperPull():upperPush()}
-function support(t){if(t.theme==='squat')return lightHinge();if(t.theme==='hinge')return lightSquat();if(t.kind==='power'||t.kind==='sport')return bodyContext().age<13?lightSquat():((state.workoutSeed+state.planDay)%2?squatMain():hingeMain());return core()}
-function blockForSlot(slot,t){return {squat:squatMain,hinge:hingeMain,single:singleLeg,push:upperPush,pull:upperPull,carry:carry,power:power,speed:speed,landing:landing,cardio:cardio,conditioning:conditioning,core:core,mobility:mobility,balance:balance,breathing:breathing,pump:pump,lightHinge:lightHinge,lightSquat:lightSquat,support:function(){return support(t)}}[slot]()}
-function slotRx(slot,t){var c=bodyContext(), y=c.age<10, mid=c.age<13;if(t.kind==='power'||t.kind==='sport'){if(slot==='speed')return{sets:1,work:y?8:10,rest:y?60:90};if(slot==='power'||slot==='landing')return{sets:1,work:y?18:25,rest:y?60:90};if(slot==='support'||slot==='carry')return{sets:y?1:2,work:y?25:32,rest:mid?60:75};if(slot==='conditioning'||slot==='cardio')return{sets:2,work:y?22:30,rest:45};return{sets:1,work:y?25:30,rest:25}}
- if(t.kind==='strength'){if(['squat','hinge','carry'].indexOf(slot)>=0)return{sets:y?2:3,work:y?28:35,rest:mid?60:90};if(['push','pull'].indexOf(slot)>=0)return{sets:y?2:3,work:y?28:35,rest:mid?50:75};return{sets:1,work:y?25:32,rest:25}}
- if(t.kind==='hypertrophy'){if(['squat','hinge'].indexOf(slot)>=0)return{sets:y?2:3,work:y?32:40,rest:mid?60:90};if(['push','pull','single','pump'].indexOf(slot)>=0)return{sets:y?2:3,work:y?30:38,rest:mid?45:65};return{sets:1,work:y?25:32,rest:25}}
- if(t.kind==='endurance'){if(slot==='cardio')return{sets:2,work:y?40:60,rest:20};if(slot==='conditioning')return{sets:2,work:y?25:35,rest:30};return{sets:1,work:y?25:35,rest:15}}
- return{sets:1,work:y?28:38,rest:10}}
-function makeBlock(c,set,total,rx,phase,slot,t){var b=clone(c);b.n=c.n+(total>1?' — Set '+set+'/'+total:'');b.baseName=c.n;b.work=rx.work;b.rest=rx.rest;b.phase=phase;b.slot=slot;if(slot==='support')b.why='Submax support only. Do not chase fatigue.';if(t.theme==='squat'&&/RDL|Deadlift/i.test(b.n))b.why='Light hip support only; heavy hinge blocked on squat emphasis.';if(t.theme==='hinge'&&/Squat|Lunge|Step/i.test(b.n))b.why='Light squat support only; heavy squat blocked on hinge emphasis.';return b}
-function addPhase(phases,title,method,note,items){phases.push({title:title,method:method,note:note,items:items})}
-function warmupFor(t){var y=bodyContext().age<10;if(t.kind==='power'||t.kind==='sport')return[choice('March / Skip in Place','warmup','Raise temperature before power work.','Bodyweight Squat'),choice('Hip Openers','mobility','Open hips before jumping or acceleration.','Bodyweight Squat'),choice('Ankle Bounce Prep','warmup','Prepare ankles and elastic stiffness.','Bodyweight Squat'),choice('Landing Stick Practice','power','Rehearse quiet landing.','Bodyweight Squat')].map(function(c,i){c.work=[y?20:25,y?20:25,y?15:20,y?18:22][i];c.rest=[5,5,10,15][i];return c});
- if(t.kind==='strength'||t.kind==='hypertrophy')return[choice('Easy Movement Prep','warmup','Raise temperature and breathing.','Bodyweight Squat'),choice('Hip Hinge Drill','strength','Rehearse hips back and brace.','Bodyweight Squat'),choice('Bodyweight Squat to Reach','strength','Rehearse squat range and posture.','Bodyweight Squat'),choice('Dead Bug Brace Prep','core','Ribs down and brace.','Bodyweight Squat')].map(function(c){c.work=25;c.rest=8;return c});
- if(t.kind==='endurance')return[choice('Easy Pace Ramp','warmup','Gradually raise breathing.','Bodyweight Squat'),choice('Mobility Reset','mobility','Open hips and ankles.','Bodyweight Squat')].map(function(c,i){c.work=i?25:30;c.rest=5;return c});
- return[choice('Breathing Reset','core','Slow breathing and posture reset.','Bodyweight Squat'),choice('Mobility Flow','mobility','Move through comfortable range.','Bodyweight Squat')].map(function(c,i){c.work=i?35:30;c.rest=5;return c})}
-function cooldownFor(t){var a=choice('Hip Flexor Stretch','mobility','Bring the session down.','Bodyweight Squat');a.work=35;a.rest=5;var b=choice('Dead Bug Breathing','core','Reset ribs, pelvis, and breathing.','Bodyweight Squat');b.work=25;b.rest=0;return[a,b]}
-function flatten(phases){var out=[];(phases||[]).forEach(function(p){(p.items||[]).forEach(function(b){out.push(b)})});return out}
-function buildPhases(){var t=chooseTemplate(), target=effectiveMinutes()*60, phases=[];var warm=warmupFor(t);var main=[];t.slots.forEach(function(slot){var c=blockForSlot(slot,t),rx=slotRx(slot,t);for(var i=1;i<=rx.sets;i++)main.push(makeBlock(c,i,rx.sets,rx,t.title,slot,t))});var cool=cooldownFor(t);addPhase(phases,'Warmup','Warmup','Specific prep steps; no generic warmup block.',warm);addPhase(phases,t.title,t.kind==='hypertrophy'?'Hypertrophy':cap(t.kind),t.note,main);addPhase(phases,'Cooldown','Movement Coach','Low-intensity mobility and breathing reset.',cool);rebalance(phases,target,t);return phases}
-function rebalance(phases,target,t){var total=flatten(phases).reduce(function(s,b){return s+b.work+b.rest},0);var extra=target-total;if(extra>0){var blocks=flatten(phases).filter(function(b){return b.intent!=='warmup'&&b.intent!=='mobility'});if(!blocks.length)blocks=flatten(phases);var each=Math.ceil(extra/blocks.length),max=(t.kind==='power'||t.kind==='sport')?90:45;blocks.forEach(function(b){var add=Math.min(each,max-(b.rest||0));if(add>0)b.rest+=add});}
- var over=flatten(phases).reduce(function(s,b){return s+b.work+b.rest},0)-target;if(over>25){flatten(phases).slice().reverse().forEach(function(b){if(over<=25)return;var min=(b.intent==='power'||b.intent==='speed')?45:(b.intent==='strength'?25:0);var cut=Math.min(over,(b.rest||0)-min);if(cut>0){b.rest-=cut;over-=cut}})}}
-function muscleFor(b){var n=b.baseName||b.n,out={};function add(k,v){out[k]=Math.max(out[k]||0,v)}if(/Squat|Lunge|Step/.test(n)){add('quads',3);add('glutes',3);add('trunk',2)}if(/RDL|Deadlift|Hinge/.test(n)){add('hamstrings',4);add('glutes',4);add('trunk',3)}if(/Bridge/.test(n)){add('glutes',2);add('hamstrings',1);add('trunk',1)}if(/Pogo|Jump|Hop|Shuttle|Fast Feet|Sprint/.test(n)){add('calves',3);add('quads',2);add('glutes',2);add('trunk',1)}if(/Push|Press|Slam/.test(n)){add('chest',2);add('shoulders',3);add('arms',2);add('trunk',2)}if(/Row|Pullup|Hang/.test(n)){add('back',3);add('arms',2);add('shoulders',1)}if(/Carry|Plank|Dead Bug|Brace|Breathing/.test(n)){add('trunk',3)}if(/Hip|Mobility|Stretch|Balance/.test(n)){add('hips',1);add('trunk',1)}return out}
-function fatigueFor(b){var n=b.baseName||b.n,out={};function add(k,v){out[k]=Math.max(out[k]||0,v)}if(/Barbell Squat|Goblet Squat/.test(n)){add('systemic',3);add('spineBrace',3);add('local',3);add('joint',1)}if(/Barbell RDL|Dumbbell RDL|Deadlift/.test(n)){add('systemic',4);add('posterior',4);add('spineBrace',4);add('local',3);add('grip',2)}if(/Pogo|Jump|Hop|Shuttle|Fast Feet|Sprint|Box/.test(n)){add('neural',3);add('impact',3);add('joint',2)}if(/Med Ball Slam/.test(n)){add('neural',3);add('systemic',2);add('spineBrace',2)}if(/Farmer Carry/.test(n)){add('systemic',2);add('spineBrace',3);add('grip',4);add('local',2)}if(/Push|Press|Row|Pullup/.test(n)){add('local',2);add('joint',1)}if(/Burpee|Conditioning|Jump Rope/.test(n)){add('systemic',3);add('local',2)}if(/Dead Bug|Plank|Breathing/.test(n)){add('spineBrace',1);add('local',1)}if(/Mobility|Stretch/.test(n)){add('recovery',1)}return out}
-function summarize(blocks,fn){var s={};blocks.forEach(function(b){var x=fn(b)||{};Object.keys(x).forEach(function(k){s[k]=(s[k]||0)+x[k]})});return s}
-function buildWorkout(force){ensureState();if(force)state.workoutSeed++;state.phases=buildPhases();state.blocks=flatten(state.phases);state.muscleLedger=summarize(state.blocks,muscleFor);state.fatigueLedger=summarize(state.blocks,fatigueFor);state.logicNotes=['v21.7 merge: v20.6 visual shell with 21.6-style template brain.','Template first, exercise substitution second.','Same-template repeat protection is active.','Squat emphasis blocks heavy hinge stacking; hinge emphasis blocks heavy squat stacking.','Power days protect speed quality and avoid conditioning filler.','Warmups are named steps, not Dynamic Warmup Flow.','Focus limit: one main focus plus one optional secondary.','Built '+fmt(totalSec())+' from '+state.min+' requested minutes.'];resetActive(false);saveSettings()}
-function resetActive(save){state.active={running:false,paused:false,idx:0,phase:'idle',remain:state.blocks[0]?state.blocks[0].work:0,timer:null,countTimer:null};if(save!==false)saveSettings()}
-function updateRecovery(){var rec=state.recovery||{},m=state.muscleLedger||{},f=state.fatigueLedger||{};Object.keys(m).forEach(function(k){if(m[k]>=8)rec[k]=3;else if(m[k]>=5)rec[k]=Math.max(rec[k]||0,2);else if(m[k]>=2)rec[k]=Math.max(rec[k]||0,1)});if((f.posterior||0)>=6)rec.posterior=3;if((f.impact||0)>=6)rec.impact=2;if((f.spineBrace||0)>=6)rec.trunk=Math.max(rec.trunk||0,2);state.recovery=rec}
-function decayRecovery(){var rec=state.recovery||{};Object.keys(rec).forEach(function(k){rec[k]=Math.max(0,(rec[k]||0)-1);if(!rec[k])delete rec[k]});state.recovery=rec}
-function finishWorkout(){updateRecovery();state.history=(state.history||[]).concat([{templateId:state.currentTemplate.id,title:state.currentTemplate.title,theme:state.currentTemplate.theme,type:state.type,at:new Date().toISOString(),effort:state.finish.effort,quality:state.finish.quality}]).slice(-20);state.view='finish';resetActive(false);saveSettings();render();speak('complete','Workout complete. Answer the finish questions so I can protect recovery next time.',true)}
-function trainingMix(){var mix={strength:0,power:0,hypertrophy:0,endurance:0,movement:0,sport:0,control:0,recovery:0};var t=state.type;if(t==='strength'){mix.strength=55;mix.control=15;mix.power=10;mix.movement=10;mix.recovery=10}if(t==='power'){mix.power=55;mix.strength=15;mix.control=15;mix.movement=10;mix.recovery=5}if(t==='build_muscle'){mix.hypertrophy=55;mix.strength=15;mix.control=10;mix.movement=10;mix.recovery=10}if(t==='endurance'){mix.endurance=55;mix.movement=15;mix.strength=10;mix.control=10;mix.recovery=10}if(t==='movement'){mix.movement=45;mix.control=25;mix.recovery=20;mix.strength=10}if(t==='sport'){mix.sport=30;mix.power=25;mix.endurance=15;mix.strength=15;mix.control=10;mix.recovery=5}selectedFocuses().forEach(function(f){if(/jump|accelerate|runFaster|firstStep/.test(f))mix.power+=10;if(/contact|bracing|maxForce/.test(f))mix.strength+=10;if(/lastLonger|stamina|aerobic|repeat/.test(f))mix.endurance+=10;if(/mobility|core|balance|control|recovery/.test(f))mix.movement+=10;if(/upper|lower|lean|Muscle/.test(f))mix.hypertrophy+=10});var total=Object.keys(mix).reduce(function(s,k){return s+mix[k]},0)||1;Object.keys(mix).forEach(function(k){mix[k]=Math.round(mix[k]/total*100)});return mix}
-function level(v){return v>=8?'heavy':v>=5?'moderate':v>=2?'light':'none'}
-function stress(v){return v>=9?'very high':v>=6?'high':v>=3?'moderate':v>=1?'low':'none'}
-function header(title,desc,pill,back){return '<div class="topline">'+(back?'<button class="back" onclick="tab(\'today\')">←</button>':'<span></span>')+'<span class="pill">'+esc(pill||'Coach')+'</span></div><div class="header"><h1>'+esc(title)+'</h1><p>'+esc(desc||'')+'</p></div>'}
-function tabs(){var arr=[['today','Today'],['plan','Plan'],['profile','Profile'],['progress','Progress'],['finish','Finish']];return '<nav class="tabbar">'+arr.map(function(a){return '<button class="'+(state.view===a[0]?'active':'')+'" onclick="tab(\''+a[0]+'\')">'+a[1]+'</button>'}).join('')+'</nav>'}
-function mixHtml(){var m=trainingMix();return Object.keys(m).filter(function(k){return m[k]>0}).sort(function(a,b){return m[b]-m[a]}).map(function(k){return '<div class="mixBar"><b>'+cap(k)+'</b><div class="mixTrack"><div class="mixFill" style="width:'+m[k]+'%"></div></div><span>'+m[k]+'%</span></div>'}).join('')}
-function bodyNoteCard(){return '<div class="card"><h3>Body Profile Note</h3><p>'+esc(bodyNote())+'</p></div>'}
-function templateCard(){var t=state.currentTemplate||{};return '<div class="card"><span class="phaseLabel">Today\'s Template</span><h3>'+esc(t.title||'Template')+'</h3><p>'+esc(t.note||'')+'</p><div class="methodNote">Template rotation checks focus, recent history, protected muscles, fatigue systems, age, equipment, and space.</div></div>'}
-function ledgerCard(title,ledger,keys,fn,desc){return '<div class="card"><h3>'+title+'</h3>'+(desc?'<p class="small">'+esc(desc)+'</p>':'')+keys.map(function(k){return '<div class="metric"><b>'+cap(k)+'</b><span>'+fn(ledger[k]||0)+'</span></div>'}).join('')+'</div>'}
-function logicHtml(){return '<div class="logic"><b>Trainer Logic</b>'+state.logicNotes.map(function(n){return '<span>• '+esc(n)+'</span>'}).join('')+'</div>'}
-function phaseHtml(){return (state.phases||[]).map(function(p){return '<div class="phaseCard"><div class="phaseHead"><div><b>'+esc(p.title)+'</b><span>'+esc(p.method+' · '+p.note)+'</span></div><div class="phaseTime">'+fmt((p.items||[]).reduce(function(s,b){return s+b.work+b.rest},0))+'</div></div><ul class="phaseItems">'+(p.items||[]).map(function(b){return '<li><b>'+esc(b.n)+'</b> — '+b.work+' sec work / '+b.rest+' sec rest<br><span class="small">'+esc(b.why)+' · '+esc(b.w)+'</span></li>'}).join('')+'</ul></div>'}).join('')}
-function todayView(){return '<section class="screen">'+header('Coach','20.6 visuals with 21.6 logic, external guide assets, and click-safe navigation.','Fitness v21.9.1')+'<div class="card"><span class="phaseLabel">Current Build</span><h3>'+esc(currentType().title)+'</h3><p>'+esc(selectedFocusText())+'</p><div class="progressRows"><div class="stat"><b>W'+state.planWeek+'</b><span>block</span></div><div class="stat"><b>D'+state.planDay+'</b><span>day</span></div><div class="stat"><b>'+fmt(totalSec())+'</b><span>today</span></div></div></div>'+bodyNoteCard()+templateCard()+'<div class="card"><h3>Coach Training Mix</h3>'+mixHtml()+'</div>'+ledgerCard('Today\'s Muscle Load',state.muscleLedger,muscleKeys,level)+ledgerCard('Today\'s Fatigue Cost',state.fatigueLedger,fatigueKeys,stress,'Fatigue is separate from muscle load. Squats, hinges, carries, sprints, and plyos protect recovery differently.')+logicHtml()+'<button class="primary" onclick="startSession()">Start Today’s Workout</button><div style="height:10px"></div><button class="secondary" onclick="buildWorkout(true);render()">Generate New Template</button><div class="card"><h3>Workout Preview</h3>'+phaseHtml()+'</div>'+tabs()+'</section>'}
-function planView(){var list=templates[state.type]||[];return '<section class="screen">'+header('Plan','Shows the template family Coach rotates through.','Plan')+'<div class="card"><h3>'+esc(currentType().title)+' Template Family</h3>'+list.map(function(t,i){return '<div class="plan"><div class="badge">'+(i+1)+'</div><div><b>'+esc(t.title)+'</b><p>'+esc(t.note)+'</p><span class="methodTag">'+esc(t.kind)+'</span><span class="methodTag">'+esc(t.theme)+'</span></div></div>'}).join('')+'</div><div class="row"><button class="secondary" onclick="prevDay()">Back Day</button><button class="secondary" onclick="nextDay()">Next Day</button></div>'+logicHtml()+tabs()+'</section>'}
-function profileView(){var type=currentType();return '<section class="screen">'+header('Profile','Simple choices on top. Coach handles the hidden training method.','Profile')+'<div class="card"><h3>Training Type</h3><div class="presetGrid">'+trainingTypes.map(function(t){return '<button class="preset '+(state.type===t.id?'active':'')+'" onclick="setType(\''+t.id+'\')"><strong>'+esc(t.title)+'</strong><span>'+esc(t.desc)+'</span></button>'}).join('')+'</div></div><div class="card"><h3>Main Focus</h3><p class="small">Pick one main focus and one optional secondary. This prevents seven-goal sport workouts.</p><div class="outcomeGrid">'+type.focus.map(function(f){return '<button class="outcome '+(state.focuses.indexOf(f[0])>=0?'active':'')+'" onclick="toggleFocus(\''+f[0]+'\')"><strong>'+esc(f[1])+'</strong><span>'+esc(f[0])+'</span></button>'}).join('')+'</div></div>'+bodyNoteCard()+'<div class="card"><h3>Athlete + Schedule</h3><div class="grid"><div class="field"><label>Age</label><input type="number" value="'+state.age+'" onchange="setVal(\'age\',Number(this.value))"></div><div class="field"><label>Sex</label><select onchange="setVal(\'sex\',this.value)"><option '+(state.sex==='Female'?'selected':'')+'>Female</option><option '+(state.sex==='Male'?'selected':'')+'>Male</option></select></div><div class="field"><label>Height Ft</label><input type="number" value="'+state.heightFt+'" onchange="setVal(\'heightFt\',Number(this.value))"></div><div class="field"><label>Height In</label><input type="number" value="'+state.heightIn+'" onchange="setVal(\'heightIn\',Number(this.value))"></div><div class="field"><label>Bodyweight</label><input type="number" value="'+state.body+'" onchange="setVal(\'body\',Number(this.value))"></div><div class="field"><label>Workout Minutes</label><select onchange="setVal(\'min\',Number(this.value))">'+[10,15,20,25,30,35,40,45,60].map(function(n){return '<option '+(state.min===n?'selected':'')+'>'+n+'</option>'}).join('')+'</select></div><div class="field"><label>Days/week</label><select onchange="setVal(\'days\',Number(this.value))">'+[1,2,3,4,5,6].map(function(n){return '<option '+(state.days===n?'selected':'')+'>'+n+'</option>'}).join('')+'</select></div></div></div><div class="card"><h3>Workout Environment</h3><div class="field"><label>Space</label><select onchange="setVal(\'space\',this.value)">'+spaces.map(function(s){return '<option '+(state.space===s?'selected':'')+'>'+s+'</option>'}).join('')+'</select></div><div style="height:12px"></div><div class="chips">'+equipment.map(function(e){return '<button class="chip '+(hasEq(e)?'active':'')+'" onclick="toggleEq(\''+e+'\')">'+esc(e)+'</button>'}).join('')+'</div></div><div class="card"><h3>Voice</h3><select class="voiceSelect" onchange="setVoiceName(this.value)">'+voiceOptions()+'</select><div class="testGrid"><div class="testItem"><label>Speed</label><input type="range" min="0.7" max="1.2" step="0.01" value="'+state.voiceRate+'" onchange="setVoiceNumber(\'voiceRate\',Number(this.value))"></div><div class="testItem"><label>Pitch</label><input type="range" min="0.7" max="1.3" step="0.01" value="'+state.voicePitch+'" onchange="setVoiceNumber(\'voicePitch\',Number(this.value))"></div><div class="testItem"><label>Volume</label><input type="range" min="0" max="1" step="0.05" value="'+state.voiceVolume+'" onchange="setVoiceNumber(\'voiceVolume\',Number(this.value))"></div></div><div class="row"><button class="secondary" onclick="toggleVoice()">Voice '+(state.voiceOn?'On':'Off')+'</button><button class="secondary" onclick="testVoice()">Test Voice</button></div></div>'+tabs()+'</section>'}
-function progressView(){var rec=state.recovery||{};var keys=Object.keys(rec);var recoveryHtml=keys.length?keys.map(function(k){return '<div class="metric"><b>'+cap(k)+'</b><span>'+rec[k]+' day'+(rec[k]===1?'':'s')+'</span></div>'}).join(''):'<p>No protected groups yet.</p>';var recentHtml=((state.history||[]).slice(-8).reverse().map(function(h){return '<div class="metric"><b>'+esc(h.title)+'</b><span>'+new Date(h.at).toLocaleDateString()+'</span></div>'}).join('')||'<p>No workouts completed yet.</p>');return '<section class="screen">'+header('Progress','History and recovery protection used for the next template.','Progress')+'<div class="card"><h3>Recovery Protection</h3>'+recoveryHtml+'</div><div class="card"><h3>Recent Templates</h3>'+recentHtml+'</div><button class="danger" onclick="clearHistory()">Clear History / Recovery</button>'+tabs()+'</section>'}
-function finishView(){return '<section class="screen">'+header('Finish','Feedback changes future recovery and template choices.','Finish')+'<div class="card"><h3>Finish Questions</h3><div class="field"><label>Effort</label><select onchange="state.finish.effort=this.value;saveSettings()">'+['5','6','7','8','9','10'].map(function(n){return '<option '+(state.finish.effort===n?'selected':'')+'>'+n+'</option>'}).join('')+'</select></div><div class="field"><label>Quality</label><select onchange="state.finish.quality=this.value;saveSettings()">'+['Great','Good','OK','Sloppy','Pain'].map(function(n){return '<option '+(state.finish.quality===n?'selected':'')+'>'+n+'</option>'}).join('')+'</select></div><div class="field"><label>Notes</label><input value="'+esc(state.finish.notes)+'" onchange="state.finish.notes=this.value;saveSettings()"></div></div><button class="primary" onclick="finishWorkout()">Save Workout Result</button><div style="height:10px"></div><button class="secondary" onclick="tab(\'today\')">Back to Today</button>'+tabs()+'</section>'}
-function activeView(){var a=state.active,b=state.blocks[a.idx]||state.blocks[0],n=state.blocks[a.idx+1],src=b?guideSrc(b.guide||'Bodyweight Squat'):'';var prog=(a.idx/Math.max(1,state.blocks.length))*100;var label=a.phase==='instruction'?'INSTRUCTION':a.phase==='countdown'?'GET READY':a.phase==='work'?'WORK':a.phase==='rest'?'REST':'READY';return '<section class="timer"><div class="timerTop"><button onclick="stopSession()">Exit</button><b>'+(a.idx+1)+'/'+state.blocks.length+'</b><button onclick="nextBlock()">Skip</button></div><div class="bar"><div class="fill" style="width:'+prog+'%"></div></div><div class="timerHero"><h2>'+esc(b?b.n:'Done')+'</h2><div class="timerSub">'+label+' · '+(b?b.work+' seconds · '+cap(b.intent)+' · '+b.w:'')+'</div><div class="time">'+fmt(a.remain)+'</div><div class="count">'+label+'</div><div class="diagram">'+(src?'<img class="guideImg" src="'+src+'" alt="guide">':'<div class="small" style="color:#0f172a;padding:24px">No guide image for this drill.</div>')+'</div><div class="next"><small>Next</small><b>'+esc(a.phase==='rest'?(n?n.n:'Finish'):(a.phase==='work'?'Rest':(n?n.n:'Finish')))+'</b>'+(n?' · '+n.work+' sec':'')+'</div></div><div class="actions"><button class="pause" onclick="toggleRun()">'+(a.running?'Pause':'Resume')+'</button><button class="done" onclick="nextBlock()">Done / Next</button></div></section>'}
-function render(){try{ensureState();if(!state.blocks.length)buildWorkout(false);var map={today:todayView,plan:planView,profile:profileView,progress:progressView,finish:finishView,active:activeView};$('app').innerHTML=(map[state.view]||todayView)()}catch(e){$('app').innerHTML='<section class="screen noTab"><div class="card"><h3>Error</h3><p>'+esc(e.message)+'</p><pre class="small">'+esc(e.stack||'')+'</pre></div></section>';console.error(e)}}
-function tab(v){state.view=v;saveSettings();render()}
-function setType(id){state.type=id;state.focuses=typeById(id).defaultFocus.slice(0,Math.min(2,typeById(id).defaultFocus.length));buildWorkout(true);render()}
-function toggleFocus(id){var a=state.focuses||[];if(a.indexOf(id)>=0)a=a.filter(function(x){return x!==id});else{if(a.length>=2)a=a.slice(1);a.push(id)}if(!a.length)a=[currentType().defaultFocus[0]];state.focuses=a;buildWorkout(true);render()}
-function setVal(k,v){state[k]=v;buildWorkout(true);render()}
-function toggleEq(e){if(e==='None'){state.eq=['None','Mat']}else{state.eq=(state.eq||[]).filter(function(x){return x!=='None'});if(hasEq(e))state.eq=state.eq.filter(function(x){return x!==e});else state.eq.push(e);if(!state.eq.length)state.eq=['None','Mat']}buildWorkout(true);render()}
-function nextDay(){decayRecovery();state.planDay++;if(state.planDay>state.days){state.planDay=1;state.planWeek++}buildWorkout(true);render()}
-function prevDay(){state.planDay=Math.max(1,state.planDay-1);buildWorkout(true);render()}
-function clearHistory(){state.history=[];state.recovery={};buildWorkout(true);render()}
-function startSession(){state.view='active';state.active={running:true,paused:false,idx:0,phase:'instruction',remain:instructionSeconds(),timer:null,countTimer:null};saveSettings();render();announceInstruction();startTicker()}
-function stopSession(){stopTimers();stopVoice();state.view='today';resetActive(false);saveSettings();render()}
-function stopTimers(){try{clearInterval(state.active.timer);clearInterval(state.active.countTimer)}catch(e){}}
-function nextBlock(){stopTimers();var a=state.active;if(a.phase==='work'){}a.idx++;if(a.idx>=state.blocks.length){finishWorkout();return}a.phase='instruction';a.remain=instructionSeconds();a.running=true;saveSettings();render();announceInstruction();startTicker()}
-function toggleRun(){var a=state.active;a.running=!a.running;saveSettings();render();if(a.running)startTicker();else stopTimers()}
-function instructionSeconds(){return 3}
-function startTicker(){stopTimers();state.active.timer=setInterval(function(){var a=state.active;if(!a.running)return;if(a.phase==='instruction'){return}a.remain=Math.max(0,(a.remain||0)-1);if(a.remain<=0)advancePhase();saveSettings();render()},1000)}
-function advancePhase(){var a=state.active,b=state.blocks[a.idx];if(a.phase==='countdown'){a.phase='work';a.remain=b.work;speak('go-'+a.idx,'Go',false);return}if(a.phase==='work'){if(b.rest>0){a.phase='rest';a.remain=b.rest;speak('rest-'+a.idx,'Rest. Next: '+((state.blocks[a.idx+1]||{}).baseName||'finish'),true)}else nextBlock();return}if(a.phase==='rest'){nextBlock();return}}
-function announceInstruction(){var a=state.active,b=state.blocks[a.idx];if(!b)return;var text='Next: '+(b.baseName||b.n)+'. '+(b.why||'Move with control.')+' Work for '+b.work+' seconds. Set up first.';speak('instruction-'+a.idx,text,true);setTimeout(function(){if(state.view==='active'&&state.active.running&&state.active.phase==='instruction'){beginCountdown()}},Math.max(2200,Math.min(5200,text.length*45)))}
-function beginCountdown(){var a=state.active;if(!a.running)return;a.phase='countdown';a.remain=4;saveSettings();render();var seq=['3','2','1','Go'],i=0;speak('count-'+a.idx+'-0',seq[0],true);state.active.countTimer=setInterval(function(){i++;if(!state.active.running){clearInterval(state.active.countTimer);return}if(i<seq.length){speak('count-'+state.active.idx+'-'+i,seq[i],false)}else{clearInterval(state.active.countTimer);advancePhase()}},1000)}
-function voiceAvailable(){return typeof window!=='undefined'&&'speechSynthesis'in window&&'SpeechSynthesisUtterance'in window}
-function voices(){try{return voiceAvailable()?speechSynthesis.getVoices()||[]:[]}catch(e){return[]}}
-function voiceOptions(){var v=voices(),cur=state.voiceName||'auto';return '<option value="auto" '+(cur==='auto'?'selected':'')+'>Auto browser voice</option>'+v.map(function(x){return '<option value="'+esc(x.name)+'" '+(cur===x.name?'selected':'')+'>'+esc(x.name+(x.lang?' · '+x.lang:''))+'</option>'}).join('')}
-function selectedVoice(){var name=state.voiceName;if(!name||name==='auto')return null;return voices().find(function(v){return v.name===name})||null}
-function cleanSpeakText(t){return String(t||'').replace(/[—–]/g,', ').replace(/\s+/g,' ').trim()}
-function speak(key,text,cancelFirst){if(!state.voiceOn||!voiceAvailable()||!text)return;try{if(cancelFirst!==false)speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(cleanSpeakText(text));var v=selectedVoice();if(v)u.voice=v;u.rate=Number(state.voiceRate)||.94;u.pitch=Number(state.voicePitch)||1;u.volume=Number(state.voiceVolume)||1;speechSynthesis.speak(u)}catch(e){}}
-function stopVoice(){try{if(voiceAvailable())speechSynthesis.cancel()}catch(e){}}
-function setVoiceName(v){state.voiceName=v;saveSettings();render()}
-function setVoiceNumber(k,v){state[k]=v;saveSettings();render()}
-function toggleVoice(){state.voiceOn=!state.voiceOn;saveSettings();render();if(state.voiceOn)testVoice();else stopVoice()}
-function testVoice(){speak('test-'+Date.now(),'Voice cues are on. I will explain the exercise first, then count down three, two, one, go.',true)}
-window.Coach={buildWorkout:buildWorkout,setType:setType,toggleFocus:toggleFocus};
-if(voiceAvailable()){try{speechSynthesis.onvoiceschanged=function(){render()}}catch(e){}}
+var outcomeGoals=[
+{id:'jumpHigher',title:'Jump Higher',desc:'Vertical power, elastic ability, landing',section:'ATHLETIC PERFORMANCE',mix:{plyometrics:65,power:20,strength:10,mobility:5}},
+{id:'runFaster',title:'Run Faster',desc:'Sprint speed and mechanics',section:'ATHLETIC PERFORMANCE',mix:{speed:65,power:15,strength:10,plyometrics:5,mobility:5}},
+{id:'accelerateBetter',title:'Accelerate Better',desc:'First steps and horizontal force',section:'ATHLETIC PERFORMANCE',mix:{speed:40,power:25,strength:20,plyometrics:10,mobility:5}},
+{id:'getQuicker',title:'Get Quicker',desc:'First step, reaction, quick feet',section:'ATHLETIC PERFORMANCE',mix:{agility_cod:42,speed:30,coordination:12,plyometrics:8,strength:8}},
+{id:'changeDirection',title:'Change Direction Better',desc:'Decelerate, cut, turn, re-accelerate',section:'ATHLETIC PERFORMANCE',mix:{agility_cod:50,strength:15,speed:15,coordination:10,mobility:10}},
+{id:'beMoreExplosive',title:'Be More Explosive',desc:'Power for jumps, starts, throws, contact',section:'ATHLETIC PERFORMANCE',mix:{power:45,plyometrics:20,strength:20,speed:10,mobility:5}},
+{id:'throwHarder',title:'Throw Harder / Farther',desc:'Rotational power and total-body force',section:'ATHLETIC PERFORMANCE',mix:{power:35,strength:25,stability_core:20,mobility:10,speed:10}},
+{id:'getStronger',title:'Get Stronger',desc:'Produce more force',section:'STRENGTH AND SIZE',mix:{strength:70,stability_core:15,hypertrophy:10,mobility:5}},
+{id:'liftMore',title:'Lift More',desc:'Powerlifting-style strength progression',section:'STRENGTH AND SIZE',mix:{strength:75,stability_core:15,mobility:5,recovery:5}},
+{id:'harderToMove',title:'Be Harder to Move',desc:'Useful mass, contact power, strength, bracing',section:'STRENGTH AND SIZE',mix:{contact_power:45,strength:25,hypertrophy:20,stability_core:10}},
+{id:'gainMuscle',title:'Gain Muscle',desc:'Hypertrophy and useful size',section:'STRENGTH AND SIZE',mix:{hypertrophy:65,strength:20,mobility:5,conditioning:5,recovery:5}},
+{id:'buildUpperBody',title:'Build Upper Body',desc:'Push, pull, shoulders, arms',section:'STRENGTH AND SIZE',mix:{hypertrophy:55,strength:25,stability_core:10,mobility:5,recovery:5}},
+{id:'buildLowerBody',title:'Build Lower Body',desc:'Leg size, glutes, strength, control',section:'STRENGTH AND SIZE',mix:{hypertrophy:45,strength:35,stability_core:10,mobility:10}},
+{id:'lastLongerGames',title:'Last Longer in Games',desc:'Repeat hard efforts without fading',section:'ENDURANCE AND BODY COMP',mix:{conditioning:45,endurance:25,strength_endurance:15,agility_cod:10,recovery:5}},
+{id:'improveCardio',title:'Improve Cardio',desc:'Aerobic engine and sustainable work',section:'ENDURANCE AND BODY COMP',mix:{endurance:70,conditioning:15,mobility:5,recovery:10}},
+{id:'runFarther',title:'Run Farther',desc:'Distance running and durability',section:'ENDURANCE AND BODY COMP',mix:{endurance:75,strength_endurance:10,mobility:10,recovery:5}},
+{id:'lastLonger',title:'Last Longer',desc:'General stamina and work capacity',section:'ENDURANCE AND BODY COMP',mix:{endurance:45,conditioning:25,strength_endurance:15,mobility:10,recovery:5}},
+{id:'recoverFaster',title:'Recover Faster',desc:'Base fitness, mobility, easy recovery',section:'ENDURANCE AND BODY COMP',mix:{recovery:45,endurance:25,mobility:20,health:10}},
+{id:'moveBetter',title:'Move Better',desc:'Cleaner movement and joint control',section:'MOVEMENT QUALITY',mix:{mobility:35,stability_core:25,coordination:20,strength:15,balance:5}},
+{id:'improveMobility',title:'Improve Mobility',desc:'Range of motion and control',section:'MOVEMENT QUALITY',mix:{mobility:75,stability_core:15,recovery:10}},
+{id:'improveCoordination',title:'Improve Coordination',desc:'Rhythm, timing, skill, body awareness',section:'MOVEMENT QUALITY',mix:{coordination:60,balance:15,speed:10,mobility:10,stability_core:5}},
+{id:'improveCoreControl',title:'Improve Core Control',desc:'Brace, rotate, resist movement',section:'MOVEMENT QUALITY',mix:{stability_core:70,strength:15,mobility:10,coordination:5}},
+{id:'improveBalance',title:'Improve Balance',desc:'Control positions and landings',section:'MOVEMENT QUALITY',mix:{balance:50,coordination:20,stability_core:20,mobility:10}},
+{id:'controlBodyBetter',title:'Control My Body Better',desc:'Relative strength and mobility',section:'MOVEMENT QUALITY',mix:{stability_core:35,mobility:30,strength:20,coordination:15}},
+{id:'generalHealth',title:'General Health',desc:'Balanced strength, cardio, mobility, core',section:'GENERAL',mix:{health:45,strength:20,endurance:15,mobility:15,stability_core:5}},
+{id:'moveMore',title:'Move More',desc:'Build consistency and daily activity',section:'GENERAL',mix:{health:40,endurance:20,mobility:20,strength:10,recovery:10}},
+{id:'feelBetter',title:'Feel Better',desc:'Energy, movement, recovery, consistency',section:'GENERAL',mix:{health:35,recovery:25,mobility:20,endurance:10,stability_core:10}},
+{id:'beginnerFitness',title:'Beginner Fitness',desc:'Simple safe starting point',section:'GENERAL',mix:{health:40,mobility:20,strength:20,endurance:10,stability_core:10}}
+];
+var spaces=['Bedroom','Living Room','Garage','Driveway','Court / Field','Home Gym','Full Gym'];
+var equipment=['None','Mat','Bands','Dumbbells','Kettlebell','Jump Rope','Cones','Bench/Box','Medicine Ball','Barbell','Pullup Bar','Cable/Machines'];
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function cap(s){return String(s||'').replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
+function currentPreset(){return buildPresets.find(function(p){return p.id===state.buildPreset})||buildPresets[1]}
+function currentGoalTitle(){return personalFocusActive()?'Personal Focus: '+selectedOutcomeText():currentPreset().title}
+function ensureState(){if(!state.heightFt)state.heightFt=4;if(state.heightIn===undefined)state.heightIn=7;if(!state.outcomes||!state.outcomes.length)state.outcomes=currentPreset().defaultGoals.slice(0,1);if(!state.eq||!state.eq.length)state.eq=['None','Mat'];if(!state.planDay)state.planDay=1;if(!state.planWeek)state.planWeek=1;if(!state.tests)state.tests=Object.assign({},defaultState.tests)}
+function arraysEqual(a,b){a=(a||[]);b=(b||[]);if(a.length!==b.length)return false;for(var i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true}
+function personalFocusActive(){ensureState();return !!state.customGoals || !arraysEqual(state.outcomes,currentPreset().defaultGoals.slice(0,state.outcomes.length))}
+function selectedOutcomeText(){ensureState();return state.outcomes.map(function(id){var o=outcomeGoals.find(function(x){return x.id===id});return o?o.title:id}).join(' + ')||'No goals selected'}
+function saveSettings(){localStorage.setItem(STORE,JSON.stringify(state))}
+function loadSettings(){try{var saved=JSON.parse(localStorage.getItem(STORE)||'{}');Object.keys(defaultState).forEach(function(k){if(saved[k]!==undefined)state[k]=saved[k]})}catch(e){}ensureState()}
+function combine(raw,mix,weight){Object.keys(mix||{}).forEach(function(k){raw[k]=(raw[k]||0)+(mix[k]||0)*weight})}
+function normalize(raw){var total=Object.keys(raw).reduce(function(s,k){return s+Math.max(0,raw[k]||0)},0)||1,out={};Object.keys(raw).forEach(function(k){var v=Math.round(Math.max(0,raw[k]||0)/total*100);if(v>0)out[k]=v});return out}
+function heightInches(){return (Number(state.heightFt)||0)*12+(Number(state.heightIn)||0)}
+function bodyContext(){ensureState();var age=Number(state.age)||8, h=heightInches()||55, w=Number(state.body)||80, density=w/h;var band=age<10?'Youth':age<13?'Middle':age<15?'Young teen':age<18?'Teen':'Adult';var expected=age<10?55:age<13?60:age<15?66:age<18?67:68;var tallGap=age<10?4:age<13?5:age<15?5:4;var shortGap=age<10?5:age<13?5:age<15?5:4;var heightRead=h>=expected+tallGap?'tall / long-lever':h<=expected-shortGap?'shorter lever':'average height range';var frame='middle range for height';if(age<10){frame=density>=1.35?'sturdy youth frame':density<1.0?'light youth frame':'middle range for height'}else if(age<13){frame=density<1.55?'light for height':density>2.35?'solid / power frame':'middle range for height'}else if(age<18){frame=density<1.75?'light for height':density>2.65?'high mass for height':density>2.25?'solid / power frame':'middle range for height'}else{frame=density<1.85?'light for height':density>2.75?'high mass for height':density>2.35?'solid / power frame':'middle range for height'}var light=/light/.test(frame), sturdy=/sturdy|solid|high/.test(frame), high=/high mass/.test(frame), long=/tall/.test(heightRead);var emphasis=[];if(light)emphasis.push('strength foundation','useful mass support','control through range');if(sturdy||high)emphasis.push('force production','carries / bracing','conditioning support');if(long)emphasis.push('landing positions','long-lever control','strength through range');if(age<10)emphasis.unshift('movement control','low-impact strength','coordination');if(!emphasis.length)emphasis=['balanced athletic development'];return {age:age,h:h,w:w,density:density,band:band,frame:frame,heightRead:heightRead,light:light,sturdy:sturdy,highMass:high,longLever:long,loadCaution:age<13||light,impactCaution:age<10||high,weeklyImpactCap:(age<10||high)?1:2,emphasis:emphasis}}
+function bodyProfileNote(){var c=bodyContext();var extra=c.light?' Similar-height athletes with much lower bodyweight need strength and useful-size support before heavy contact-power work.':'';if(c.sturdy||c.highMass)extra+=' Size is present, so Coach protects joints and power-to-weight while building force and conditioning.';if(c.longLever)extra+=' Long-lever athletes get extra control, landing, and strength-through-range emphasis.';return 'Training body note: '+c.frame+' · '+c.heightRead+'. Coach bias: '+c.emphasis.slice(0,3).join(', ')+'.'+extra}
+function addBodySupport(raw){var c=bodyContext();if(c.age<10)combine(raw,{coordination:28,stability_core:24,mobility:20,strength:20,health:8},.65);if(c.light)combine(raw,{strength:28,stability_core:18,mobility:14,hypertrophy:8,coordination:8},.75);if(c.longLever)combine(raw,{stability_core:18,mobility:16,strength:14,coordination:10},.65);if(c.sturdy)combine(raw,{strength:22,stability_core:16,conditioning:14,mobility:12,contact_power:8},.65);if(c.highMass)combine(raw,{strength:20,stability_core:18,mobility:18,conditioning:16},.85)}
+function setFloor(raw,k,v){raw[k]=Math.max(raw[k]||0,v)}
+function applyGoalFloors(raw,ids){var one=ids.length===1?ids[0]:'';if(ids.indexOf('jumpHigher')>=0){setFloor(raw,'plyometrics',one==='jumpHigher'?190:130);setFloor(raw,'power',one==='jumpHigher'?70:45);setFloor(raw,'strength',one==='jumpHigher'?80:55);setFloor(raw,'mobility',30)}if(ids.indexOf('runFaster')>=0||ids.indexOf('accelerateBetter')>=0){setFloor(raw,'speed',one?175:110);setFloor(raw,'power',55);setFloor(raw,'strength',50);setFloor(raw,'plyometrics',35)}if(ids.indexOf('getQuicker')>=0||ids.indexOf('changeDirection')>=0){setFloor(raw,'agility_cod',one?160:105);setFloor(raw,'speed',85);setFloor(raw,'coordination',45);setFloor(raw,'strength',35)}if(ids.indexOf('beMoreExplosive')>=0){setFloor(raw,'power',one==='beMoreExplosive'?170:110);setFloor(raw,'plyometrics',80);setFloor(raw,'strength',70)}if(ids.indexOf('harderToMove')>=0){setFloor(raw,'contact_power',one==='harderToMove'?165:100);setFloor(raw,'strength',80);setFloor(raw,'hypertrophy',80);setFloor(raw,'stability_core',45)}if(ids.indexOf('getStronger')>=0||ids.indexOf('liftMore')>=0){setFloor(raw,'strength',one?180:110);setFloor(raw,'stability_core',65);setFloor(raw,'hypertrophy',45)}if(ids.indexOf('gainMuscle')>=0||ids.indexOf('buildUpperBody')>=0||ids.indexOf('buildLowerBody')>=0){setFloor(raw,'hypertrophy',one?180:115);setFloor(raw,'strength',80);setFloor(raw,'stability_core',35)}if(ids.indexOf('improveMobility')>=0){setFloor(raw,'mobility',one==='improveMobility'?180:115);setFloor(raw,'stability_core',65);setFloor(raw,'recovery',40)}if(ids.indexOf('improveCoreControl')>=0||ids.indexOf('controlBodyBetter')>=0){setFloor(raw,'stability_core',one?180:115);setFloor(raw,'strength',65);setFloor(raw,'mobility',45)}if(ids.indexOf('improveBalance')>=0){setFloor(raw,'balance',one==='improveBalance'?150:95);setFloor(raw,'coordination',75);setFloor(raw,'stability_core',65)}if(ids.indexOf('improveCardio')>=0||ids.indexOf('runFarther')>=0||ids.indexOf('lastLonger')>=0){setFloor(raw,'endurance',one?180:110);setFloor(raw,'conditioning',65);setFloor(raw,'strength_endurance',55)}if(ids.indexOf('lastLongerGames')>=0){setFloor(raw,'conditioning',one==='lastLongerGames'?165:100);setFloor(raw,'endurance',80);setFloor(raw,'agility_cod',45)}if(ids.indexOf('recoverFaster')>=0){setFloor(raw,'recovery',one==='recoverFaster'?145:90);setFloor(raw,'mobility',75);setFloor(raw,'endurance',55)}}
+function trainingMix(){ensureState();var raw={},p=currentPreset(),ids=state.outcomes.slice();if(personalFocusActive()){combine(raw,p.mix,.05);ids.forEach(function(id){var o=outcomeGoals.find(function(x){return x.id===id});if(o)combine(raw,o.mix,ids.length===1?4:2.25)});addBodySupport(raw);applyGoalFloors(raw,ids)}else{combine(raw,p.mix,1);p.defaultGoals.slice(0,3).forEach(function(id){var o=outcomeGoals.find(function(x){return x.id===id});if(o)combine(raw,o.mix,.55)});addBodySupport(raw)}return normalize(raw)}
+function topMethods(n){var mix=trainingMix();return Object.keys(mix).sort(function(a,b){return mix[b]-mix[a]}).slice(0,n||5)}
+function methodStress(m){if(['plyometrics','speed','power','agility_cod','contact_power'].indexOf(m)>=0)return 'Explosive';if(['strength','hypertrophy'].indexOf(m)>=0)return 'Strength';if(['endurance','conditioning','strength_endurance'].indexOf(m)>=0)return 'Conditioning';if(['mobility','stability_core','balance','coordination','recovery'].indexOf(m)>=0)return 'Movement';return 'General'}
+function planDayForMethod(m){var map={plyometrics:{name:'Plyometric Quality',type:'plyo',focus:'Quality jumps, landing, rest-expanded work'},speed:{name:'Speed Mechanics',type:'speed',focus:'Acceleration, mechanics, fast contacts'},power:{name:'Power Primer',type:'power',focus:'Explosive work while fresh'},agility_cod:{name:'Change of Direction',type:'agility',focus:'Decel, cut, quick feet'},contact_power:{name:'Contact Strength / Power',type:'contact',focus:'Carries, bracing, short-area force'},strength:{name:'Lower Strength',type:'strength',focus:'Submaximal strength sets'},hypertrophy:{name:'Build Strength + Size',type:'hypertrophy',focus:'Controlled muscle-building sets'},endurance:{name:'Steady Cardio',type:'endurance',focus:'Sustainable engine work'},conditioning:{name:'Game Conditioning',type:'conditioning',focus:'Repeat efforts without fading'},strength_endurance:{name:'Strength Endurance',type:'conditioning',focus:'Repeated strength efforts'},mobility:{name:'Mobility + Range',type:'mobility',focus:'Range, breathing, joint control'},stability_core:{name:'Core + Control',type:'core',focus:'Brace, resist movement, control'},balance:{name:'Balance + Landing Control',type:'balance',focus:'Positions and control'},coordination:{name:'Coordination Flow',type:'coordination',focus:'Rhythm, timing, body awareness'},recovery:{name:'Recovery Movement',type:'recovery',focus:'Easy movement and reset'},health:{name:'General Fitness',type:'health',focus:'Balanced movement, strength, cardio'}};var d=map[m]||map.health;return Object.assign({method:m,stress:methodStress(m)},d)}
+function planForGoal(){var methods=topMethods(8), days=[], used={};function addStress(st){var m=methods.find(function(x){return methodStress(x)===st&&!used[x]});if(m){used[m]=1;days.push(planDayForMethod(m))}}var ids=state.outcomes||[];if(personalFocusActive()){if(ids.indexOf('jumpHigher')>=0||ids.indexOf('runFaster')>=0||ids.indexOf('beMoreExplosive')>=0||ids.indexOf('accelerateBetter')>=0){['Explosive','Strength','Movement','Conditioning'].forEach(addStress)}else if(ids.indexOf('improveCardio')>=0||ids.indexOf('runFarther')>=0||ids.indexOf('lastLonger')>=0){['Conditioning','Strength','Movement','Explosive'].forEach(addStress)}else if(ids.indexOf('getStronger')>=0||ids.indexOf('harderToMove')>=0||ids.indexOf('liftMore')>=0){['Strength','Explosive','Movement','Conditioning'].forEach(addStress)}else if(ids.indexOf('improveMobility')>=0||ids.indexOf('improveCoreControl')>=0||ids.indexOf('improveBalance')>=0){['Movement','Strength','Conditioning','Explosive'].forEach(addStress)}}methods.forEach(function(m){if(days.length<Math.max(1,state.days)&&!used[m]){used[m]=1;days.push(planDayForMethod(m))}});while(days.length<state.days)days.push(planDayForMethod('health'));return days.slice(0,Math.max(1,state.days))}
+function todayPlan(){var p=planForGoal();return p[(Math.max(1,state.planDay)-1)%p.length]}
+function makeBlock(n,cat,work,rest,why,phase){return {n:n,cat:cat,work:work,rest:rest,why:why||'',phase:phase||'',score:100}}
+function phase(title,method,note,items){return {title:title,method:method,note:note,items:items||[]}}
+function hasEq(e){return (state.eq||[]).indexOf(e)>=0}
+function effectiveTargetSeconds(type){var req=(Number(state.min)||20)*60,c=bodyContext(),cap=req;if(type==='plyo'){if(c.age<10)cap=20*60;else if(c.age<13)cap=22*60;else if(c.highMass)cap=24*60;else if(c.age<18)cap=32*60;else cap=35*60}else{if(c.age<10)cap=Math.min(req,25*60);else if(c.age<13)cap=Math.min(req,35*60)}return Math.min(req,cap)}
+function totalSec(){return state.blocks.reduce(function(s,b){return s+(b.work||0)+(b.rest||0)},0)}
+function fmt(sec){sec=Math.max(0,Math.round(sec||0));var m=Math.floor(sec/60),s=sec%60;return m+':'+String(s).padStart(2,'0')}
+function choosePlyoItems(){var c=bodyContext(),phaseName='Plyometric Quality Sets',items=[];function item(name,cat,work,rest,set,total){var b=makeBlock(name+' — Quality Set '+set+'/'+total,cat,work,rest,'Quality contacts; stop before jump height or landing control drops.',phaseName);b.reps='quality contacts';items.push(b)}if(c.age<10){item('Pogo Jumps','speed',8,90,1,1);item('Jump-and-Stick','power',20,90,1,2);item('Line Hops','speed',8,90,1,1);item('Jump-and-Stick','power',20,90,2,2)}else if(c.age<13||c.light||c.longLever){item('Pogo Jumps','speed',10,90,1,1);item('Jump-and-Stick','power',25,90,1,2);item('Line Hops','speed',10,90,1,1);item('Jump-and-Stick','power',25,90,2,2)}else{item('Pogo Jumps','speed',10,90,1,1);item(hasEq('Medicine Ball')?'Med Ball Slam':'Jump-and-Stick','power',25,90,1,2);item('Line Hops','speed',10,90,1,1);item(hasEq('Medicine Ball')?'Med Ball Slam':'Jump-and-Stick','power',25,90,2,2)}return items}
+function phaseSeconds(items){return (items||[]).reduce(function(a,b){return a+(b.work||0)+(b.rest||0)},0)}
+function eqStrengthPair(c){var hasDB=hasEq('Dumbbells')||hasEq('Kettlebell'), hasBar=hasEq('Barbell');if(c.age<10)return {squat:'Bodyweight Squat',hinge:'Glute Bridge',loaded:false};if(c.age<13||c.loadCaution){return {squat:hasDB&&!c.longLever?'Goblet Squat':'Tempo Squat',hinge:hasDB&&!c.light?'Dumbbell RDL':'Glute Bridge',loaded:hasDB&&!c.light}}if(hasBar&&!c.highMass)return {squat:'Barbell Squat',hinge:'Barbell RDL',loaded:true};if(hasDB)return {squat:'Goblet Squat',hinge:'Dumbbell RDL',loaded:true};return {squat:'Tempo Squat',hinge:'Glute Bridge',loaded:false}}
+function strengthSupportForPlyo(){var c=bodyContext(),ph='Strength Support Sets',items=[],pair=eqStrengthPair(c);function st(name,set,total,work,rest){items.push(makeBlock(name+' — Set '+set+'/'+total,'strength',work,rest,'Submaximal set; stop 2–3 reps short of failure.',ph))}function core(name,set,total,work,rest){items.push(makeBlock(name+' — Set '+set+'/'+total,'core',work,rest,'Brace and reset without fatigue.',ph))}if(c.age<10){for(var y=1;y<=2;y++){st('Bodyweight Squat',y,2,30,45);st('Glute Bridge',y,2,30,45)}core('Dead Bug',1,1,25,20);return items}var sets=(c.age>=15&&!c.loadCaution)?3:2;for(var s=1;s<=sets;s++){st(pair.squat,s,sets,c.age<13?32:35,c.age<13?60:75);st(pair.hinge,s,sets,c.age<13?32:35,c.age<13?60:75)}core('Dead Bug',1,2,25,25);core('Dead Bug',2,2,25,20);return items}
+function supportItems(){var c=bodyContext(),ph='Body Context Support',arr=[],hasCarry=hasEq('Dumbbells')||hasEq('Kettlebell');if(c.sturdy||c.highMass){arr.push(makeBlock(hasCarry?'Farmer Carry':'Low-Base Hold','strength',30,hasCarry?35:25,hasCarry?'Carry, brace, and maintain posture.':'Hold athletic base, brace, and keep knees/hips controlled.',ph));arr.push(makeBlock('Dead Bug','core',30,20,'Trunk reset.',ph));arr.push(makeBlock('Glute Bridge','strength',35,25,'Posterior-chain support.',ph))}else if(c.light||c.longLever){arr.push(makeBlock('Reverse Lunge','strength',30,30,'Single-leg control.',ph));arr.push(makeBlock('Dead Bug','core',30,20,'Long-lever trunk control.',ph));arr.push(makeBlock('Tempo Squat','strength',35,25,'Control through range.',ph))}else{arr.push(makeBlock('Glute Bridge','strength',35,25,'Posterior-chain support.',ph));arr.push(makeBlock('Dead Bug','core',30,20,'Brace and breathe.',ph))}return arr}
+function buildPlyoWorkout(target){var warm=bodyContext().age<10?35:45;return [phase('Warmup','warmup','Prepare joints before explosive work.',[makeBlock('Dynamic Warmup Flow','warmup',warm,10,'Raise temperature and rehearse positions.','Warmup')]),phase('Plyometric Quality Sets','plyometrics','Quality contacts, not fatigue. Total jump volume is capped by age/body context.',choosePlyoItems()),phase('Strength Support Sets','strength','2–3 submaximal sets after jumps. Stop 2–3 reps short of failure so plyometric quality stays high.',strengthSupportForPlyo()),phase('Body Context Support','context','Short body-specific support only. Plyo days reserve time for jump quality and submaximal strength sets.',supportItems()),phase('Cooldown','mobility','Bring the session down.',[makeBlock('Hip Flexor Stretch','mobility',bodyContext().age<10?30:45,0,'Reset hips and breathing.','Cooldown')])]}
 
-function guideSrc(name){
- var map={
-  'Bodyweight Squat':'assets/guides/bodyweight-squat.jpg',
-  'Tempo Squat':'assets/guides/tempo-squat.jpg',
-  'Goblet Squat':'assets/guides/goblet-squat.jpg',
-  'Dumbbell RDL':'assets/guides/dumbbell-rdl.jpg',
-  'Glute Bridge':'assets/guides/glute-bridge.jpg',
-  'Reverse Lunge':'assets/guides/reverse-lunge.jpg',
-  'Pogo Jumps':'assets/guides/pogo-jumps.jpg',
-  'Jump-and-Stick':'assets/guides/jump-and-stick.jpg',
-  'Broad Jump':'assets/guides/broad-jump.jpg',
-  'Jump Rope':'assets/guides/jump-rope.jpg',
-  'Fast Feet':'assets/guides/fast-feet.jpg',
-  'Line Hops':'assets/guides/line-hops.jpg',
-  'Shuttle Run':'assets/guides/shuttle-run.jpg',
-  'Pushups':'assets/guides/pushups.jpg',
-  'Shoulder Press':'assets/guides/shoulder-press.jpg',
-  'Band Row':'assets/guides/band-row.jpg',
-  'Dumbbell Row':'assets/guides/dumbbell-row.jpg',
-  'Plank':'assets/guides/plank.jpg',
-  'Dead Bug':'assets/guides/dead-bug.jpg',
-  'Hip Flexor Stretch':'assets/guides/hip-flexor-stretch.jpg',
-  'Farmer Carry':'assets/guides/farmer-carry.jpg',
-  'Burpees':'assets/guides/burpees.jpg',
-  'Step-Up':'assets/guides/step-up.jpg',
-  'Side Plank':'assets/guides/side-plank.jpg',
-  'Incline Pushup':'assets/guides/incline-pushup.jpg',
-  'Med Ball Slam':'assets/guides/med-ball-slam.jpg'
- };
- return map[name]||'';
+function upperStrengthPair(c){
+  var hasDB=hasEq('Dumbbells'), hasBands=hasEq('Bands'), hasBar=hasEq('Barbell'), hasBench=hasEq('Bench/Box'), hasCable=hasEq('Cable/Machines'), hasPull=hasEq('Pullup Bar');
+  if(c.age<10)return {push:'Incline Push-Up',pull:'Band Row',loaded:false};
+  if(c.age<13||c.loadCaution){
+    return {push:hasDB?'Dumbbell Floor Press':'Incline Push-Up',pull:hasBands?'Band Row':(hasDB?'One-Arm Dumbbell Row':'Prone T Raise'),loaded:hasDB||hasBands};
+  }
+  if(hasBar&&hasBench&&!c.longLever&&!c.highMass)return {push:'Barbell Bench Press',pull:hasPull?'Assisted Pull-Up':'Barbell Row',loaded:true};
+  if(hasDB)return {push:hasBench?'Dumbbell Bench Press':'Dumbbell Floor Press',pull:'One-Arm Dumbbell Row',loaded:true};
+  if(hasCable)return {push:'Cable Press',pull:'Cable Row',loaded:true};
+  if(hasBands)return {push:'Band Press',pull:'Band Row',loaded:false};
+  return {push:'Push-Up',pull:'Prone T Raise',loaded:false};
 }
-
-loadSettings();buildWorkout(true);render();
+function lowerStrengthPair(c){return eqStrengthPair(c)}
+function hypertrophyPhases(target){
+  var c=bodyContext(), ph='Hypertrophy Sets', items=[], lower=lowerStrengthPair(c), upper=upperStrengthPair(c), targetSec=target||1800;
+  var sets=c.age<10?2:(c.age<13?2:3);
+  var rest=c.age<13?55:70;
+  var work=c.age<13?32:38;
+  function add(name,cat,set,total,w,r,why){items.push(makeBlock(name+' — Set '+set+'/'+total,cat,w,r,why,ph))}
+  for(var s=1;s<=sets;s++){
+    add(lower.squat,'strength',s,sets,work,rest,'Lower-body muscle/strength set; clean reps, no failure.',ph);
+    add(upper.push,'strength',s,sets,work,rest,'Upper-body push set; stop 1–3 reps short of failure.',ph);
+    add(lower.hinge,'strength',s,sets,work,rest,'Posterior-chain set; controlled range and posture.',ph);
+    add(upper.pull,'strength',s,sets,work,rest,'Upper-body pull set; shoulders/back control.',ph);
+  }
+  add('Dead Bug','core',1,2,30,25,'Brace and reset.',ph);
+  add('Dead Bug','core',2,2,30,20,'Brace and reset.',ph);
+  var support=[
+    makeBlock('Reverse Lunge — Support Round','strength',32,30,'Single-leg support without max loading.',ph),
+    makeBlock('Band Pull-Apart — Support Round','strength',30,25,'Upper-back posture and shoulder support.',ph),
+    makeBlock('Glute Bridge — Support Round','strength',35,25,'Glute/hip support.',ph),
+    makeBlock('Push-Up Hold / Plank — Support Round','core',30,20,'Core and upper-body control.',ph)
+  ];
+  var desired=Math.max(600,targetSec-110);
+  var round=1;
+  while(phaseSeconds(items)<desired&&round<=5){
+    support.forEach(function(b){
+      if(phaseSeconds(items)<desired){
+        var copy=makeBlock(b.n+' '+round,b.cat,b.work,b.rest,b.why,ph);
+        items.push(copy);
+      }
+    });
+    round++;
+  }
+  return [
+    phase('Warmup','warmup','Prepare joints and positions for controlled hypertrophy work.',[makeBlock('Dynamic Warmup Flow','warmup',45,10,'Prepare positions.','Warmup')]),
+    phase('Balanced Hypertrophy Sets','hypertrophy','Upper/lower muscle-building sets. Controlled reps, not failure.',items),
+    phase('Cooldown','mobility','Reset.',[makeBlock('Hip Flexor Stretch','mobility',45,0,'Reset.','Cooldown')])
+  ];
+}
+function strengthPhases(target){var c=bodyContext(),items=[],sets=c.age<13?2:3,ph='Strength Sets',pair=eqStrengthPair(c);for(var s=1;s<=sets;s++){items.push(makeBlock(pair.squat+' — Set '+s+'/'+sets,'strength',35,c.age<13?60:90,'Submaximal clean strength reps.',ph));items.push(makeBlock(pair.hinge+' — Set '+s+'/'+sets,'strength',35,c.age<13?60:90,'Submaximal hinge/control reps.',ph))}items.push(makeBlock('Dead Bug — Set 1/2','core',30,25,'Brace and reset.',ph));items.push(makeBlock('Dead Bug — Set 2/2','core',30,20,'Brace and reset.',ph));var desired=Math.max(0,(target||1200)-100);var pool=supportItems();var round=1;while(phaseSeconds(items)<desired&&round<=4){pool.forEach(function(b){if(phaseSeconds(items)<desired)items.push(makeBlock(b.n+' — Support Round '+round,b.cat,b.work,b.rest,b.why,ph))});round++}return [phase('Warmup','warmup','Prepare for strength.',[makeBlock('Dynamic Warmup Flow','warmup',45,10,'Prepare positions.','Warmup')]),phase('Strength Sets','strength','Repeated submaximal sets scaled toward the selected time.',items),phase('Cooldown','mobility','Reset.',[makeBlock('Hip Flexor Stretch','mobility',45,0,'Reset.','Cooldown')])]}
+function repeatCircuit(base,desired,maxRounds){var items=[],round=1;while(phaseSeconds(items)<desired&&round<=maxRounds){base.forEach(function(b){if(phaseSeconds(items)<desired){var label=b.n+(maxRounds>1?' — Round '+round:'');items.push(makeBlock(label,b.cat,b.work,b.rest,b.why,b.phase))}});round++}return items}
+function simplePhases(plan,target){var title=plan.name,type=plan.type,ph='Main Work',items=[],desired=Math.max(240,(target||1200)-100),c=bodyContext();if(type==='speed'){var speedBase=[makeBlock('Acceleration Start','speed',12,70,'Fast but clean.',ph),makeBlock('Sprint Mechanics March','coordination',30,25,'Rhythm and positions.',ph),makeBlock('Fast Feet Line Drill','speed',12,60,'Quick contacts.',ph),makeBlock('Core Reset','core',30,20,'Brace and breathe.',ph)];items=repeatCircuit(speedBase,Math.min(desired,c.age<10?900:c.age<13?1200:1600),6)}else if(type==='endurance'||type==='conditioning'){var main=Math.max(300,Math.floor(desired*.55)),tempo=Math.max(120,Math.floor(desired*.25)),reset=Math.max(60,Math.floor(desired*.12));items=[makeBlock('Steady Cardio Block','endurance',main,60,'Sustainable pace.',ph),makeBlock('Tempo Movement','conditioning',tempo,45,'Repeat work without fading.',ph),makeBlock('Mobility Reset','mobility',reset,20,'Breathe and reset.',ph)]}else if(type==='mobility'||type==='core'||type==='balance'||type==='coordination'||type==='recovery'||type==='health'){var moveBase=[makeBlock('Mobility Flow','mobility',60,15,'Range and control.',ph),makeBlock('Dead Bug','core',40,20,'Core control.',ph),makeBlock('Single-Leg Balance','balance',40,20,'Balance and posture.',ph),makeBlock('Coordination Flow','coordination',60,20,'Rhythm and control.',ph)];items=repeatCircuit(moveBase,Math.min(desired,c.age<10?900:c.age<13?1200:1500),5)}else return strengthPhases(target);return [phase('Warmup','warmup','Prepare to move.',[makeBlock('Dynamic Warmup Flow','warmup',45,10,'Prepare positions.','Warmup')]),phase(title,type,plan.focus,items),phase('Cooldown','mobility','Reset.',[makeBlock('Hip Flexor Stretch','mobility',45,0,'Reset.','Cooldown')])]}
+function buildWorkout(force){ensureState();if(force)state.workoutSeed++;var plan=todayPlan(),target=effectiveTargetSeconds(plan.type);state.phases=plan.type==='plyo'?buildPlyoWorkout(target):(plan.type==='hypertrophy'?hypertrophyPhases(target):(plan.type==='strength'||plan.type==='contact'?strengthPhases(target):simplePhases(plan,target)));state.blocks=[];state.phases.forEach(function(p){p.items.forEach(function(b){state.blocks.push(b)})});state.logicNotes=logicNotes(plan,target);saveSettings()}
+function logicNotes(plan,target){var c=bodyContext(),impact=state.blocks.filter(function(b){return /Pogo|Line Hops|Jump|Hop/i.test(b.n)}).length,loaded=state.blocks.filter(function(b){return /Barbell|Dumbbell|Goblet|Farmer|Kettlebell/i.test(b.n)}).length,maxRest=state.blocks.reduce(function(m,b){return Math.max(m,b.rest||0)},0),notes=[];notes.push('Build preset: '+currentPreset().title+'.');notes.push('Outcome goals: '+selectedOutcomeText()+'.');notes.push('Focus source: '+(personalFocusActive()?'custom bottom picks are active and driving the method order.':'preset defaults are driving the method order.'));notes.push('v20.9 check: hypertrophy uses balanced upper/lower sets, not only squat/hinge support; equipment gates still block unavailable loaded exercises.');notes.push('Body read: '+bodyProfileNote());notes.push('Today stress: '+plan.stress+' · target '+(methodLabels[plan.method]||plan.method)+'.');notes.push('Requested '+state.min+' min; Coach cap '+fmt(target)+'; built '+fmt(totalSec())+'.');if(plan.type==='plyo'){notes.push('v20.7 plyo rule: plyometric contacts are quality sets; strength support uses 2–3 submaximal sets and no failure sets.');if(target<(state.min*60))notes.push('Time cap reason: Jump Higher is capped by age/body context so extra time does not become junk jump volume.')}notes.push('Age/load gates: '+(c.age<10?'under-10 no barbell, heavy hinge, or box-jump default':(c.age<13?'under-13 barbell blocked by default':'barbell allowed only when age/body/equipment context fits'))+'.');notes.push('Body bias: '+c.frame+' · '+c.heightRead+' → '+c.emphasis.slice(0,3).join(', ')+'.');notes.push('Impact volume checked: '+impact+'/'+(c.weeklyImpactCap===1?4:8)+'. Loaded blocks: '+loaded+'. Max rest '+maxRest+' sec.');return notes}
+function header(title,sub,label){return '<div class="top"><div class="eyebrow">'+esc(label)+'</div><h1>'+esc(title)+'</h1><p>'+esc(sub)+'</p></div>'}
+function tabs(){var all=[['today','Today'],['plan','Plan'],['test','Test'],['progress','Progress'],['profile','Profile']];return '<div class="tabs"><div class="inner">'+all.map(function(t){return '<button class="'+(state.view===t[0]?'active':'')+'" onclick="Coach.tab(\''+t[0]+'\')">'+t[1]+'</button>'}).join('')+'</div></div>'}
+function bodyNoteCard(){var c=bodyContext();return '<div class="card"><h3>Body Profile Note</h3><p>'+esc(bodyProfileNote())+'</p><div class="grid"><div class="stat"><b>'+esc(c.band)+'</b><span>Age band</span></div><div class="stat"><b>'+esc(c.frame)+'</b><span>Frame read</span></div><div class="stat"><b>'+esc(c.heightRead)+'</b><span>Height read</span></div><div class="stat"><b>'+c.density.toFixed(2)+' lb/in</b><span>Weight use</span></div><div class="stat"><b>'+c.weeklyImpactCap+'</b><span>Weekly impact cap</span></div></div><p class="small">Training-only note. No diet, calories, body-fat estimate, or medical label.</p></div>'}
+function mixHtml(){var mix=trainingMix(),keys=Object.keys(mix).sort(function(a,b){return mix[b]-mix[a]});return keys.map(function(k){return '<div class="mixRow"><b>'+esc(methodLabels[k]||cap(k))+'</b><div class="bar"><i style="width:'+mix[k]+'%"></i></div><span>'+mix[k]+'%</span></div>'}).join('')}
+function logicHtml(){return '<div class="card"><h3>Trainer Logic</h3>'+state.logicNotes.map(function(n){return '<div class="note">• '+esc(n)+'</div>'}).join('')+'</div>'}
+function phaseHtml(){return state.phases.map(function(p){return '<div class="phase"><h4>'+esc(p.title)+'</h4><p>'+esc((methodLabels[p.method]||cap(p.method))+' · '+p.note)+'</p>'+p.items.map(function(b,i){return '<div class="item"><div class="num">'+(i+1)+'</div><div><b>'+esc(b.n)+'</b><span>'+esc(cap(b.cat))+' · Work '+b.work+' sec · Rest '+b.rest+' sec</span></div></div>'}).join('')+'</div>'}).join('')}
+function todayView(){var p=todayPlan();return '<section>'+header('Coach','v20.9 adds balanced hypertrophy programming with upper/lower sets and cleaner 45-minute scaling.','Fitness v20.9 Clean')+'<div class="card"><span class="eyebrow">Current Build</span><h3>'+esc(currentGoalTitle())+'</h3><p>'+esc(selectedOutcomeText())+'</p><div class="stats"><div class="stat"><b>W'+state.planWeek+'</b><span>block</span></div><div class="stat"><b>D'+state.planDay+'</b><span>day</span></div><div class="stat"><b>'+fmt(totalSec())+'</b><span>today</span></div></div></div>'+bodyNoteCard()+'<div class="card"><span class="eyebrow">Today’s Workout</span><h3>'+esc(p.name)+'</h3><p>'+esc((methodLabels[p.method]||p.method)+' · '+p.focus)+'</p></div>'+logicHtml()+'<div class="row"><button class="primary" onclick="Coach.rebuild()">Generate Workout</button><button class="secondary" onclick="Coach.nextDay()">Mark Done / Next Day</button></div><div class="card"><h3>Workout Preview</h3>'+phaseHtml()+'</div>'+tabs()+'</section>'}
+function planView(){var plan=planForGoal();return '<section>'+header('Plan','Weekly order follows the selected focus. Body context changes caps and substitutions, not the main goal.','Plan')+'<div class="card"><h3>'+esc(currentGoalTitle())+'</h3><p>'+esc(selectedOutcomeText())+'</p><p class="small">'+(personalFocusActive()?'Personal focus override is active.':'Preset defaults are active.')+'</p>'+mixHtml()+'</div><div class="card"><h3>Weekly Schedule</h3>'+plan.map(function(p,i){return '<div class="planRow"><div class="badge">D'+(i+1)+'</div><div><b>'+esc(p.name)+'</b><p class="small">'+esc(p.focus)+'</p><span class="tag">'+esc(p.stress)+'</span><span class="tag">'+esc(methodLabels[p.method]||p.method)+'</span><span class="tag">'+esc(p.type)+'</span></div></div>'}).join('')+'</div>'+tabs()+'</section>'}
+function goalsForPreset(){var preset=currentPreset(),allowed=new Set(preset.defaultGoals);outcomeGoals.forEach(function(g){var score=0;Object.keys(g.mix).forEach(function(k){score+=(preset.mix[k]||0)*(g.mix[k]||0)});if(score>350)allowed.add(g.id)});if(state.customGoals)state.outcomes.forEach(function(id){allowed.add(id)});var sections={};outcomeGoals.forEach(function(g){if(allowed.has(g.id)){if(!sections[g.section])sections[g.section]=[];sections[g.section].push(g)}});return sections}
+function quickAthleteButtons(){return '<div class="card"><h3>Quick Test Athletes</h3><p class="small">Use these to verify that age, height, and weight are all applied.</p><div class="grid">'+['Logan','Kayde','Zoe','LaNea'].map(function(n){var p={Logan:'8 · 4\'7 · 80',Kayde:'12 · 5\'8 · 100',Zoe:'14 · 6\'0 · 150',LaNea:'16 · 5\'9 · 165'}[n];return '<button class="secondary" onclick="Coach.quick(\''+n+'\')"><b>'+n+'</b><br><span class="small">'+p+'</span></button>'}).join('')+'</div></div>'}
+function profileView(){var sections=goalsForPreset();return '<section>'+header('Profile','Choose style first. Then choose personal focus; custom picks override the style focus.','Settings')+'<div class="card"><h3>Style / Build Preset</h3><p class="small">Style is the training menu. Custom goals are the final focus.</p><div class="presetGrid">'+buildPresets.map(function(p){return '<button class="preset '+(state.buildPreset===p.id?'active':'')+'" onclick="Coach.setPreset(\''+p.id+'\')"><strong>'+esc(p.title)+'</strong><span>'+esc(p.desc)+'</span></button>'}).join('')+'</div></div><div class="card"><h3>Specific Personal Focus</h3><p class="small">Pick one or more. These override the style focus.</p><button class="secondary" onclick="Coach.resetFocus()">Reset to style defaults</button><div style="height:10px"></div>'+Object.keys(sections).map(function(sec){return '<div class="eyebrow" style="margin-top:12px">'+esc(sec)+'</div><div class="outcomeGrid">'+sections[sec].map(function(o){return '<button class="outcome '+(state.outcomes.indexOf(o.id)>=0?'active':'')+'" onclick="Coach.toggleOutcome(\''+o.id+'\')"><strong>'+esc(o.title)+'</strong><span>'+esc(o.desc)+'</span></button>'}).join('')+'</div>'}).join('')+'</div>'+quickAthleteButtons()+bodyNoteCard()+'<div class="card"><h3>Coach Training Mix</h3>'+mixHtml()+'</div>'+athleteCard()+environmentCard()+tabs()+'</section>'}
+function athleteCard(){return '<div class="card"><h3>Athlete + Schedule</h3><div class="grid"><div class="field"><label>Age</label><input type="number" value="'+state.age+'" onchange="Coach.set(\'age\',Number(this.value))"></div><div class="field"><label>Sex</label><select onchange="Coach.set(\'sex\',this.value)"><option '+(state.sex==='Female'?'selected':'')+'>Female</option><option '+(state.sex==='Male'?'selected':'')+'>Male</option></select></div><div class="field"><label>Height ft</label><input type="number" value="'+state.heightFt+'" onchange="Coach.set(\'heightFt\',Number(this.value))"></div><div class="field"><label>Height in</label><input type="number" value="'+state.heightIn+'" onchange="Coach.set(\'heightIn\',Number(this.value))"></div><div class="field"><label>Bodyweight</label><input type="number" value="'+state.body+'" onchange="Coach.set(\'body\',Number(this.value))"></div><div class="field"><label>Workout Minutes</label><select onchange="Coach.set(\'min\',Number(this.value))">'+[10,15,20,25,30,35,40,45,60].map(function(n){return '<option '+(state.min===n?'selected':'')+'>'+n+'</option>'}).join('')+'</select></div><div class="field"><label>Days/week</label><select onchange="Coach.set(\'days\',Number(this.value))">'+[1,2,3,4,5,6].map(function(n){return '<option '+(state.days===n?'selected':'')+'>'+n+'</option>'}).join('')+'</select></div></div><p class="small">Height is required for lever read and weight-density logic.</p></div>'}
+function environmentCard(){return '<div class="card"><h3>Workout Environment</h3><div class="field"><label>Space</label><select onchange="Coach.set(\'space\',this.value)">'+spaces.map(function(s){return '<option '+(state.space===s?'selected':'')+'>'+s+'</option>'}).join('')+'</select></div><div style="height:12px"></div><div class="chips">'+equipment.map(function(e){return '<button class="chip '+(hasEq(e)?'active':'')+'" onclick="Coach.toggleEq(\''+e+'\')">'+esc(e)+'</button>'}).join('')+'</div></div>'}
+function testView(){return '<section>'+header('Testing','Simple placeholders for future monthly tests.','Test')+'<div class="card"><h3>Monthly Test Inputs</h3><div class="grid">'+['vertical','broad','sprint','shuttle','endurance','plank'].map(function(k){return '<div class="field"><label>'+cap(k)+'</label><input value="'+esc(state.tests[k]||'')+'" onchange="Coach.setTest(\''+k+'\',this.value)"></div>'}).join('')+'</div></div>'+tabs()+'</section>'}
+function progressView(){return '<section>'+header('Progress','Progress logic will use completed workouts and monthly tests.','Progress')+'<div class="card"><h3>Current Focus</h3><p>'+esc(selectedOutcomeText())+'</p><p class="small">Next build can add stars, completion history, and reward logic.</p></div>'+tabs()+'</section>'}
+function render(){try{ensureState();if(!state.blocks.length)buildWorkout(false);var map={today:todayView,plan:planView,test:testView,progress:progressView,profile:profileView};$('app').innerHTML=(map[state.view]||todayView)()}catch(e){$('app').innerHTML='<section>'+header('Coach','The app caught an error instead of crashing.','Error')+'<div class="card error"><h3>Error</h3><p>'+esc(e.message)+'</p><pre class="small">'+esc(e.stack||'')+'</pre></div>'+tabs()+'</section>';console.error(e)}}
+window.Coach={tab:function(v){state.view=v;saveSettings();render()},set:function(k,v){state[k]=v;buildWorkout(true);render()},setPreset:function(id){state.buildPreset=id;state.outcomes=currentPreset().defaultGoals.slice(0,3);state.customGoals=false;state.planDay=1;buildWorkout(true);render()},toggleOutcome:function(id){state.customGoals=true;if(state.outcomes.indexOf(id)>=0)state.outcomes=state.outcomes.filter(function(x){return x!==id});else state.outcomes.push(id);if(!state.outcomes.length)state.outcomes=[currentPreset().defaultGoals[0]];state.planDay=1;buildWorkout(true);render()},resetFocus:function(){state.outcomes=currentPreset().defaultGoals.slice(0,3);state.customGoals=false;state.planDay=1;buildWorkout(true);render()},toggleEq:function(e){if(hasEq(e))state.eq=state.eq.filter(function(x){return x!==e});else state.eq.push(e);buildWorkout(true);render()},quick:function(name){var p={Logan:{age:8,sex:'Male',heightFt:4,heightIn:7,body:80},Kayde:{age:12,sex:'Male',heightFt:5,heightIn:8,body:100},Zoe:{age:14,sex:'Female',heightFt:6,heightIn:0,body:150},LaNea:{age:16,sex:'Female',heightFt:5,heightIn:9,body:165}}[name];Object.keys(p).forEach(function(k){state[k]=p[k]});buildWorkout(true);render()},nextDay:function(){state.planDay++;if(state.planDay>Math.max(1,state.days)){state.planDay=1;state.planWeek++}buildWorkout(true);render()},rebuild:function(){buildWorkout(true);render()},setTest:function(k,v){state.tests[k]=v;saveSettings()}};
+loadSettings();buildWorkout(false);render();
+})();
 </script>
 </body>
 </html>
