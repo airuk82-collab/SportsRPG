@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Coach v21.9.20 Fitness Testing Engine</title>
+<title>Coach v21.9.24 Muscle Coverage + High-Fatigue Guard</title>
 <style>
 :root{
   --bg:#f6f8fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;
@@ -966,7 +966,7 @@ function equipmentNeededCard(){var items={};(state.blocks||[]).forEach(function(
 function workoutPreviewCard(){return '<div class="card"><h3>Workout Preview</h3>'+phaseHtml()+'</div>'}
 function compactWeekStatusCard(){var g=weeklySafetyGovernor(governorPlannedRole?governorPlannedRole():todayRole());return '<div class="card"><span class="phaseLabel">Week Status</span><h3>'+g.completed+' of '+g.target+' target sessions</h3><p>'+esc(g.reason)+'</p></div>'}
 function advancedLogicDetails(){return '<details class="card"><summary><b>Advanced / testing details</b></summary><div style="height:10px"></div><div class="card"><h3>Coach Training Mix</h3>'+mixHtml()+'</div>'+ledgerCard('Today\'s Muscle Load',state.muscleLedger,muscleKeys,level)+ledgerCard('Today\'s Fatigue Cost',state.fatigueLedger,fatigueKeys,stress,'Internal fatigue ledger used by the coach.')+logicHtml()+'</details>'}
-todayView=function(){return '<section class="screen">'+header('Coach','Today first: see the workout, hit start, and keep the deeper logic out of the way.','Fitness v21.9.20 Logic')+topWorkoutCard()+readinessSummaryCard()+equipmentNeededCard()+workoutPreviewCard()+tabs()+'</section>'}
+todayView=function(){return '<section class="screen">'+header('Coach','Today first: see the workout, hit start, and keep the deeper logic out of the way.','Fitness v21.9.21 Logic')+topWorkoutCard()+readinessSummaryCard()+equipmentNeededCard()+workoutPreviewCard()+tabs()+'</section>'}
 planView=function(){return '<section class="screen">'+header('Week','Weekly target, outside activity, and schedule adjustments.','Week')+weeklyPlanCard()+compactWeekStatusCard()+outsideLoadCard()+'<div class="row"><button class="secondary" onclick="prevDay()">Back Day</button><button class="secondary" onclick="nextDay()">Next Day</button></div><details class="card"><summary><b>Advanced weekly logic</b></summary><div style="height:10px"></div>'+logicHtml()+'</details>'+tabs()+'</section>'}
 bodyMapView=function(){return '<section class="screen">'+header('Body Map','Green, yellow, and red readiness by body region.','Body Map')+readinessSummaryCard()+bodyMapCard()+'<div class="card"><h3>Testing Tools</h3><p class="small">Use while testing old state, false red zones, or duplicated history.</p><button class="danger" onclick="clearHistory()">Clear History / Body Map</button><div style="height:10px"></div><button class="secondary" onclick="clearOutsideActivities()">Clear Outside Load</button></div>'+tabs()+'</section>'}
 tabs=function(){var arr=[['today','Today'],['plan','Week'],['body','Body Map'],['progress','Progress'],['profile','Profile']];return '<nav class="tabbar">'+arr.map(function(a){return '<button class="'+(state.view===a[0]?'active':'')+'" onclick="tab(\''+a[0]+'\')">'+a[1]+'</button>'}).join('')+'</nav>'}
@@ -1132,6 +1132,452 @@ progressView=function(){var base=_v21920OldProgressView();return base.replace(he
 var _v21920OldLogicNotesFor=logicNotesFor;
 logicNotesFor=function(t){var arr=_v21920OldLogicNotesFor?_v21920OldLogicNotesFor(t):[];arr.push('v21.9.20 adds profile-specific general fitness testing: strength, power, hypertrophy, endurance, movement, core, and speed/agility anchors.');return arr;};
 window.Coach=Object.assign(window.Coach||{}, {fitnessTestDefinitions:fitnessTestDefinitions,testBatteryForProfile:testBatteryForProfile,estimated1RM:estimated1RM,saveFitnessTest:saveFitnessTest,testTrend:testTrend,latestTest:latestTest,testingReadinessNote:testingReadinessNote});
+
+
+
+
+/* ===== v21.9.21 Age Gates + Build Rotation + Testing Controls + Adaptation Counters ===== */
+VERSION='21.9.21 Age Gates + Build Rotation';
+STORE='coachSettingsV2121AgeRotationCounters';
+function ageYears(){return Number(state.age)||0}
+function isUnder10(){return ageYears()<10}
+function isUnder14(){return ageYears()<14}
+function lowerStatus(map){map=map||readinessMap();return compactStatusFor(['quads','hamstrings','glutesHips','calvesAchilles','groinAdductors','posteriorChain','impactJumping'],map)}
+function upperStatus(map){map=map||readinessMap();return compactStatusFor(['chestPress','upperBackPull','shoulders','armsElbows','gripForearms'],map)}
+function coreStatus(map){map=map||readinessMap();return compactStatusFor(['coreBrace','lowBackSpine','obliquesRotation'],map)}
+function blockBaseName(b){return String((b&&b.baseName)||((b&&b.n)||'').replace(/ — .*/,''))}
+function ageGateReason(name){var a=ageYears();
+  if(a<10){
+    if(/Barbell|Empty Bar|Dumbbell|Goblet|Kettlebell|Cable|Leg Extension|Hamstring Curl|Sliding Hamstring|RDL|Deadlift|Farmer Carry|Med Ball Slam|Box Jump|Step-Up|Burpee|Wall Sit|Squat Pulse/i.test(name))return 'Under-10 profiles use bodyweight control, landing quality, balance, and simple core work instead of loaded or high-impact options.';
+  }
+  if(a<14){
+    if(/Barbell|Empty Bar/i.test(name))return 'Barbell work is blocked under age 14 unless future advanced/supervised status explicitly allows it.';
+  }
+  return '';
+}
+function ageSafeChoiceForBlock(b){var a=ageYears(), slot=(b&&b.slot)||'', intent=(b&&b.intent)||'';
+  if(a<10){
+    if(/power|speed/.test(intent)||/power|speed|landing/.test(slot))return choice('Jump-and-Stick','power','Age-safe power: jump once, land quiet, reset.','Jump-and-Stick');
+    if(/conditioning|cardio/.test(intent)||/conditioning|cardio/.test(slot))return choice('Fast Feet','conditioning','Age-safe conditioning: short, clean, low-impact rhythm.','Fast Feet');
+    if(/push|upper|press/.test(slot)||/Press|Push/i.test(blockBaseName(b)))return choice('Incline Pushup','strength','Age-safe upper-body strength with clean body line.','Incline Pushup');
+    if(/pull|row/.test(slot)||/Row|Pull/i.test(blockBaseName(b)))return choice('Band Row','strength','Age-safe pulling pattern if band is available; otherwise use posture control.','Band Row');
+    if(/core|carry|brace/.test(slot)||/Plank|Carry|Brace/i.test(blockBaseName(b)))return choice('Dead Bug','core','Age-safe trunk control.','Dead Bug');
+    if(/mobility|balance/.test(intent)||/mobility|balance/.test(slot))return choice('Single-Leg Balance Reach','mobility','Age-safe balance and control.','Single-Leg Balance Reach');
+    return choice('Bodyweight Squat','strength','Age-safe lower-body control.','Bodyweight Squat');
+  }
+  if(a<14){
+    if(/Squat/i.test(blockBaseName(b)))return (hasEq('Dumbbells')||hasEq('Kettlebell'))?choice('Goblet Squat','strength','Age-safe loaded squat. Clean reps only.','Goblet Squat'):choice('Tempo Squat','strength','Controlled squat pattern.','Tempo Squat');
+    if(/RDL|Deadlift|Hinge/i.test(blockBaseName(b)))return hasEq('Dumbbells')?choice('Dumbbell RDL','strength','Age-safe hinge pattern. Clean reps only.','Dumbbell RDL'):choice('Glute Bridge','strength','Low-risk posterior-chain work.','Glute Bridge');
+    if(/Press/i.test(blockBaseName(b)))return hasEq('Dumbbells')?choice('Dumbbell Press','strength','Age-safe upper push strength.','Dumbbell Press'):choice('Pushups','strength','Upper push strength.','Pushups');
+    if(/Row|Pullup/i.test(blockBaseName(b)))return upperPull();
+  }
+  return null;
+}
+function cloneBlockTiming(src,dst){dst.work=src.work;dst.rest=src.rest;dst.phase=src.phase;dst.slot=src.slot;dst.baseName=dst.n;dst.why=(dst.why||'')+' Replacement: '+ageGateReason(blockBaseName(src));return dst}
+function sanitizeBlockForAge(b){var reason=ageGateReason(blockBaseName(b));if(!reason)return b;var repl=ageSafeChoiceForBlock(b)||core();return cloneBlockTiming(b,repl)}
+function sanitizePhasesForAge(phases){(phases||[]).forEach(function(p){p.items=(p.items||[]).map(sanitizeBlockForAge)});return phases}
+var _v21921OldUpperPush=upperPush;
+upperPush=function(){var a=ageYears();if(a<10)return hasEq('Bench/Box')?choice('Incline Pushup','strength','Age-safe push strength with clean line.','Incline Pushup'):choice('Pushups','strength','Upper push strength.','Pushups');if(a<14){if(hasEq('Dumbbells'))return choice('Dumbbell Press','strength','Upper push strength. Clean reps only.','Dumbbell Press');if(hasEq('Bench/Box'))return choice('Incline Pushup','strength','Push strength with easier angle.','Incline Pushup');return choice('Pushups','strength','Upper push strength.','Pushups')}return _v21921OldUpperPush()};
+var _v21921OldPower=power;
+power=function(){var a=ageYears();if(a<10)return choice('Jump-and-Stick','power','Age-safe jump quality: stick the landing and reset.','Jump-and-Stick');return _v21921OldPower()};
+var _v21921OldSingleLeg=singleLeg;
+singleLeg=function(){var a=ageYears();if(a<10)return choice('Reverse Lunge','strength','Age-safe single-leg control.','Reverse Lunge');return _v21921OldSingleLeg()};
+function adaptationTagsForTemplate(t){t=t||state.currentTemplate||{};var tags=[];var title=String(t.title||'')+' '+String(t.kind||'')+' '+String(t.secondary||'')+' '+String(t.id||'');
+  function add(x){if(tags.indexOf(x)<0)tags.push(x)}
+  if(/movement|recovery|deload|activation|primer/i.test(title)||t.kind==='movement')add('movement');
+  if((/strength|force|microdose/i.test(title)||t.kind==='strength')&&!/recovery|movement only/i.test(title))add('strength');
+  if(/power|speed|primer/i.test(title)||t.kind==='power')add('power');
+  if(/hypertrophy|build muscle|upper build|lower build|muscle/i.test(title)||t.kind==='hypertrophy')add('hypertrophy');
+  if(/endurance|conditioning|tempo|cardio/i.test(title)||t.kind==='endurance')add('endurance');
+  if(/bonus|recovery|post-season|game-day|competition primer|movement/i.test(title)){tags=tags.filter(function(x){return x==='movement'});if(tags.indexOf('movement')<0)tags.push('movement')}
+  return tags;
+}
+function hardExposureForTags(tags){return (tags||[]).some(function(x){return ['strength','power','hypertrophy','endurance'].indexOf(x)>=0})}
+function exposureCountsThisWeek(){var out={total:sessionsThisWeek().length,hard:0,strength:0,power:0,hypertrophy:0,endurance:0,movement:0,recovery:0};sessionsThisWeek().forEach(function(h){var tags=h.countsAs||h.trainingTags;if(!tags){tags=[];if(/movement|recovery|bonus|activation|primer/i.test((h.title||'')+' '+(h.primaryAdaptation||'')))tags=['movement'];else if(/strength/i.test((h.title||'')+' '+(h.primaryAdaptation||'')))tags=['strength'];else if(/power/i.test((h.title||'')+' '+(h.primaryAdaptation||'')))tags=['power'];else if(/hypertrophy|build/i.test((h.title||'')+' '+(h.primaryAdaptation||'')))tags=['hypertrophy'];else if(/endurance|conditioning/i.test((h.title||'')+' '+(h.primaryAdaptation||'')))tags=['endurance'];}
+    tags.forEach(function(t){if(out[t]!==undefined)out[t]++});if(hardExposureForTags(tags))out.hard++;else if(tags.indexOf('movement')>=0)out.recovery++;
+  });return out;}
+function exposureSummaryCard(){var c=exposureCountsThisWeek();return '<div class="card"><span class="phaseLabel">Training Exposures</span><h3>What actually counted this week</h3><div class="progressRows"><div class="stat"><b>'+c.strength+'</b><span>strength</span></div><div class="stat"><b>'+c.power+'</b><span>power</span></div><div class="stat"><b>'+c.hypertrophy+'</b><span>build</span></div></div><div class="progressRows" style="margin-top:8px"><div class="stat"><b>'+c.endurance+'</b><span>endurance</span></div><div class="stat"><b>'+c.movement+'</b><span>movement</span></div><div class="stat"><b>'+c.hard+'</b><span>hard exposures</span></div></div><p class="small">Movement/recovery sessions count for consistency and recovery, but they do not satisfy strength, power, or build-muscle exposure goals.</p></div>'}
+function dateShiftISO(iso,hours){if(!iso)return iso;var d=new Date(iso);if(isNaN(d))return iso;d.setHours(d.getHours()-Number(hours||0));return d.toISOString()}
+function shiftWorkoutHistoryBack(hours){ensureState();hours=Number(hours)||0;(state.history||[]).forEach(function(h){['at','startedAt','endedAt','savedAt','feedbackSavedAt'].forEach(function(k){if(h[k])h[k]=dateShiftISO(h[k],hours)});if(h.calendarDate&&h.endedAt)h.calendarDate=String(h.endedAt).slice(0,10)});if(state.sessionMeta){['startedAt','endedAt'].forEach(function(k){if(state.sessionMeta[k])state.sessionMeta[k]=dateShiftISO(state.sessionMeta[k],hours)})}state.testingTimeShiftHours=(Number(state.testingTimeShiftHours)||0)+hours;buildWorkout(true);saveSettings();render();}
+function clearWorkoutHistoryAndBodyMap(){state.history=[];state.recovery={};state.finish={effort:'7',quality:'Good',felt:'Right',sore:[],notes:''};state.testingTimeShiftHours=0;buildWorkout(true);saveSettings();render();}
+function testingTimeControlsCard(){return '<div class="card"><span class="phaseLabel">Testing Tools</span><h3>Simulate time passing</h3><p>Use these while testing so same-day simulations do not look like back-to-back workouts.</p><div class="grid"><button class="secondary" onclick="shiftWorkoutHistoryBack(24)">Treat last work as 24h older</button><button class="secondary" onclick="shiftWorkoutHistoryBack(48)">48h older</button><button class="secondary" onclick="shiftWorkoutHistoryBack(72)">72h older</button><button class="secondary" onclick="shiftWorkoutHistoryBack(168)">1 week older</button></div><div style="height:10px"></div><button class="danger" onclick="clearWorkoutHistoryAndBodyMap()">Clear workout history / body map</button><p class="small">Testing shift applied: '+(Number(state.testingTimeShiftHours)||0)+' hours.</p></div>'}
+var _v21921OldTemplateForRole=templateForRole;
+templateForRole=function(r){if(r==='hypertrophy_upper')return {id:'wk_hyp_upper',title:'Upper Build + Strength',kind:'hypertrophy',theme:'upper',note:'Upper-body muscle, rows/presses, shoulder durability, arms, and trunk support.',secondary:'strength',protect:['chest','back','shoulders','arms'],fatigue:['local','joint']};if(r==='hypertrophy_lower')return {id:'wk_hyp_lower',title:'Lower Build + Strength',kind:'hypertrophy',theme:'lower',note:'Lower-body muscle and armor with controlled tempo and joint-friendly volume.',secondary:'strength',protect:['quads','glutes','hamstrings'],fatigue:['local','systemic']};return _v21921OldTemplateForRole(r)};
+var _v21921OldWeeklySafetyGovernor=weeklySafetyGovernor;
+weeklySafetyGovernor=function(planned){var g=_v21921OldWeeklySafetyGovernor(planned), map=g.map||readinessMap(), plannedText=String(planned||'');
+  if(g.mode==='body-map-shift' && (roleHas(plannedText,'hypertrophy')||plannedText==='build_muscle'||plannedText==='hypertrophy') && lowerStatus(map)==='red' && upperStatus(map)!=='red'){
+    g.role='hypertrophy_upper';g.reason='Lower body is protected, but upper body is available. Build Muscle rotates to upper-body volume instead of becoming all stretching.';g.mode='body-map-upper-build';
+  }
+  if(g.mode==='normal' && (roleHas(plannedText,'hypertrophy')||plannedText==='build_muscle'||plannedText==='hypertrophy')){
+    if(lowerStatus(map)==='red'&&upperStatus(map)!=='red'){g.role='hypertrophy_upper';g.reason='Lower body is red, so Build Muscle rotates to upper body.';g.mode='body-map-upper-build'}
+    else if(upperStatus(map)==='red'&&lowerStatus(map)!=='red'){g.role='hypertrophy_lower';g.reason='Upper body is red, so Build Muscle rotates to lower body.';g.mode='body-map-lower-build'}
+  }
+  return g;
+};
+var _v21921OldBuildPhases=buildPhases;
+buildPhases=function(){var phases=_v21921OldBuildPhases();sanitizePhasesForAge(phases);return phases};
+var _v21921OldCompletionRecord=completionRecord;
+completionRecord=function(sessionId,endedAt){var rec=_v21921OldCompletionRecord(sessionId,endedAt);var t=state.currentTemplate||{};var tags=adaptationTagsForTemplate(t);rec.trainingTags=tags;rec.countsAs=tags;rec.hardExposure=hardExposureForTags(tags);rec.primaryAdaptation=tags[0]||rec.primaryAdaptation;rec.adaptationExposure={strength:tags.indexOf('strength')>=0?1:0,power:tags.indexOf('power')>=0?1:0,hypertrophy:tags.indexOf('hypertrophy')>=0?1:0,endurance:tags.indexOf('endurance')>=0?1:0,movement:tags.indexOf('movement')>=0?1:0};return rec};
+hardSessionsThisWeek=function(){return sessionsThisWeek().filter(function(h){var tags=h.countsAs||h.trainingTags||[];return hardExposureForTags(tags)})};
+var _v21921OldPlanView=planView;
+planView=function(){var html=_v21921OldPlanView();return html.replace(compactWeekStatusCard(),compactWeekStatusCard()+exposureSummaryCard()+testingTimeControlsCard())};
+var _v21921OldBodyMapView=bodyMapView;
+bodyMapView=function(){return _v21921OldBodyMapView().replace('</section>',testingTimeControlsCard()+'</section>')};
+var _v21921OldSimpleCoachReason=simpleCoachReason;
+simpleCoachReason=function(){var g=weeklySafetyGovernor(governorPlannedRole?governorPlannedRole():todayRole());if(g.mode==='body-map-upper-build'||g.mode==='body-map-lower-build')return g.reason;return _v21921OldSimpleCoachReason()};
+var _v21921OldTestingReadinessNote=testingReadinessNote;
+testingReadinessNote=function(){var base=_v21921OldTestingReadinessNote();var b=fitnessAgeBucket&&fitnessAgeBucket(), p=periodizationPolicy?periodizationPolicy():{allowTesting:true,competition:{today:false,within48:false}};if((!p.allowTesting||p.competition.today||p.competition.within48)&&(b==='youth'||b==='middle'))return base+' Youth and middle-school profiles still use only age-appropriate clean submax or movement-quality tests when testing resumes.';return base};
+var _v21921OldLogicNotesFor=logicNotesFor;
+logicNotesFor=function(t){var arr=_v21921OldLogicNotesFor?_v21921OldLogicNotesFor(t):[];arr.push('v21.9.21 adds age-gated workout replacement, Build Muscle upper/lower rotation, testing time controls, and adaptation-specific exposure counters.');return arr};
+window.Coach=Object.assign(window.Coach||{}, {sanitizePhasesForAge:sanitizePhasesForAge,ageGateReason:ageGateReason,shiftWorkoutHistoryBack:shiftWorkoutHistoryBack,clearWorkoutHistoryAndBodyMap:clearWorkoutHistoryAndBodyMap,exposureCountsThisWeek:exposureCountsThisWeek,adaptationTagsForTemplate:adaptationTagsForTemplate});
+
+
+/* ===== v21.9.22 Granular Target Areas + Trainer Block Planner ===== */
+VERSION='21.9.22 Granular Target Areas + Trainer Block Planner';
+STORE='coachSettingsV2122GranularTrainerPlanner';
+function uniqPush(arr,x){if(arr.indexOf(x)<0)arr.push(x)}
+function ensureGranularTargetState(){
+  ensureState();
+  var add={
+    horizontalPush:'Chest / Horizontal Push',verticalPush:'Shoulders / Vertical Push',tricepsExtension:'Triceps / Elbow Extension',
+    horizontalPull:'Rows / Horizontal Pull',verticalPull:'Lats / Vertical Pull',bicepsFlexion:'Biceps / Elbow Flexion',rearDeltsScap:'Rear Delts / Scap Control',rotatorCuff:'Rotator Cuff / Shoulder Health',
+    quadsSquat:'Squat / Quad Pattern',hamstringsHinge:'Hinge / Hamstring Pattern',glutesHipExtension:'Glute / Hip Extension',hipFlexors:'Hip Flexors',
+    coreAntiExtension:'Core Anti-Extension',coreCarryBrace:'Core Carry / Brace',coreRotation:'Core Rotation',
+    legsPower:'Leg Power / Elastic',upperPower:'Upper Power / Throws'
+  };
+  Object.keys(add).forEach(function(k){bodyMapLabels[k]=add[k];if(bodyMapRegions.indexOf(k)<0)bodyMapRegions.push(k)});
+  Object.assign(bodyMapDecay,{horizontalPush:2.2,verticalPush:1.45,tricepsExtension:2.4,horizontalPull:2.05,verticalPull:1.9,bicepsFlexion:2.5,rearDeltsScap:1.75,rotatorCuff:1.5,quadsSquat:1.7,hamstringsHinge:1.15,glutesHipExtension:1.35,hipFlexors:1.4,coreAntiExtension:1.55,coreCarryBrace:1.35,coreRotation:1.65,legsPower:1.0,upperPower:1.3});
+  if(!state.areaGoals)state.areaGoals=trainerDefaultAreaGoals();
+}
+function trainerDefaultAreaGoals(){
+  var base={legs:'strength',core:'strength',chestArms:'build',back:'strength',hips:'movement',conditioning:'maintain'};
+  if(state.type==='power'){base.legs='power';base.core='strength';base.chestArms='maintain';base.back='strength'}
+  if(state.type==='build_muscle'){base.legs='build';base.chestArms='build';base.back='build';base.core='strength'}
+  if(state.type==='endurance'){base.legs='endurance';base.core='strength';base.conditioning='build';base.hips='movement'}
+  if(state.type==='movement'){base.legs='movement';base.core='stability';base.chestArms='maintain';base.back='movement';base.hips='movement';base.conditioning='recovery'}
+  if(state.type==='strength'){base.legs='strength';base.core='strength';base.chestArms='strength';base.back='strength'}
+  return base;
+}
+function trainingBlockPolicy(){
+  ensureState();
+  var wk=Math.max(1,Number(state.planWeek)||1), phase=((wk-1)%8)+1, base=state.type||'build_muscle', status=state.seasonStatus||'offseason';
+  var p={week:wk,phaseWeek:phase,name:'General Build',emphasis:['strength'],reason:'Trainer default: build the foundation before chasing specialization.',volume:'normal'};
+  if(status==='postseason'){p.name='Post-Season Reset';p.emphasis=['movement','recovery'];p.volume='low';p.reason='Post-season uses movement and low pressure work before another hard block.';return p}
+  if(status==='competitive'){p.name='Competitive Peak';p.emphasis=['primer','recovery','maintenance'];p.volume='low';p.reason='Competitive phase protects freshness and keeps strength/power with microdoses.';return p}
+  if(status==='inseason'){p.name='In-Season Maintenance';p.emphasis=['maintenance','recovery','primer'];p.volume='moderate-low';p.reason='In-season maintains qualities while protecting games and practices.';return p}
+  if(phase<=2){p.name='Foundation Strength';p.emphasis=['strength','movement','core'];p.reason='Early block builds positions, bracing, and force capacity before higher speed or higher volume.'}
+  else if(phase<=4){p.name='Power Conversion';p.emphasis=['power','strength-support','movement'];p.reason='After foundation work, the trainer converts force into fast output and keeps volume controlled.'}
+  else if(phase<=6){p.name='Hypertrophy / Work Capacity';p.emphasis=['hypertrophy','strength-support','conditioning-support'];p.reason='This block builds useful tissue and volume tolerance without ignoring movement quality.'}
+  else if(phase===7){p.name='Mixed Performance';p.emphasis=['strength','power','hypertrophy','conditioning'];p.reason='Week 7 blends qualities and checks what is improving before unloading.'}
+  else {p.name='Deload + Retest';p.emphasis=['movement','testing','recovery'];p.volume='low';p.reason='Week 8 backs off fatigue and creates room to retest or reset.'}
+  if(base==='movement'){p.name='Movement Foundation';p.emphasis=['movement','core','balance'];p.reason='Movement profile keeps low fatigue while building control and positions.'}
+  return p;
+}
+function blockRoleList(){
+  var b=trainingBlockPolicy(), type=state.type||'build_muscle', e=b.emphasis.join('|');
+  if(/recovery|testing/.test(e)||b.name==='Deload + Retest')return ['movement_recovery','movement_core','movement_mobility','core_strength','movement_balance','movement_recovery'];
+  if(type==='build_muscle'){
+    if(/Power/.test(b.name))return ['legs_power','upper_push_build','upper_pull_strength','core_strength','lower_hinge_build','movement_recovery'];
+    if(/Hypertrophy/.test(b.name))return ['lower_quad_build','upper_pull_build','arms_chest_build','lower_hinge_build','core_strength','movement_recovery'];
+    return ['lower_squat_strength','upper_pull_strength','upper_push_build','lower_hinge_strength','core_strength','movement_recovery'];
+  }
+  if(type==='strength')return ['lower_squat_strength','upper_pull_strength','upper_push_strength','lower_hinge_strength','core_strength','movement_recovery'];
+  if(type==='power')return ['legs_power','upper_power','lower_squat_strength','power_reactive','core_strength','movement_recovery'];
+  if(type==='endurance')return ['endurance_strength','movement_core','endurance_tempo','upper_pull_strength','endurance_movement','movement_recovery'];
+  if(type==='movement')return ['movement_core','movement_mobility','movement_balance','movement_recovery','core_strength','movement_recovery'];
+  if(type==='sport')return ['lower_squat_strength','legs_power','upper_pull_strength','upper_power','endurance_movement','movement_recovery'];
+  return ['lower_squat_strength','legs_power','upper_pull_strength','upper_push_build','endurance_movement','movement_recovery'];
+}
+var _v21922OldPlannedBaseRoles=plannedBaseRoles;
+plannedBaseRoles=function(){ensureGranularTargetState();return takeRoles(blockRoleList(),Math.max(1,Math.min(6,Number(state.days)||3)))};
+var _v21922OldRoleLabel=roleLabel;
+roleLabel=function(r){var extra={
+  lower_squat_strength:'Lower Squat / Quad Strength',lower_hinge_strength:'Lower Hinge / Posterior Strength',upper_push_strength:'Upper Push Strength',upper_pull_strength:'Upper Pull Strength',core_strength:'Core / Brace Strength',
+  lower_quad_build:'Lower Quad Build',lower_hinge_build:'Glute / Hamstring Build',upper_push_build:'Upper Push Build',upper_pull_build:'Upper Pull Build',arms_chest_build:'Chest / Arms Build',back_build:'Back Build',
+  legs_power:'Legs Power',upper_power:'Upper Power',push_available:'Push Available',pull_available:'Pull Available'
+};return extra[r]||_v21922OldRoleLabel(r)};
+var _v21922OldRoleHas=roleHas;
+roleHas=function(r,k){r=String(r||'');if(k==='hypertrophy')return /build|hypertrophy|muscle|armor|arms_chest|upper_push_build|upper_pull_build|lower_quad_build|lower_hinge_build|back_build/.test(r);if(k==='strength')return /strength|brace|contact|armor|core_strength|upper_pull_strength|upper_push_strength|lower_squat_strength|lower_hinge_strength/.test(r);if(k==='power')return /power|speed|plyo|jump|reactive|legs_power|upper_power/.test(r);return _v21922OldRoleHas(r,k)};
+var _v21922OldTemplateForRole=templateForRole;
+templateForRole=function(r){var core={
+  lower_squat_strength:{id:'g_lower_squat_strength',title:'Lower Squat / Quad Strength',kind:'strength',theme:'squat',targetAreas:['quadsSquat','glutesHipExtension','coreCarryBrace'],note:'Trainer pick: squat-pattern force and bracing without adding a hard hinge stack.',secondary:'core'},
+  lower_hinge_strength:{id:'g_lower_hinge_strength',title:'Lower Hinge / Posterior Strength',kind:'strength',theme:'hinge',targetAreas:['hamstringsHinge','glutesHipExtension','lowBackSpine','gripForearms'],note:'Trainer pick: posterior-chain force with squat work kept light.',secondary:'core'},
+  upper_push_strength:{id:'g_upper_push_strength',title:'Upper Push Strength',kind:'strength',theme:'upper_push',targetAreas:['horizontalPush','verticalPush','tricepsExtension','coreBrace'],note:'Trainer pick: pressing force; pulling remains support only.',secondary:'pull-support'},
+  upper_pull_strength:{id:'g_upper_pull_strength',title:'Upper Pull Strength',kind:'strength',theme:'upper_pull',targetAreas:['verticalPull','horizontalPull','bicepsFlexion','rearDeltsScap','gripForearms'],note:'Trainer pick: back and pulling force; pressing muscles stay available later.',secondary:'push-support'},
+  core_strength:{id:'g_core_strength',title:'Core / Brace Strength',kind:'strength',theme:'core_strength',targetAreas:['coreCarryBrace','coreAntiExtension','coreRotation'],note:'Trainer pick: trunk strength and carries without stealing from legs or pressing.',secondary:'movement'},
+  upper_push_build:{id:'g_upper_push_build',title:'Upper Push Build',kind:'hypertrophy',theme:'upper_push',targetAreas:['horizontalPush','verticalPush','tricepsExtension'],note:'Trainer pick: chest, shoulders, and triceps size while pull areas recover.',secondary:'strength'},
+  arms_chest_build:{id:'g_arms_chest_build',title:'Chest / Arms Build',kind:'hypertrophy',theme:'arms_chest',targetAreas:['horizontalPush','tricepsExtension','bicepsFlexion'],note:'Trainer pick: local chest and arm volume with low lower-body cost.',secondary:'pump'},
+  upper_pull_build:{id:'g_upper_pull_build',title:'Upper Pull Build',kind:'hypertrophy',theme:'upper_pull',targetAreas:['horizontalPull','verticalPull','bicepsFlexion','rearDeltsScap','gripForearms'],note:'Trainer pick: back, lats, rear delts, and biceps size without treating all upper body as red.',secondary:'strength'},
+  back_build:{id:'g_back_build',title:'Back Build',kind:'hypertrophy',theme:'upper_pull',targetAreas:['horizontalPull','verticalPull','rearDeltsScap'],note:'Trainer pick: back width/thickness and scapular control.',secondary:'strength'},
+  lower_quad_build:{id:'g_lower_quad_build',title:'Lower Quad Build',kind:'hypertrophy',theme:'squat_build',targetAreas:['quadsSquat','glutesHipExtension'],note:'Trainer pick: quad/squat-pattern muscle without hard hinge overlap.',secondary:'strength'},
+  lower_hinge_build:{id:'g_lower_hinge_build',title:'Glute / Hamstring Build',kind:'hypertrophy',theme:'hinge_build',targetAreas:['hamstringsHinge','glutesHipExtension'],note:'Trainer pick: posterior-chain muscle with spine and grip monitored.',secondary:'strength'},
+  legs_power:{id:'g_legs_power',title:'Legs Power',kind:'power',theme:'jump',targetAreas:['legsPower','quadsSquat','glutesHipExtension','calvesAchilles','impactJumping'],note:'Trainer pick: fast lower-body output, landing, and low-volume core stiffness.',secondary:'movement'},
+  upper_power:{id:'g_upper_power',title:'Upper Power',kind:'power',theme:'throw',targetAreas:['upperPower','horizontalPush','coreRotation','verticalPush'],note:'Trainer pick: throws/fast upper-body expression with low local fatigue.',secondary:'movement'}
+};return core[r]||_v21922OldTemplateForRole(r)};
+function trainerTargetsForRole(r){var t=templateForRole(r)||{};return (t.targetAreas||[]).slice()}
+function groupStatus(keys,map){map=map||readinessMap();var red=keys.some(function(k){return map[k]&&map[k].status==='red'}), yellow=keys.some(function(k){return map[k]&&map[k].status==='yellow'});return red?'red':(yellow?'yellow':'green')}
+function patternStatus(name,map){var g={
+ push:['horizontalPush','verticalPush','tricepsExtension','chestPress','shoulders'],pull:['horizontalPull','verticalPull','bicepsFlexion','rearDeltsScap','upperBackPull','gripForearms'],
+ squat:['quadsSquat','quads','glutesHipExtension','glutesHips'],hinge:['hamstringsHinge','hamstrings','posteriorChain','lowBackSpine','glutesHipExtension'],core:['coreBrace','coreCarryBrace','coreAntiExtension','lowBackSpine','obliquesRotation'],powerLower:['legsPower','impactJumping','calvesAchilles','neuralExplosive'],conditioning:['conditioningFatigue','jointTendon']
+ };return groupStatus(g[name]||[],map)}
+function availableRoleForBlocked(planned,map){map=map||readinessMap();var p=String(planned||'');
+  var push=patternStatus('push',map), pull=patternStatus('pull',map), squat=patternStatus('squat',map), hinge=patternStatus('hinge',map), core=patternStatus('core',map), lowerPower=patternStatus('powerLower',map);
+  var wantsBuild=roleHas(p,'hypertrophy'), wantsStrength=roleHas(p,'strength'), wantsPower=roleHas(p,'power');
+  if((/upper_pull|back|pull/.test(p)||patternStatus('pull',map)==='red') && push!=='red' && wantsBuild) return 'upper_push_build';
+  if((/upper_push|arms_chest|push/.test(p)||patternStatus('push',map)==='red') && pull!=='red' && wantsBuild) return 'upper_pull_build';
+  if((/upper_pull|pull/.test(p)||pull==='red') && push!=='red' && wantsStrength) return 'upper_push_strength';
+  if((/upper_push|push/.test(p)||push==='red') && pull!=='red' && wantsStrength) return 'upper_pull_strength';
+  if((/lower|squat|hinge|legs_power/.test(p)||squat==='red'||hinge==='red'||lowerPower==='red') && push!=='red' && wantsBuild) return 'upper_push_build';
+  if((/lower|squat|hinge|legs_power/.test(p)||squat==='red'||hinge==='red'||lowerPower==='red') && pull!=='red' && wantsStrength) return 'upper_pull_strength';
+  if(/upper/.test(p) && squat!=='red' && wantsBuild) return 'lower_quad_build';
+  if(core!=='red') return 'core_strength';
+  return 'movement_recovery';
+}
+function roleTargetsBlocked(role,map){var targets=trainerTargetsForRole(role);if(!targets.length){if(/upper_pull/.test(role))targets=['horizontalPull','verticalPull']; if(/upper_push|arms_chest/.test(role))targets=['horizontalPush','verticalPush']; if(/lower_squat|lower_quad/.test(role))targets=['quadsSquat']; if(/lower_hinge/.test(role))targets=['hamstringsHinge','posteriorChain']; if(/legs_power/.test(role))targets=['legsPower','impactJumping'];}
+  var red=targets.some(function(k){return map[k]&&map[k].status==='red'});
+  var yellow=targets.filter(function(k){return map[k]&&map[k].status==='yellow'}).length;
+  return red || yellow>=2;
+}
+var _v21922OldWeeklySafetyGovernor=weeklySafetyGovernor;
+weeklySafetyGovernor=function(planned){ensureGranularTargetState();var g=_v21922OldWeeklySafetyGovernor(planned), map=g.map||readinessMap(), role=g.role||planned;
+  if(g.mode==='normal' && roleTargetsBlocked(role,map) && (roleHas(role,'strength')||roleHas(role,'hypertrophy')||roleHas(role,'power'))){
+    var alt=availableRoleForBlocked(role,map);g.role=alt;g.mode='granular-target-rotation';g.reason='Trainer rotation: '+roleLabel(role)+' was blocked by a specific red target area, so today moves to '+roleLabel(alt)+' instead of generic stretching.';
+  }
+  if(g.mode==='body-map-shift'){
+    var alt2=availableRoleForBlocked(planned||role,map); if(alt2!=='movement_recovery'){g.role=alt2;g.mode='granular-target-rotation';g.reason='Trainer rotation: one target area is red, but another useful area is available. Today moves to '+roleLabel(alt2)+'.'}
+  }
+  g.block=trainingBlockPolicy();return g;
+};
+var _v21922OldHypertrophyPool=hypertrophyPool;
+hypertrophyPool=function(theme){theme=String(theme||'');
+  if(/upper_push|arms_chest/.test(theme))return {primary:['Dumbbell Press','Pushups','Incline Pushup'],secondary:['Overhead Press','Lateral Raise'],isolation:['Triceps Extension','Chest Fly','Lateral Raise'],finisher:['Pushup Hold','Triceps Burnout','Wall Pushup'],upper:true};
+  if(/upper_pull/.test(theme))return {primary:['Dumbbell Row','Band Row','Assisted Pullup / Hang'],secondary:['Cable Row','Face Pull','Rear Delt Raise'],isolation:['Band Pull-Apart','Biceps Curl','Rear Delt Raise'],finisher:['Row Hold','Band Curl','Scap Squeeze'],upper:true};
+  if(/squat_build|quad/.test(theme))return {primary:['Goblet Squat','Step-Up','Bodyweight Squat'],secondary:['Split Squat','Leg Extension','Tempo Squat'],isolation:['Calf Raise','Wall Sit','Hip Abduction / Band Walk'],finisher:['Squat Pulse','Wall Sit','Calf Raise'],upper:false};
+  if(/hinge_build/.test(theme))return {primary:['Hip Thrust / Glute Bridge','Dumbbell RDL','Glute Bridge'],secondary:['Hamstring Curl','Hip Abduction / Band Walk','Single-Leg Glute Bridge'],isolation:['Hamstring Curl','Glute Bridge Hold','Calf Raise'],finisher:['Glute Bridge Hold','Hamstring Walkout','Hip Abduction / Band Walk'],upper:false};
+  return _v21922OldHypertrophyPool(theme)};
+var _v21922OldStrengthPhases=strengthPhases;
+strengthPhases=function(t,target){var tier=durationTier(), phases=[]; if(t&&t.theme==='upper_pull'){
+  var main=upperPull(), sec=upperPush();phases.push(phase('Warmup','Specific Prep','Actual warm-up exercises selected for '+(main.baseName||main.n)+'.',contextualWarmup(t,main,tier)));phases.push(phase('Main Pull Strength','Straight Sets','Primary pull force with clean reps and real rest.',straightBlock(main.baseName||main.n,'strength',main.why||'Main pull strength.',tier==='full'?5:4,30,tier==='full'?130:95,'Main Pull Strength','Straight Sets','strength')));phases.push(phase('Push Support','Straight Sets','Pressing support stays submax so push muscles remain trainable later.',straightBlock(sec.baseName||sec.n,'strength',sec.why||'Push support.',tier==='full'?3:2,28,70,'Push Support','Straight Sets','strength')));phases.push(phase('Scap / Grip Support','Straight Sets','Rear delt, scap, and grip support for pulling durability.',straightBlock(['Face Pull','Biceps Curl','Farmer Carry'],'strength','Target back support without max fatigue.',tier==='full'?3:2,30,35,'Scap / Grip Support','Straight Sets','strength')));phases.push(phase('Cooldown','Movement Coach','Shoulders, lats, and breathing.',flowBlock([ex('Open Book Rotation','mobility','Restore upper-back rotation.'),ex('Lat Stretch Breathing','mobility','Relax pulling tissue.'),ex('Breathing Reset','breathing','Downshift.')],1,35,5,'Cooldown')));fitToTarget(phases,target,t);return phases}
+  if(t&&t.theme==='upper_push'){
+  var p=upperPush(), pull=upperPull();phases.push(phase('Warmup','Specific Prep','Actual warm-up exercises selected for '+(p.baseName||p.n)+'.',contextualWarmup(t,p,tier)));phases.push(phase('Main Push Strength','Straight Sets','Primary press force with clean reps and real rest.',straightBlock(p.baseName||p.n,'strength',p.why||'Main push strength.',tier==='full'?5:4,30,tier==='full'?130:95,'Main Push Strength','Straight Sets','strength')));phases.push(phase('Pull Support','Straight Sets','Pulling support for shoulder balance without making this a pull day.',straightBlock(pull.baseName||pull.n,'strength',pull.why||'Pull support.',tier==='full'?3:2,28,70,'Pull Support','Straight Sets','strength')));phases.push(phase('Triceps / Brace','Straight Sets','Elbow extension and trunk stiffness.',straightBlock(['Triceps Extension','Dead Bug'],'strength','Press support and brace.',tier==='full'?3:2,30,30,'Triceps / Brace','Straight Sets','strength')));phases.push(phase('Cooldown','Movement Coach','Pecs, shoulders, and breathing.',flowBlock([ex('Doorway Pec Stretch','mobility','Relax pressing tissue.'),ex('Open Book Rotation','mobility','Restore upper back.'),ex('Breathing Reset','breathing','Downshift.')],1,35,5,'Cooldown')));fitToTarget(phases,target,t);return phases}
+  if(t&&t.theme==='core_strength'){
+  phases.push(phase('Warmup','Specific Prep','Brace and breathe before trunk work.',flowBlock([ex('Breathing Reset','breathing','Stack ribs and pelvis.'),ex('Dead Bug','core','Find brace without arching.')],1,35,5,'Warmup')));phases.push(phase('Brace Strength','Straight Sets','Anti-extension and carry style trunk strength.',straightBlock(['Plank','Dead Bug','Farmer Carry'],'core','Brace, hold posture, breathe behind the brace.',tier==='full'?4:3,35,35,'Brace Strength','Straight Sets','core')));phases.push(phase('Rotation Control','Straight Sets','Own rotation without leaking posture.',straightBlock(['Side Plank','Pallof Press','Bird Dog'],'core','Slow control; no twisting collapse.',tier==='full'?3:2,30,25,'Rotation Control','Straight Sets','core')));phases.push(phase('Cooldown','Movement Coach','Spine and breathing reset.',flowBlock([ex('Child Pose Breathing','mobility','Long exhale.'),ex('Open Book Rotation','mobility','Restore rotation.'),ex('Breathing Reset','breathing','Downshift.')],1,35,5,'Cooldown')));fitToTarget(phases,target,t);return phases}
+  return _v21922OldStrengthPhases(t,target)};
+var _v21922OldPowerChoices=powerChoices;
+powerChoices=function(t){if(t&&t.theme==='throw')return {primary:'Med Ball Chest Pass',secondary:'Med Ball Overhead Throw',reactive:'Pushup Pop / Fast Hands'};return _v21922OldPowerChoices(t)};
+var _v21922OldBodyLoadForName=bodyLoadForName;
+bodyLoadForName=function(name,intent,method){var m=_v21922OldBodyLoadForName(name,intent,method);name=String(name||'');intent=String(intent||'');
+  if(/Bench|Dumbbell Press|Pushup|Incline Pushup|Chest Fly|Wall Push/i.test(name)){addBodyLoad(m,'horizontalPush',2.3);addBodyLoad(m,'tricepsExtension',1.3);addBodyLoad(m,'verticalPush',.5)}
+  if(/Overhead|Barbell Press|Lateral Raise|Pike|Shoulder/i.test(name)){addBodyLoad(m,'verticalPush',2.1);addBodyLoad(m,'tricepsExtension',.8);addBodyLoad(m,'rotatorCuff',.8)}
+  if(/Triceps/i.test(name)){addBodyLoad(m,'tricepsExtension',2.2)}
+  if(/Cable Row|Dumbbell Row|Band Row|Inverted Row|Row Hold/i.test(name)){addBodyLoad(m,'horizontalPull',2.4);addBodyLoad(m,'bicepsFlexion',1.1);addBodyLoad(m,'rearDeltsScap',1.2);addBodyLoad(m,'gripForearms',.8)}
+  if(/Pullup|Pulldown|Lat|Hang/i.test(name)){addBodyLoad(m,'verticalPull',2.5);addBodyLoad(m,'bicepsFlexion',1.2);addBodyLoad(m,'gripForearms',1.2)}
+  if(/Face Pull|Rear Delt|Band Pull|Scap/i.test(name)){addBodyLoad(m,'rearDeltsScap',2);addBodyLoad(m,'rotatorCuff',.8)}
+  if(/Biceps|Curl/i.test(name)){addBodyLoad(m,'bicepsFlexion',2.1)}
+  if(/Squat|Step-Up|Split Squat|Lunge|Leg Extension|Wall Sit|Squat Pulse/i.test(name)){addBodyLoad(m,'quadsSquat',2.4);addBodyLoad(m,'glutesHipExtension',1.1)}
+  if(/RDL|Deadlift|Hinge|Hamstring|Hip Thrust|Glute Bridge|Walkout/i.test(name)){addBodyLoad(m,'hamstringsHinge',2.3);addBodyLoad(m,'glutesHipExtension',2);addBodyLoad(m,'posteriorChain',1.4)}
+  if(/Jump|Pogo|Hop|Sprint|Fast Feet|Landing|Stick/i.test(name+intent)){addBodyLoad(m,'legsPower',2.4)}
+  if(/Med Ball|Throw|Chest Pass|Overhead Throw|Slam|Fast Hands/i.test(name+intent)){addBodyLoad(m,'upperPower',2);addBodyLoad(m,'coreRotation',1.1)}
+  if(/Plank|Dead Bug|Pallof|Bird Dog|Bear|Brace/i.test(name)){addBodyLoad(m,'coreAntiExtension',1.7);addBodyLoad(m,'coreCarryBrace',1.2)}
+  if(/Carry|Farmer|Suitcase/i.test(name)){addBodyLoad(m,'coreCarryBrace',2.2)}
+  if(/Rotation|Chop|Side Plank|Open Book/i.test(name)){addBodyLoad(m,'coreRotation',1.5)}
+  return m};
+var _v21922OldBodyMapCard=bodyMapCard;
+bodyMapCard=function(){ensureGranularTargetState();var map=readinessMap(), groups=[['Lower Patterns',['quadsSquat','hamstringsHinge','glutesHipExtension','calvesAchilles','groinAdductors','hipFlexors']],['Upper Push',['horizontalPush','verticalPush','tricepsExtension','rotatorCuff']],['Upper Pull',['horizontalPull','verticalPull','rearDeltsScap','bicepsFlexion','gripForearms']],['Trunk + Athletic Stress',['coreCarryBrace','coreAntiExtension','coreRotation','lowBackSpine','legsPower','upperPower','conditioningFatigue','jointTendon']]];function row(k){var x=map[k]||{score:0,status:'green',label:bodyMapLabels[k]||k};return '<div class="bodyRegion"><b><i class="statusDot '+x.status+'Dot"></i>'+esc(x.label)+'</b><span>'+esc(x.status.toUpperCase())+' · '+x.score+'</span></div>'}return '<div class="card"><span class="phaseLabel">Granular Body Map</span><h3>Target areas, not broad body buckets</h3>'+groups.map(function(g){return '<p class="small"><b>'+esc(g[0])+'</b></p><div class="bodyMapGrid">'+g[1].map(row).join('')+'</div>'}).join('')+'<p class="readinessNote">A pull day protects pull tissues without blocking fresh push tissues. A squat day protects quads without automatically blocking hinge or upper-body work.</p></div>'};
+function blockPeriodizationCard(){var b=trainingBlockPolicy();return '<div class="card"><span class="phaseLabel">Trainer Block</span><h3>'+esc(b.name)+' · Week '+b.phaseWeek+'/8</h3><p>'+esc(b.reason)+'</p><p class="small">Weekly goals can change automatically even when the athlete does not enter anything. The coach selects the block emphasis, then rotates target areas by readiness.</p></div>'}
+var _v21922OldWeeklyPlanCard=weeklyPlanCard;
+weeklyPlanCard=function(){var arr=weekRoleSchedule(), slots=trainingDaysForWeek();return '<div class="card"><span class="phaseLabel">Weekly Recommendation</span><h3>'+esc(state.days)+' workout target · Today: '+esc(roleLabel(todayRole()))+'</h3>'+arr.map(function(r,i){var dn=dayName(slots[i]||i+1);var targets=trainerTargetsForRole(r).map(function(k){return bodyMapLabels[k]||k}).slice(0,3).join(', ');return '<div class="metric"><div><b>'+esc(dn)+'</b><span>'+esc(roleLabel(r))+(targets?' · '+esc(targets):'')+'</span></div></div>'}).join('')+'<p class="small">Days are assigned by target patterns: push, pull, squat, hinge, core, power, and recovery. Readiness can override the plan without erasing the weekly goal.</p></div>'};
+var _v21922OldPlanView=planView;
+planView=function(){return '<section class="screen">'+header('Week','Trainer block, target-area rotation, outside activity, and schedule adjustments.','Week')+blockPeriodizationCard()+weeklyPlanCard()+compactWeekStatusCard()+exposureSummaryCard()+outsideLoadCard()+testingTimeControlsCard()+'<div class="row"><button class="secondary" onclick="prevDay()">Back Day</button><button class="secondary" onclick="nextDay()">Next Day</button></div><details class="card"><summary><b>Advanced weekly logic</b></summary><div style="height:10px"></div>'+logicHtml()+'</details>'+tabs()+'</section>'};
+var _v21922OldTopWorkoutCard=topWorkoutCard;
+topWorkoutCard=function(){var html=_v21922OldTopWorkoutCard();var b=trainingBlockPolicy(), t=state.currentTemplate||{};return html.replace('<span class="phaseLabel">Today\'s Workout</span>','<span class="phaseLabel">Today\'s Workout</span><p class="small"><b>'+esc(b.name)+'</b> · '+esc((t.targetAreas||[]).map(function(k){return bodyMapLabels[k]||k}).slice(0,3).join(', ')||'target-area rotation')+'</p>')};
+var _v21922OldSimpleCoachReason=simpleCoachReason;
+simpleCoachReason=function(){var g=weeklySafetyGovernor(governorPlannedRole?governorPlannedRole():todayRole());if(g.mode==='granular-target-rotation')return g.reason;var b=trainingBlockPolicy();if(g.mode==='normal')return b.name+': '+b.reason;return _v21922OldSimpleCoachReason()};
+var _v21922OldCompletionRecord=completionRecord;
+completionRecord=function(sessionId,endedAt){var rec=_v21922OldCompletionRecord(sessionId,endedAt), t=state.currentTemplate||{};rec.targetAreas=(t.targetAreas||[]).slice();rec.trainingBlock=trainingBlockPolicy().name;return rec};
+var _v21922OldLogicNotesFor=logicNotesFor;
+logicNotesFor=function(t){var arr=_v21922OldLogicNotesFor?_v21922OldLogicNotesFor(t):[];var b=trainingBlockPolicy();arr.push('v21.9.22 uses trainer block periodization: '+b.name+'.');arr.push('v21.9.22 rotates specific target areas—push, pull, squat, hinge, core, power—rather than broad upper/lower buckets.');return arr};
+window.Coach=Object.assign(window.Coach||{}, {trainingBlockPolicy:trainingBlockPolicy,trainerDefaultAreaGoals:trainerDefaultAreaGoals,trainerTargetsForRole:trainerTargetsForRole,patternStatus:patternStatus,roleTargetsBlocked:roleTargetsBlocked,availableRoleForBlocked:availableRoleForBlocked,weeklySafetyGovernor:weeklySafetyGovernor,plannedBaseRoles:plannedBaseRoles,weekRoleSchedule:weekRoleSchedule,todayRole:todayRole,templateForRole:templateForRole,bodyMapRegions:bodyMapRegions,readinessMap:readinessMap,bodyLoadFromBlocks:bodyLoadFromBlocks,bodyLoadForName:bodyLoadForName});
+
+
+
+/* ===== v21.9.23 Granular Readiness Display + Decision Audit ===== */
+VERSION='21.9.23 Granular Readiness Display + Decision Audit';
+STORE='coachSettingsV2123GranularReadiness';
+function readinessPatternGroups(){return {
+  push:{label:'Upper Push',keys:['horizontalPush','verticalPush','tricepsExtension','chestPress','shoulders']},
+  pull:{label:'Upper Pull',keys:['horizontalPull','verticalPull','bicepsFlexion','rearDeltsScap','upperBackPull','gripForearms']},
+  squat:{label:'Squat / Quads',keys:['quadsSquat','quads','glutesHipExtension']},
+  hinge:{label:'Hinge / Posterior',keys:['hamstringsHinge','hamstrings','posteriorChain','lowBackSpine','glutesHipExtension']},
+  core:{label:'Core / Brace',keys:['coreCarryBrace','coreAntiExtension','coreRotation','coreBrace','obliquesRotation']},
+  lowerPower:{label:'Leg Power',keys:['legsPower','impactJumping','calvesAchilles','neuralExplosive']},
+  upperPower:{label:'Upper Power',keys:['upperPower','horizontalPush','verticalPush','coreRotation']},
+  conditioning:{label:'Conditioning',keys:['conditioningFatigue','jointTendon']}
+}}
+function patternDetailStatus(id,map){ensureGranularTargetState();map=map||readinessMap();var g=readinessPatternGroups()[id]||{label:id,keys:[]};var max='green', score=0, red=[], yellow=[];g.keys.forEach(function(k){var x=map[k];if(!x)return;score=Math.max(score,Number(x.score)||0);if(x.status==='red'){max='red';red.push(x.label||bodyMapLabels[k]||k)}else if(x.status==='yellow'){if(max!=='red')max='yellow';yellow.push(x.label||bodyMapLabels[k]||k)}});return {id:id,label:g.label,status:max,score:Math.round(score*10)/10,red:red,yellow:yellow,keys:g.keys}}
+function granularReadinessSummary(){var map=readinessMap(), ids=['push','pull','squat','hinge','core','lowerPower','upperPower','conditioning'];return ids.map(function(id){return patternDetailStatus(id,map)})}
+function availableProtectedSummary(){var items=granularReadinessSummary();var available=items.filter(function(x){return x.status==='green'});var caution=items.filter(function(x){return x.status==='yellow'});var protect=items.filter(function(x){return x.status==='red'});return {available:available,caution:caution,protect:protect,items:items}}
+function statusChip(x){return '<div class="stat"><b><i class="statusDot '+x.status+'Dot"></i>'+esc(x.label)+'</b><span>'+esc(statusLabel(x.status))+'</span></div>'}
+function compactList(items,empty){if(!items.length)return '<p class="small">'+esc(empty)+'</p>';return '<div class="progressRows">'+items.map(statusChip).join('')+'</div>'}
+var _v21923OldReadinessSummaryCard=readinessSummaryCard;
+readinessSummaryCard=function(){ensureGranularTargetState();var s=availableProtectedSummary(), planned=governorPlannedRole?governorPlannedRole():todayRole(), gov=weeklySafetyGovernor(planned);var targetText=(trainerTargetsForRole(gov.role)||[]).map(function(k){return bodyMapLabels[k]||k}).slice(0,4).join(', ');
+  return '<div class="card"><span class="phaseLabel">Readiness Today</span><h3>Available and protected target areas</h3>'+
+    '<p class="small">The coach uses patterns, not broad upper/lower buckets. A pull-heavy day can still leave push work available; a squat-heavy day can still leave hinge work available.</p>'+
+    '<p class="small"><b>Available today</b></p>'+compactList(s.available,'No fully green target areas. Use caution or recovery.')+
+    '<p class="small"><b>Use light / monitor</b></p>'+compactList(s.caution,'No yellow target areas.')+
+    '<p class="small"><b>Protected today</b></p>'+compactList(s.protect,'No red protected target areas.')+
+    '<p class="readinessNote">Today\'s selected role: <b>'+esc(roleLabel(gov.role))+'</b>'+(targetText?' · '+esc(targetText):'')+'</p></div>'};
+var _v21923OldAvailableRoleForBlocked=availableRoleForBlocked;
+availableRoleForBlocked=function(planned,map){map=map||readinessMap();var p=String(planned||''), wantsBuild=roleHas(p,'hypertrophy'), wantsStrength=roleHas(p,'strength'), wantsPower=roleHas(p,'power');var push=patternStatus('push',map), pull=patternStatus('pull',map), squat=patternStatus('squat',map), hinge=patternStatus('hinge',map), core=patternStatus('core',map), lowerPower=patternStatus('powerLower',map);var upperPower=patternDetailStatus('upperPower',map).status;
+  if(wantsBuild){
+    if(/lower_quad|lower_squat|squat|quad/.test(p)&&squat==='red'&&hinge!=='red')return 'lower_hinge_build';
+    if(/lower_hinge|hinge|posterior|hamstring|glute/.test(p)&&hinge==='red'&&squat!=='red')return 'lower_quad_build';
+    if(/upper_pull|back|pull/.test(p)&&pull==='red'&&push!=='red')return 'upper_push_build';
+    if(/upper_push|arms_chest|push|chest|arms/.test(p)&&push==='red'&&pull!=='red')return 'upper_pull_build';
+    if(/legs_power|lower/.test(p)&&lowerPower==='red'&&push!=='red')return 'upper_push_build';
+    if(push!=='red'&&pull==='red')return 'upper_push_build';
+    if(pull!=='red'&&push==='red')return 'upper_pull_build';
+    if(squat!=='red'&&hinge==='red')return 'lower_quad_build';
+    if(hinge!=='red'&&squat==='red')return 'lower_hinge_build';
+  }
+  if(wantsStrength){
+    if(/lower_squat|squat|quad/.test(p)&&squat==='red'&&hinge!=='red')return 'lower_hinge_strength';
+    if(/lower_hinge|hinge|posterior/.test(p)&&hinge==='red'&&squat!=='red')return 'lower_squat_strength';
+    if(/upper_pull|pull/.test(p)&&pull==='red'&&push!=='red')return 'upper_push_strength';
+    if(/upper_push|push/.test(p)&&push==='red'&&pull!=='red')return 'upper_pull_strength';
+    if(squat==='red'&&hinge!=='red')return 'lower_hinge_strength';
+    if(hinge==='red'&&squat!=='red')return 'lower_squat_strength';
+    if(pull==='red'&&push!=='red')return 'upper_push_strength';
+    if(push==='red'&&pull!=='red')return 'upper_pull_strength';
+  }
+  if(wantsPower){
+    if(/legs_power|jump|sprint|lower/.test(p)&&lowerPower==='red'&&upperPower!=='red')return 'upper_power';
+    if(/upper_power|throw/.test(p)&&upperPower==='red'&&lowerPower!=='red')return 'legs_power';
+  }
+  if(core!=='red')return 'core_strength';
+  return _v21923OldAvailableRoleForBlocked?_v21923OldAvailableRoleForBlocked(planned,map):'movement_recovery'};
+var _v21923OldWeeklySafetyGovernor=weeklySafetyGovernor;
+weeklySafetyGovernor=function(planned){ensureGranularTargetState();var g=_v21923OldWeeklySafetyGovernor(planned), map=g.map||readinessMap();if((g.mode==='normal'||g.mode==='body-map-shift'||g.mode==='granular-target-rotation')&&roleTargetsBlocked(g.role||planned,map)&&(roleHas(g.role||planned,'strength')||roleHas(g.role||planned,'hypertrophy')||roleHas(g.role||planned,'power'))){var alt=availableRoleForBlocked(g.role||planned,map);if(alt&&alt!==(g.role||planned)){g.role=alt;g.mode='granular-target-rotation';g.reason='Trainer rotation: the planned target is protected, but another useful target area is available. Today moves to '+roleLabel(alt)+'.'}}g.granularReadiness=availableProtectedSummary();return g};
+var _v21923OldTodayView=todayView;
+todayView=function(){return '<section class="screen">'+header('Coach','Today first: start the workout, with target-area readiness summarized clearly.','Fitness v21.9.23 Logic')+topWorkoutCard()+readinessSummaryCard()+equipmentNeededCard()+workoutPreviewCard()+tabs()+'</section>'};
+var _v21923OldBodyMapView=bodyMapView;
+bodyMapView=function(){return '<section class="screen">'+header('Body Map','Green, yellow, and red readiness by specific target pattern.','Granular Readiness')+readinessSummaryCard()+bodyMapCard()+'<div class="card"><h3>Testing Tools</h3><p class="small">Use while testing old state, false red zones, duplicated history, or simulated time passing.</p><button class="danger" onclick="clearHistory()">Clear History / Body Map</button><div style="height:10px"></div><button class="secondary" onclick="clearOutsideActivities()">Clear Outside Load</button></div>'+tabs()+'</section>'};
+var _v21923OldLogicNotesFor=logicNotesFor;
+logicNotesFor=function(t){var arr=_v21923OldLogicNotesFor?_v21923OldLogicNotesFor(t):[];arr.push('v21.9.23 replaces the old Lower/Upper/Core/Engine readiness card with available/protected target areas and audits push/pull/squat/hinge decisions.');return arr};
+
+var _v21923bOldWeeklySafetyGovernor=weeklySafetyGovernor;
+weeklySafetyGovernor=function(planned){ensureGranularTargetState();var g=_v21923bOldWeeklySafetyGovernor(planned), map=g.map||readinessMap(), p=String(planned||g.planned||g.role||'');
+  if(g.mode==='target-met'||g.mode==='too-soon'){g.granularReadiness=availableProtectedSummary();return g;}
+  var squat=patternStatus('squat',map), hinge=patternStatus('hinge',map), push=patternStatus('push',map), pull=patternStatus('pull',map), lowerPower=patternStatus('powerLower',map), upperPower=patternDetailStatus('upperPower',map).status;
+  var alt=null;
+  if(/lower_quad|lower_squat|squat|quad/.test(p)&&squat==='red'&&hinge!=='red')alt=roleHas(p,'strength')?'lower_hinge_strength':'lower_hinge_build';
+  else if(/lower_hinge|hinge|posterior|hamstring|glute/.test(p)&&hinge==='red'&&squat!=='red')alt=roleHas(p,'strength')?'lower_squat_strength':'lower_quad_build';
+  else if(/upper_pull|back|pull/.test(p)&&pull==='red'&&push!=='red')alt=roleHas(p,'strength')?'upper_push_strength':'upper_push_build';
+  else if(/upper_push|arms_chest|push|chest|arms/.test(p)&&push==='red'&&pull!=='red')alt=roleHas(p,'strength')?'upper_pull_strength':'upper_pull_build';
+  else if(/legs_power|jump|sprint/.test(p)&&lowerPower==='red'&&upperPower!=='red')alt='upper_power';
+  else if(/upper_power|throw/.test(p)&&upperPower==='red'&&lowerPower!=='red')alt='legs_power';
+  if(alt&&alt!==g.role){g.role=alt;g.mode='granular-target-rotation';g.reason='Trainer rotation: the planned target pattern is protected, but a compatible target pattern is available. Today moves to '+roleLabel(alt)+'.'}
+  g.granularReadiness=availableProtectedSummary();return g;};
+window.Coach=Object.assign(window.Coach||{}, {weeklySafetyGovernor:weeklySafetyGovernor});
+window.Coach=Object.assign(window.Coach||{}, {readinessPatternGroups:readinessPatternGroups,patternDetailStatus:patternDetailStatus,granularReadinessSummary:granularReadinessSummary,availableProtectedSummary:availableProtectedSummary,readinessSummaryCard:readinessSummaryCard,availableRoleForBlocked:availableRoleForBlocked,weeklySafetyGovernor:weeklySafetyGovernor});
+
+
+/* ===== v21.9.24 Muscle-Group Fatigue + Workout Coverage Rules ===== */
+VERSION='21.9.24 Muscle Coverage + High-Fatigue Guard';
+STORE='coachSettingsV2124MuscleCoverageHighFatigue';
+var _v21924OldHypertrophyPool=hypertrophyPool;
+hypertrophyPool=function(theme){
+  var upper=/upper|arms_chest|push|pull|back/i.test(theme||'');
+  if(upper)return _v21924OldHypertrophyPool(theme);
+  var squatMainName=hasEq('Barbell')?'Barbell Squat':((hasEq('Dumbbells')||hasEq('Kettlebell'))?'Goblet Squat':'Tempo Squat');
+  var hingeMainName=hasEq('Barbell')?'Barbell RDL':(hasEq('Dumbbells')?'Dumbbell RDL':'Glute Bridge');
+  var ham=hasEq('Cable/Machines')?'Hamstring Curl':'Sliding Hamstring Curl';
+  var quad=hasEq('Cable/Machines')?'Leg Extension':'Tempo Squat';
+  if(/hinge|posterior|hamstring|glute/i.test(theme||''))return {
+    primary:[hingeMainName],
+    secondary:[quad,'Glute Bridge','Calf Raise'],
+    isolation:[ham,'Hip Abduction / Band Walk','Calf Raise'],
+    finisher:['Glute Bridge Hold','Hamstring Walkout','Calf Raise']
+  };
+  return {
+    primary:[squatMainName],
+    secondary:[ham,'Glute Bridge','Calf Raise'],
+    isolation:[ham,'Hip Abduction / Band Walk','Calf Raise'],
+    finisher:['Glute Bridge Hold','Calf Raise','Dead Bug']
+  };
+};
+function cleanBlockName21924(b){return String((b&&b.baseName)||((b&&b.n)||'')).replace(/^(Round|Flow) \d+\/\d+: /,'').replace(/ — .*/,'').trim()}
+function muscleProfile21924(name){name=String(name||'');var p={primary:[],secondary:[],light:[],movement:'',highFatigue:false,highKind:''};
+  function add(a,k){if(a.indexOf(k)<0)a.push(k)}
+  if(/Barbell Squat|Goblet Squat|Front Squat|Back Squat/i.test(name)){p.movement='squat';p.highFatigue=!/Ramp-Up|Hold|Reach/i.test(name);p.highKind='squat';add(p.primary,'quads');add(p.secondary,'glutes');add(p.secondary,'adductors');add(p.secondary,'core');add(p.light,'hamstrings');add(p.light,'calves');return p}
+  if(/Tempo Squat/i.test(name)){p.movement='squat_accessory';add(p.primary,'quads');add(p.secondary,'core');add(p.light,'glutes');return p}
+  if(/Bodyweight Squat|Air Squat|Pause Squat|Squat Brace|Squat Pulse|Wall Sit|Leg Extension/i.test(name)){p.movement='squat_accessory';add(p.primary,/Wall Sit|Leg Extension|Squat Pulse/i.test(name)?'quads':'quads');add(p.secondary,'core');add(p.light,'glutes');return p}
+  if(/Barbell RDL|Dumbbell RDL|Deadlift|Good Morning|Trap Bar/i.test(name)){p.movement='hinge';p.highFatigue=!/Bodyweight|Wall Hinge|Ramp-Up/i.test(name);p.highKind='hinge';add(p.primary,'hamstrings');add(p.primary,'glutes');add(p.secondary,'lowBack');add(p.secondary,'core');add(p.secondary,'grip');return p}
+  if(/Hamstring Curl|Sliding Hamstring|Bridge Walkout|Hamstring Walkout/i.test(name)){p.movement='knee_flexion';add(p.primary,'hamstrings');add(p.secondary,'core');add(p.light,'glutes');return p}
+  if(/Hip Thrust|Glute Bridge|Glute Bridge Hold|Band Walk|Hip Abduction/i.test(name)){p.movement='hip_extension';add(p.primary,'glutes');add(p.secondary,'hamstrings');add(p.secondary,'core');return p}
+  if(/Calf Raise|Calf Pump|Tibialis|Pogo/i.test(name)){p.movement='lower_leg';add(p.primary,'calves');add(p.light,'quads');return p}
+  if(/Step-Up|Reverse Lunge|Split Squat|Lunge/i.test(name)){p.movement='single_leg';p.highFatigue=/Heavy|Loaded/i.test(name);if(p.highFatigue)p.highKind='single';add(p.primary,'quads');add(p.secondary,'glutes');add(p.secondary,'core');add(p.light,'hamstrings');return p}
+  if(/Plank|Dead Bug|Carry|Pallof|Side Plank|Bird Dog|Brace|Breathing/i.test(name)){p.movement='core';add(p.primary,'core');return p}
+  if(/Push|Press|Bench|Chest/i.test(name)){p.movement='upper_push';add(p.primary,'chest');add(p.secondary,'shoulders');add(p.secondary,'triceps');add(p.light,'core');return p}
+  if(/Row|Pull|Lat|Hang|Face Pull|Rear Delt/i.test(name)){p.movement='upper_pull';add(p.primary,'back');add(p.secondary,'biceps');add(p.secondary,'rearDelts');add(p.secondary,'grip');return p}
+  if(/Jump|Hop|Bound|Sprint|Shuttle|Landing|Fast Feet|Line Hop/i.test(name)){p.movement='lower_power';p.highFatigue=false;add(p.primary,'calves');add(p.secondary,'quads');add(p.secondary,'glutes');add(p.secondary,'hamstrings');add(p.secondary,'core');return p}
+  return p;
+}
+function meaningfulMuscles21924(b){var p=muscleProfile21924(cleanBlockName21924(b));return p.primary.concat(p.secondary)}
+function directMuscles21924(b){return muscleProfile21924(cleanBlockName21924(b)).primary}
+function hasMeaningfulMuscle21924(blocks,m){return (blocks||[]).some(function(b){var pr=muscleProfile21924(cleanBlockName21924(b));if(m==='core')return pr.primary.concat(pr.secondary).indexOf('core')>=0;return pr.primary.indexOf(m)>=0})}
+function isLowerTrainingWorkout21924(t,blocks){t=t||state.currentTemplate||{};var text=(t.title||'')+' '+(t.theme||'')+' '+((t.targetAreas||[]).join(' '))+' '+roleLabel(todayRole?todayRole():'');if(/lower|squat|hinge|quad|hamstring|glute|legs/i.test(text))return true;return (blocks||[]).some(function(b){var pr=muscleProfile21924(cleanBlockName21924(b));return ['squat','hinge','single_leg'].indexOf(pr.movement)>=0})}
+function lowerHighFatigueBlocks21924(blocks){var out=[];(blocks||[]).forEach(function(b,i){var pr=muscleProfile21924(cleanBlockName21924(b));if(pr.highFatigue&&['squat','hinge','single'].indexOf(pr.highKind)>=0)out.push({block:b,index:i,kind:pr.highKind,name:cleanBlockName21924(b)})});return out}
+function accessoryChoice21924(kind){var age=Number(state.age)||0;
+  if(kind==='hamstrings'){
+    if(age<10)return choice('Glute Bridge','strength','Hamstring/posterior support without adding a heavy hinge.','Glute Bridge');
+    return choice(hasEq('Cable/Machines')?'Hamstring Curl':'Sliding Hamstring Curl','strength','Direct hamstring coverage without stacking another high-fatigue hinge.','Glute Bridge');
+  }
+  if(kind==='glutes')return choice('Glute Bridge','strength','Direct glute/hip coverage without another high-fatigue compound.','Glute Bridge');
+  if(kind==='calves')return choice('Calf Raise','strength','Lower-leg coverage for balanced lower-body training.','Calf Raise');
+  if(kind==='quads')return choice(hasEq('Cable/Machines')?'Leg Extension':'Tempo Squat','strength','Quad coverage without adding another high-fatigue squat.','Bodyweight Squat');
+  if(kind==='core')return core();
+  return core();
+}
+function makeCoverageBlock21924(kind,phase){var c=accessoryChoice21924(kind);c.baseName=c.n;c.n=c.n+' — '+(kind==='core'?'Brace Coverage':cap(kind)+' Coverage');c.intent='strength';c.phase=phase||'Balanced Coverage';c.method='Coverage';c.slot=kind;c.work=(Number(state.age)||0)<10?24:30;c.rest=(kind==='calves'||kind==='core')?10:20;c.why='Balanced trainer audit: lower-body days need meaningful '+kind+' work without adding a second high-fatigue compound.';return c}
+function cloneTiming21924(src,dst){dst.baseName=dst.n;dst.n=dst.n+' — Balanced Replacement';dst.work=src.work||30;dst.rest=src.rest||20;dst.phase=src.phase||'Balanced Coverage';dst.method=src.method||'Coverage';dst.slot=dst.slot||'coverage';dst.why=(dst.why||'')+' Replaced '+cleanBlockName21924(src)+' to enforce one high-fatigue lower compound per workout.';return dst}
+function replaceBlockObject21924(phases,oldBlock,newBlock){(phases||[]).forEach(function(p){(p.items||[]).forEach(function(b,i){if(b===oldBlock)p.items[i]=newBlock})})}
+function enforceOneHighFatigueLower21924(phases,t){var blocks=flatten(phases), highs=lowerHighFatigueBlocks21924(blocks);if(highs.length<=1)return phases;var theme=String((t&&t.theme)||'');var keepKind=/hinge/.test(theme)?'hinge':(/squat|quad|lower/.test(theme)?'squat':highs[0].kind);var keep=highs.find(function(x){return x.kind===keepKind})||highs[0];var keepName=keep.name;highs.forEach(function(x){if(x.name===keepName)return;var conflict=(keep.kind==='squat'&&x.kind==='hinge')||(keep.kind==='hinge'&&x.kind==='squat')||x.kind!==keep.kind;if(!conflict)return;var replKind=x.kind==='hinge'?'hamstrings':'quads';var repl=cloneTiming21924(x.block,accessoryChoice21924(replKind));replaceBlockObject21924(phases,x.block,repl);});return phases}
+function phaseInsertIndex21924(phases){var idx=(phases||[]).findIndex(function(p){return /Cooldown/i.test(p.title||'')});return idx>=0?idx:phases.length}
+function ensureLowerCoverage21924(phases,t){var blocks=flatten(phases);if(!isLowerTrainingWorkout21924(t,blocks))return phases;var required=['hamstrings','glutes','calves','core'];var missing=required.filter(function(m){return !hasMeaningfulMuscle21924(blocks,m)});if(!missing.length)return phases;var items=missing.map(function(m){return makeCoverageBlock21924(m,'Balanced Coverage')});var phase={title:'Balanced Lower Coverage',method:'Coverage',note:'Trainer audit adds missing hamstring, glute, calf, or brace work without stacking another high-fatigue lower compound.',items:items};phases.splice(phaseInsertIndex21924(phases),0,phase);return phases}
+function trimPhasesToTarget21924(phases,target){target=Number(target)||0;if(!target)return phases;function total(){return flatten(phases).reduce(function(s,b){return s+(Number(b.work)||0)+(Number(b.rest)||0)},0)}var over=total()-target, guard=0;if(over<=Math.max(90,target*.10))return phases;
+  flatten(phases).forEach(function(b){if(over<=Math.max(90,target*.10))return;if(/Volume Set|Extension|Extra Round|Support Set|Targeted Finisher|Pump|Finisher/i.test(b.n+' '+b.phase)){var cut=Math.min(over,Math.max(0,(Number(b.rest)||0)-5));if(cut>0){b.rest-=cut;over-=cut}}});
+  while(over>Math.max(90,target*.10)&&guard++<80){var candidate=null, phase=null, idx=-1;(phases||[]).forEach(function(p){(p.items||[]).forEach(function(b,i){if(candidate)return;if(!/Warmup|Cooldown|Balanced Lower Coverage/i.test(p.title||'')&&/Volume Set|Extension|Extra Round|Support Set|Pump|Finisher/i.test(b.n+' '+(b.phase||''))){candidate=b;phase=p;idx=i;}})});if(!candidate)break;over-=((Number(candidate.work)||0)+(Number(candidate.rest)||0));phase.items.splice(idx,1)}
+  if(over>Math.max(90,target*.10)){flatten(phases).forEach(function(b){if(over<=Math.max(90,target*.10))return;if(!/Warmup|Cooldown/i.test(b.phase||'')){var min=/Coverage/i.test(b.phase||'')?20:25;var cut=Math.min(over,Math.max(0,(Number(b.work)||0)-min));if(cut>0){b.work-=cut;over-=cut}}})}
+  return phases;
+}
+
+function capHighFatigueSetVolume21924(phases,t){var counts={}, maxSets=(durationTier&&durationTier()==='full')?5:4; if((Number(state.age)||0)<13)maxSets=3;var cycle={squat:['hamstrings','glutes','calves','core'],hinge:['quads','glutes','calves','core'],single:['hamstrings','glutes','calves','core']};
+  flatten(phases).forEach(function(b){var name=cleanBlockName21924(b), pr=muscleProfile21924(name);if(!pr.highFatigue)return;counts[name]=(counts[name]||0)+1;if(counts[name]>maxSets){var arr=cycle[pr.highKind]||['core'];var replKind=arr[(counts[name]-maxSets-1)%arr.length];var repl=cloneTiming21924(b,accessoryChoice21924(replKind));repl.why='High-fatigue cap: '+name+' already has '+maxSets+' quality sets. This set becomes '+replKind+' coverage instead.';replaceBlockObject21924(phases,b,repl);}});return phases}
+function auditWorkoutCoverage21924(phases,t){t=t||state.currentTemplate||{};phases=enforceOneHighFatigueLower21924(phases,t);phases=ensureLowerCoverage21924(phases,t);fitToTarget(phases,effectiveMinutes()*60,t);phases=enforceOneHighFatigueLower21924(phases,t);phases=capHighFatigueSetVolume21924(phases,t);phases=ensureLowerCoverage21924(phases,t);trimPhasesToTarget21924(phases,effectiveMinutes()*60);return phases}
+var _v21924OldBuildPhases=buildPhases;
+buildPhases=function(){var phases=_v21924OldBuildPhases();return auditWorkoutCoverage21924(phases,state.currentTemplate||chooseTemplate())};
+var _v21924OldBodyLoadForName=bodyLoadForName;
+bodyLoadForName=function(name,intent,method){name=String(name||'');var m={};
+  if(/Barbell Squat|Goblet Squat|Tempo Squat|Bodyweight Squat|Wall Sit|Squat Pulse|Leg Extension/i.test(name)){addBodyLoad(m,'quads',/Barbell|Goblet|Tempo/i.test(name)?3:2);addBodyLoad(m,'quadsSquat',/Barbell|Goblet|Tempo/i.test(name)?3:1.5);addBodyLoad(m,'glutesHips',.85);addBodyLoad(m,'glutesHipExtension',.6);addBodyLoad(m,'coreBrace',1);addBodyLoad(m,'jointTendon',.65);return m}
+  if(/Barbell RDL|Dumbbell RDL|Deadlift|Good Morning|Trap Bar/i.test(name)){addBodyLoad(m,'hamstrings',3);addBodyLoad(m,'hamstringsHinge',3);addBodyLoad(m,'posteriorChain',3);addBodyLoad(m,'glutesHips',2);addBodyLoad(m,'glutesHipExtension',2);addBodyLoad(m,'lowBackSpine',1.8);addBodyLoad(m,'coreBrace',1.25);addBodyLoad(m,'gripForearms',.9);return m}
+  if(/Hamstring Curl|Sliding Hamstring|Hamstring Walkout|Bridge Walkout/i.test(name)){addBodyLoad(m,'hamstrings',2.5);addBodyLoad(m,'hamstringsHinge',1.75);addBodyLoad(m,'posteriorChain',1.2);addBodyLoad(m,'coreBrace',.4);return m}
+  if(/Hip Thrust|Glute Bridge|Glute Bridge Hold|Hip Abduction|Band Walk/i.test(name)){addBodyLoad(m,'glutesHips',2.5);addBodyLoad(m,'glutesHipExtension',2.5);addBodyLoad(m,'hamstrings',.75);addBodyLoad(m,'coreBrace',.5);return m}
+  if(/Calf Raise|Calf Pump|Tibialis/i.test(name)){addBodyLoad(m,'calvesAchilles',2.75);addBodyLoad(m,'jointTendon',.4);return m}
+  return _v21924OldBodyLoadForName?_v21924OldBodyLoadForName(name,intent,method):m;
+};
+var _v21924OldMuscleFor=muscleFor;
+muscleFor=function(b){var n=cleanBlockName21924(b), pr=muscleProfile21924(n), out={};function add(k,v){out[k]=Math.max(out[k]||0,v)}
+  pr.primary.forEach(function(k){add(k==='lowBack'?'trunk':k,3)});pr.secondary.forEach(function(k){add(k==='lowBack'?'trunk':k,2)});pr.light.forEach(function(k){add(k,1)});if(Object.keys(out).length)return out;return _v21924OldMuscleFor?_v21924OldMuscleFor(b):out};
+var _v21924OldFatigueFor=fatigueFor;
+fatigueFor=function(b){var n=cleanBlockName21924(b), pr=muscleProfile21924(n), out={};function add(k,v){out[k]=Math.max(out[k]||0,v)}
+  if(pr.highFatigue){add('systemic',3);add('local',3);if(pr.highKind==='hinge'){add('posterior',4);add('spineBrace',3);add('grip',2)}else{add('spineBrace',2);add('joint',1)}}
+  if(pr.movement==='knee_flexion'||pr.movement==='hip_extension'||pr.movement==='lower_leg'){add('local',1.5)}
+  if(pr.movement==='lower_power'){add('neural',3);add('impact',2.5);add('joint',1.5)}
+  if(Object.keys(out).length)return out;return _v21924OldFatigueFor?_v21924OldFatigueFor(b):out};
+var _v21924OldLogicNotesFor=logicNotesFor;
+logicNotesFor=function(t){var arr=_v21924OldLogicNotesFor?_v21924OldLogicNotesFor(t):[];arr.push('v21.9.24 separates workout goals from muscle fatigue: lower days must cover hamstrings, glutes, calves, and brace work, while allowing only one high-fatigue lower compound.');return arr};
+window.Coach=Object.assign(window.Coach||{}, {muscleProfile21924:muscleProfile21924,lowerHighFatigueBlocks21924:lowerHighFatigueBlocks21924,capHighFatigueSetVolume21924:capHighFatigueSetVolume21924,auditWorkoutCoverage21924:auditWorkoutCoverage21924,meaningfulMuscles21924:meaningfulMuscles21924,bodyLoadForName:bodyLoadForName});
 
 
 loadSettings();normalizeHistory();buildWorkout(true);render();
